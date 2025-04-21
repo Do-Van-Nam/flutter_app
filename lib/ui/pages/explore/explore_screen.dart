@@ -32,7 +32,7 @@ class ExploreScreen extends StatelessWidget {
                       padding: EdgeInsets.all(8),
                       child: GestureDetector(
                         onTap: () {
-                            Get.toNamed(Routes.EXPLORE);
+                            Get.toNamed(Routes.EXPLORE_NEW_RELEASE);
                           },
                         child: Row(
                           
@@ -244,7 +244,7 @@ class CustomCategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/explore/category/${text}');
+        Get.toNamed('/explore/category/${Uri.encodeComponent(text)}');
         // Handle tap event
         // For example, navigate to a new screen or show a dialog
       },

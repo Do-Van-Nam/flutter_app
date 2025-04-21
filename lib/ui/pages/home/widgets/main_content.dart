@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/routes/app_pages.dart';
 import 'section_header.dart';
 import 'song_list_item.dart';
 import 'chart_item.dart';
@@ -6,6 +7,8 @@ import 'category_item.dart';
 import 'album_item.dart';
 import 'category_chip.dart';
 import 'banner_slider.dart';
+import 'package:get/get.dart';
+
 
 class MainContent extends StatelessWidget {
   const MainContent({super.key});
@@ -374,36 +377,47 @@ class MainContent extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Nhạc Lào',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(Icons.chevron_right,
-                                    size: 20, color: Colors.black),
-                      const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.1),
-                          border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                          width: 10,
+                  child: GestureDetector(
+                    onTap: () => {
+                      Get.toNamed('/explore/ranking/${Uri.encodeComponent('Nhạc Lào')}'),
+                    },
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Nhạc Lào',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
                         ),
-                        child: const Icon(
-                          Icons.play_arrow,
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.chevron_right,
                           color: Colors.white,
-                          size: 24,
+                          size: 16,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 8),
+                        Icon(Icons.chevron_right,
+                                      size: 20, color: Colors.black),
+                        const Spacer(),
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white.withOpacity(0.1),
+                            border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                            width: 10,
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.play_arrow,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 for (int i = 1; i <= 5; i++)
@@ -433,36 +447,48 @@ class MainContent extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Nhạc Lào',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(Icons.chevron_right,
-                                    size: 20, color: Colors.black),
-                      const Spacer(),
-                        Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.1),
-                          border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                          width: 10,
+                  child: GestureDetector(
+                    
+                    onTap: () => {
+                      Get.toNamed('/explore/ranking/${Uri.encodeComponent('Nhạc Lào')}'),
+                    },
+                    child: Row(
+                      children: [
+                                              const Text(
+                          'Nhạc Lào',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
                         ),
-                        child: const Icon(
-                          Icons.play_arrow,
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.chevron_right,
                           color: Colors.white,
-                          size: 24,
+                          size: 16,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 8),
+                        Icon(Icons.chevron_right,
+                                      size: 20, color: Colors.black),
+                        const Spacer(),
+                          Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white.withOpacity(0.1),
+                            border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                            width: 10,
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.play_arrow,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 for (int i = 1; i <= 5; i++)

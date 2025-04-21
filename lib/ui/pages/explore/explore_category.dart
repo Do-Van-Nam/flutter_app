@@ -164,7 +164,7 @@ class CustomCategoryItem1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/explore/category/${text}');
+        Get.toNamed('/explore/category/${Uri.encodeComponent(text)}');
         // Handle tap event
         // For example, navigate to a new screen or show a dialog
       },

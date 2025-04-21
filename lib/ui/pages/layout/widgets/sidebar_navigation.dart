@@ -15,7 +15,7 @@ class _SidebarNavigationState extends State<SidebarNavigation> {
 final List<String> routeNames = [
   Routes.HOME,
   Routes.EXPLORE,
-  Routes.MUSIC_DETAIL,
+  Routes.LIBRARY,
   Routes.SETTINGS,
 ];
 

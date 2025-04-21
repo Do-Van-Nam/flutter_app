@@ -12,8 +12,55 @@ class ExploreRankingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      content: 
-      MusicPlaylistScreen(),
-      );
+      content: Container(
+        height: double.infinity,
+        color: Color(0xFFF5F5F5),
+        child: 
+        ListView(
+          padding: const EdgeInsets.all(16),
+          // child: 
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+
+            children: [
+            //   Expanded(child: 
+            //   ),
+
+            // Charts Section
+            Text(
+                "Bảng xếp hạng",
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  height: 36 / 24, // line-height divided by font-size
+                  letterSpacing: 0,
+                ),
+                // style: const TextStyle(
+                //   fontWeight: FontWeight.bold,
+                //   fontSize: 18,
+                // ),
+              ),
+            const SizedBox(height: 16),
+            buildChartsSection(),
+            
+            const SizedBox(height: 24), 
+              // MusicPlaylistWidget(),
+            // Expanded(
+            //   child: 
+            //   // MusicTableScreen(),
+            // ), 
+            // MusicPlaylistScreen(),
+            // MusicPlaylistWidget(),
+            SizedBox(
+  height:  MediaQuery.of(context).size.height * 0.6,
+  child: MusicPlaylistWidget(),
+),
+            ]
+            
+            // ),
+      ),
+    ),
+    );
   }
 }
