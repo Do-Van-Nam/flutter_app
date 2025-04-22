@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/AppState.dart';
 import 'package:flutter_app/scroll_behavior.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_app/services/notification_service.dart';
 import 'package:flutter_app/services/storage_service.dart';
 import 'package:flutter_app/translations/app_translations.dart';
 import 'package:flutter_app/ui/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +32,9 @@ void main() async {
   // await Get.putAsync(() => StorageService().init());
   // await Get.putAsync(() => NotificationService().init());
   
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => AppState()),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

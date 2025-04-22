@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/AppState.dart';
 import 'package:flutter_app/routes/app_pages.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class SidebarNavigation extends StatefulWidget {
   const SidebarNavigation({super.key});
@@ -10,14 +12,23 @@ class SidebarNavigation extends StatefulWidget {
 }
 
 class _SidebarNavigationState extends State<SidebarNavigation> {
+  late AppState appState;
+  
+  @override
+  void initState() {
+    super.initState();
+    appState = Provider.of<AppState>(context, listen: false);
+    var selectedIndex = appState.selectedIndex;
+  }
   bool isExpanded = true;
-  int selectedIndex = 0; // New state variable to track the selected index
 final List<String> routeNames = [
   Routes.HOME,
   Routes.EXPLORE,
   Routes.LIBRARY,
   Routes.SETTINGS,
 ];
+
+  int get selectedIndex => appState.selectedIndex;
 
   void _toggleSidebar() {
     setState(() {
@@ -27,7 +38,7 @@ final List<String> routeNames = [
 
   void _onNavItemTapped(int index) {
     setState(() {
-      selectedIndex = index; // Update the selected index
+      appState.selectedIndex = index; // Update the selected index
     });
     // Chuyển đến trang tương ứng
   Get.toNamed(routeNames[index]);

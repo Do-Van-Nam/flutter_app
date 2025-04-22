@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/routes/app_pages.dart';
+import 'package:get/get.dart';
 
 class RightSidebar extends StatelessWidget {
   const RightSidebar({super.key});
@@ -8,12 +10,7 @@ class RightSidebar extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(
-          left: BorderSide(
-            color: Color(0xFFEEEEEE),
-            width: 1,
-          ),
-        ),
+        border: Border(left: BorderSide(color: Color(0xFFEEEEEE), width: 1)),
       ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -23,13 +20,18 @@ class RightSidebar extends StatelessWidget {
             // User Profile
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    'assets/images/Rectangle 6166-6.png',
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.PROFILE);
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/images/Rectangle 6166-6.png',
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -63,40 +65,36 @@ class RightSidebar extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                const Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Color(0xFF757575),
-                ),
+                const Icon(Icons.keyboard_arrow_down, color: Color(0xFF757575)),
               ],
             ),
             const SizedBox(height: 24),
 
             // Favorites Section
             Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "Yêu thích",
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        TextButton(
-              onPressed: () {},
-              child: const Text(
-                'Xem tất cả',
-                style: TextStyle(
-                  color: Color(0xFFE53935),
-                  fontWeight: FontWeight.w500,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Yêu thích",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Xem tất cả',
+                    style: TextStyle(
+                      color: Color(0xFFE53935),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
             ),
-      ],
-            ),
-                const SizedBox(width: 8),
+            const SizedBox(width: 8),
 
-       
             const SizedBox(height: 16),
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -211,12 +209,9 @@ class RightSidebar extends StatelessWidget {
 
             // Recent Section
             Text(
-          "Gần đây",
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
+              "Gần đây",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
             const SizedBox(height: 16),
             for (int i = 0; i < 4; i++)
               _buildRecentItem(
@@ -228,14 +223,10 @@ class RightSidebar extends StatelessWidget {
             const SizedBox(height: 24),
 
             // New Music Charts
-            
             Text(
-          "BXH nhạc mới",
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
+              "BXH nhạc mới",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
             const SizedBox(height: 16),
             for (int i = 1; i <= 10; i++)
               _buildChartItem(
@@ -293,10 +284,7 @@ class RightSidebar extends StatelessWidget {
           ),
           Text(
             time,
-            style: const TextStyle(
-              color: Color(0xFF757575),
-              fontSize: 12,
-            ),
+            style: const TextStyle(color: Color(0xFF757575), fontSize: 12),
           ),
         ],
       ),
@@ -317,10 +305,7 @@ class RightSidebar extends StatelessWidget {
             width: 24,
             child: Text(
               '$position',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
           ClipRRect(
@@ -364,10 +349,7 @@ class RightSidebar extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(
-            Icons.chevron_right,
-            color: Color(0xFF757575),
-          ),
+          const Icon(Icons.chevron_right, color: Color(0xFF757575)),
         ],
       ),
     );

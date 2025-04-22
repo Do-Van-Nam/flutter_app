@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/routes/app_pages.dart';
+import 'package:get/get.dart';
 import 'section_header.dart';
 
 class RightSidebar extends StatelessWidget {
@@ -24,13 +26,18 @@ class RightSidebar extends StatelessWidget {
             // User Profile
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    'assets/images/Rectangle 6166-6.png',
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.PROFILE);
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/images/Rectangle 6166-6.png',
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),

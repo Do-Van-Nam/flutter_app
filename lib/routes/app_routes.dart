@@ -4,11 +4,13 @@ abstract class Routes {
   static const SPLASH = '/splash';
   static const LOGIN = '/login';
   static const HOME = '/home';
+  static const PROFILE = '/profile';
   static const EXPLORE = '/explore';
   static const LIBRARY = '/library';
   static const LIBRARY_PLAYLIST = '/library/playlist';
+  static const LIBRARY_PLAYLIST_DETAIL = '/library/playlist/:slug';
   static const LIBRARY_ALBUM = '/library/album';
-  static const LIBRARY_ARTIST = '/library/artist';
+  static const ARTIST_DETAIL = '/artist/:slug';
   static const EXPLORE_CATEGORY = '/explore/category';
   static const EXPLORE_CATEGORY_DETAIL = '/explore/category/:slug';
   static const EXPLORE_RANKING = '/explore/ranking';
