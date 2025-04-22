@@ -25,7 +25,9 @@ final List<String> routeNames = [
   Routes.HOME,
   Routes.EXPLORE,
   Routes.LIBRARY,
-  Routes.SETTINGS,
+    Routes.HOME,
+  Routes.HOME,
+
 ];
 
   int get selectedIndex => appState.selectedIndex;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/player_controls.dart';
+import 'widgets/search_bar.dart';
 import 'widgets/sidebar_navigation.dart';
 import 'widgets/right_sidebar.dart';
 
@@ -22,26 +23,24 @@ class MainLayout extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Left Sidebar
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    const SidebarNavigation(),
-                  ],
-                ),
+                // Stack(
+                //   clipBehavior: Clip.none,
+                //   children: [
+                const SidebarNavigation(),
+                //   ],
+                // ),
 
                 // Main Content Area
                 Expanded(
                   flex: isWideScreen ? 3 : 2,
-                  child: 
-          //         Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-                      // Search Bar
-           
-                      
-                      content
-                  //     ],
-                  // )
+                  // child: SingleChildScrollView(
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [buildSearchBar(context), content],
+                  //   ),
+                  // ),
+
+                  child: content,
                   // Container(children:[content] ),
                 ),
 

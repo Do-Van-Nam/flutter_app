@@ -3,7 +3,9 @@ import 'package:flutter_app/ui/pages/explore/explore_ranking_detail.dart';
 import 'package:flutter_app/ui/pages/library/artist_detail.dart';
 import 'package:flutter_app/ui/pages/library/library_screen.dart';
 import 'package:flutter_app/ui/pages/library/playlist_detail.dart';
+import 'package:flutter_app/ui/pages/playing/playing_screen.dart';
 import 'package:flutter_app/ui/pages/profile/profile_screen.dart';
+import 'package:flutter_app/ui/pages/results/results_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter_app/ui/pages/home/home_binding.dart';
 import 'package:flutter_app/ui/pages/explore/explore_screen.dart';
@@ -62,6 +64,19 @@ class AppPages {
       // page: () => ProfilePage(),
       // binding: ProfileBinding(),
       page: () => ProfileScreen(),
+    ),
+     
+    GetPage(
+      name: Routes.PLAYING,
+
+
+      page: () => PlayingScreen(),
+    ),
+    GetPage(
+      name: Routes.RESULTS,
+
+
+      page: () => ResultsScreen(),
     ),
     GetPage(
       name: Routes.LIBRARY,
