@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'landing_content_model.dart';
 import 'api_service.dart';
+import 'package:logger/logger.dart';
+
+final logger = Logger();
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -14,13 +20,13 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kakoak',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.deepOrange, fontFamily: 'Poppins'),
+      theme: ThemeData(primarySwatch: Colors.green, fontFamily: 'Poppins'),
       home: const KakoakHomePage(),
     );
   }
@@ -33,31 +39,30 @@ class KakoakHomePage extends StatefulWidget {
   State<KakoakHomePage> createState() => _KakoakHomePageState();
   // @override
   // Widget build(BuildContext context) {
-    // return Scaffold(
-    //   body: Stack(
-    //     // children: [
-    //     //   Padding(
-    //     // padding: const EdgeInsets.only(top: 100),
-    //     children: [
-    //       SingleChildScrollView(
-    //         child: Column(
-    //           children: [
-    //             // NavBar(),
-    //             HeroSection(),
-    //             DownloadSection(),
-    //             AppFeaturesSection(),
-    //             SecuritySection(),
-    //             Footer(),
-    //           ],
-    //         ),
-    //       ),
-    //       // ),
-    //       const Positioned(top: 20, left: 0, right: 0, child: NavBar()),
-    //     ],
-    //   ),
-    // );
+  // return Scaffold(
+  //   body: Stack(
+  //     // children: [
+  //     //   Padding(
+  //     // padding: const EdgeInsets.only(top: 100),
+  //     children: [
+  //       SingleChildScrollView(
+  //         child: Column(
+  //           children: [
+  //             // NavBar(),
+  //             HeroSection(),
+  //             DownloadSection(),
+  //             AppFeaturesSection(),
+  //             SecuritySection(),
+  //             Footer(),
+  //           ],
+  //         ),
+  //       ),
+  //       // ),
+  //       const Positioned(top: 20, left: 0, right: 0, child: NavBar()),
+  //     ],
+  //   ),
+  // );
   // }
-
 }
 
 class _KakoakHomePageState extends State<KakoakHomePage> {
@@ -91,51 +96,73 @@ class _KakoakHomePageState extends State<KakoakHomePage> {
           }
 
           final items = snapshot.data!;
+        
+          final headerMenuItems = items.where((item) => item.key == 'header_menu').toList();
+          final footerMenuItems = items.where((item) => item.key == 'footer_menu').toList();
+          final contentIntro = items.where((item) => item.key == 'content_intro').toList();
+         
+          logger.i( headerMenuItems.toString());
           final Map<String, LandingContentItem> mapData = {
-  for (var item in items) item.key: item
-};
-          return  Scaffold(
-      body: Stack(
-        // children: [
-        //   Padding(
-        // padding: const EdgeInsets.only(top: 100),
-        children: [
-          SingleChildScrollView(
-            child: Column(
+            for (var item in items) item.key: item,
+          };
+          return Scaffold(
+            body: Stack(
+              // children: [
+              //   Padding(
+              // padding: const EdgeInsets.only(top: 100),
               children: [
-                // NavBar(),
-                HeroSection(data: mapData),
-DownloadSection(data: mapData),
-AppFeaturesSection(data: mapData),
-SecuritySection(data: mapData),
-Footer(data: mapData),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      // NavBar(),
+                      HeroSection(data: mapData, language: language),
+                      DownloadSection(data: mapData, language: language),
+                      AppFeaturesSection(data: mapData, language: language,content:contentIntro[0]),
+                      SecuritySection(data: mapData, language: language,content:contentIntro[1]),
+                      Footer(data: mapData, language: language,footerMenuItems: footerMenuItems),
+                    ],
+                  ),
+                ),
+                // ),
+                Positioned(
+                  top: 20,
+                  left: 0,
+                  right: 0,
+                  child: NavBar(
+                    data: mapData,
+                    setLanguage: _changeLanguage,
+                    language: language,
+                    headerMenuItems: headerMenuItems,
+                  ),
+                ),
               ],
             ),
-          ),
-          // ),
-          Positioned(top: 20, left: 0, right: 0, child: NavBar(data: mapData, setLanguage: _changeLanguage,language: language,)),
-        ],
+          );
+        },
       ),
     );
-        }
-      )
-        
-        
-    );
-  
   }
 }
 
 class NavBar extends StatelessWidget {
   final Map<String, LandingContentItem> data;
+final List<LandingContentItem> headerMenuItems;
   final Function setLanguage;
   bool language;
-   NavBar({Key? key, required this.data, required this.setLanguage,required this.language}) : super(key: key);
-// print(data);
+  NavBar({
+    Key? key,
+    required this.data,
+    required this.setLanguage,
+    required this.language,
+    required this.headerMenuItems,
+  }) : super(key: key);
+  // print(data);
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 800;
+
+
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -157,83 +184,89 @@ class NavBar extends StatelessWidget {
           // Logo + tên
           Row(
             children: [
-              // Container(
-              //   padding: const EdgeInsets.all(8),
-              //   decoration: BoxDecoration(
-              //     color: Colors.deepOrange,
-              //     borderRadius: BorderRadius.circular(8),
-              //   ),
-                // child: Image.asset('assets/images/white_logo.png', height: 30),
-                 Image.network( data['logo']?.image ?? '', height: 40),
-              // ),
+               Image.network(data['logo']?.image ?? '', height: 40,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+               ),
+
               const SizedBox(width: 8),
-              // const Text(
-              //   'Kakoak',
-              //   style: TextStyle(
-              //     color: Colors.deepOrange,
-              //     fontWeight: FontWeight.bold,
-              //     fontSize: 20,
-              //   ),
-              // ),
+
             ],
           ),
 
           // Menu (theo responsive)
           isMobile
               ? Row(
-                  children: [
-                    Container(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.download),
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.menu),
+                    itemBuilder:
+                        (BuildContext context) => [
+                          ...headerMenuItems.map(
+    (entry) => PopupMenuItem(
+      value: entry.key,
+      child: Text(
+        language
+            ? entry.title ?? ''
+            : entry.titleTetun ?? '',
+      ),
+    ),
+  ),
+                          
+                        ],
+                    onSelected: (value) {
+                      // TODO: handle menu selection
+                    },
+                  ),
+                ],
+              )
+              : Row(
+                children: [
+                  ...headerMenuItems.map(
+    (entry) => _navItem(
+      
+        language
+            ? entry.title ?? ''
+            : entry.titleTetun ?? '',
+      
+    ),
+  ),
+                  
+                  _navItem('What Our Client Say\'s'),
+                ],
+              ),
+
+          // Nút EN
+          if (!isMobile)
+            GestureDetector(
+              onTap: () => setLanguage(),
+              child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: IconButton(onPressed: (){},  icon: const Icon(Icons.download),),
-              ),
-                    PopupMenuButton<String>(
-                      icon: const Icon(Icons.menu),
-                      itemBuilder: (BuildContext context) => [
-                        const PopupMenuItem(value: 'home', child: Text('Home')),
-                        const PopupMenuItem(
-                            value: 'apps', child: Text('Kakoak Apps App')),
-                        const PopupMenuItem(
-                            value: 'security',
-                            child: Text('Security by Default')),
-                        const PopupMenuItem(
-                            value: 'client', child: Text('What Our Client Say\'s')),
-                      ],
-                      onSelected: (value) {
-                        // TODO: handle menu selection
-                      },
-                    ),
-                  ],
-                )
-              : Row(
-                  children: [
-                    _navItem('Home'),
-                    _navItem('Kakoak Apps App'),
-                    _navItem('Security by Default'),
-                    _navItem('What Our Client Say\'s'),
-                  ],
+                child:  Text(
+                   language ? 'EN':"TT",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                 ),
-
-          // Nút EN 
-          if(!isMobile)
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.deepOrange,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Text(
-              'EN',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
               ),
             ),
-          ),
         ],
       ),
     );
@@ -253,9 +286,12 @@ class NavBar extends StatelessWidget {
   }
 }
 
+
 class HeroSection extends StatelessWidget {
   final Map<String, LandingContentItem> data;
-  const HeroSection({Key? key, required this.data}) : super(key: key);
+  final bool language;
+  const HeroSection({Key? key, required this.data, this.language = false})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -264,12 +300,16 @@ class HeroSection extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(top: 120, left: 40, right: 20, bottom: 40),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFFFF7A00), Color(0xFFFF5500)],
-        ),
+      
+      decoration:  BoxDecoration(
+        image: DecorationImage(
+      image: NetworkImage(data['header_background']?.image ?? '',
+  //  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  // isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+      
+      ),
+      fit: BoxFit.cover, // để ảnh phủ toàn bộ container
+    ),
       ),
       child: Column(
         children: [
@@ -283,28 +323,55 @@ class HeroSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       RichText(
-                        text: const TextSpan(
-                          style: TextStyle(
+                        text: TextSpan(
+                          style: const TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: 'KAKOAK – CARE MORE: ',
                               style: TextStyle(color: Color(0xFFFFF012)),
                             ),
                             TextSpan(
-                              text: 'BUAT HOTU IHA APLIKASAUN IDA',
-                              style: TextStyle(color: Colors.white),
+                              text:
+                                  language
+                                      ? (data['header_content']?.title
+                                                  ?.contains(':') ??
+                                              false
+                                          ? data['header_content']!.title
+                                              ?.split(':')
+                                              .sublist(1)
+                                              .join(':')
+                                              .trim()
+                                          : data['header_content']?.titleTetun
+                                                  ?.split(':')
+                                                  .sublist(1)
+                                                  .join(':')
+                                                  .trim() ??
+                                              '')
+                                      : data['header_content']?.titleTetun
+                                                  ?.split(':')
+                                                  .sublist(1)
+                                                  .join(':')
+                                                  .trim() ??
+                                              '',
+
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        'KAKOAK – CARE MORE: Bonus 15% banihira sosa pakote internet husi Aplikasaun Kakoak Sosa Pakote internet tipu limitadu liu husi Aplikasaun Kakoak sei simu bonus too 15%. Validu ba laran 7 – FB2, PJ ina DY – Pakote DJ folin \$1 troka ba promosaun \$23 uza ba PUBG, AOV, YouTube, Whatsapp, validu laran 7 – Pakote FB2 folin \$0.5 troka ba promosaun \$23 uza Facebook no Whatsapp validu laran 7 – Pakote PJ folin \$1 troka ba validu laran 7 – Pakote DY folin \$0.5 troka ba promosaun \$23 hodi uza ba asesu YouTube. Validu laron7!',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      Text(
+                        language
+                            ? data['header_content']?.content ?? ''
+                            : data['header_content']?.contentTetun ?? '',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
                       ),
                       const SizedBox(height: 20),
                       Container(
@@ -316,8 +383,10 @@ class HeroSection extends StatelessWidget {
                           color: Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Text(
-                          'Data charges may apply. Contact your provider for details.',
+                        child:  Text(
+                          language
+                            ? data['header_note']?.title ?? ''
+                            : data['header_note']?.titleTetun ?? '',
                           style: TextStyle(
                             color: Color(0xFFFFF012),
                             fontSize: 12,
@@ -329,9 +398,12 @@ class HeroSection extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 5,
-                  child: Image.asset(
-                    'assets/images/phones.png',
+                  child: Image.network(
+                    data['header_content']?.image??'',
                     fit: BoxFit.contain,
+  filterQuality: FilterQuality.high, 
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+
                   ),
                 ),
               ],
@@ -350,10 +422,13 @@ class HeroSection extends StatelessWidget {
                           color: Colors.white,
                         ),
                         children: [
-                          TextSpan(text: 'KAKOAK – CARE MORE: ',style: TextStyle(color:Color(0xFFFFF012))),
+                          TextSpan(
+                            text: 'KAKOAK – CARE MORE: ',
+                            style: TextStyle(color: Color(0xFFFFF012)),
+                          ),
                           TextSpan(
                             text: 'BUAT HOTU IHA APLIKASAUN IDA',
-                            style: TextStyle(color:Color(0xFFFFF012)),
+                            style: TextStyle(color: Color(0xFFFFF012)),
                           ),
                         ],
                       ),
@@ -375,15 +450,19 @@ class HeroSection extends StatelessWidget {
                       ),
                       child: const Text(
                         'Data charges may apply. Contact your provider for details.',
-                        style: TextStyle(color: Color(0xFFFFF012), fontSize: 12),
+                        style: TextStyle(
+                          color: Color(0xFFFFF012),
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 40),
-                Image.asset(
-                  'assets/images/phones.png',
-                  fit: BoxFit.contain,
+                Image.asset('assets/images/phones.png', fit: BoxFit.contain,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                
                 ),
               ],
             ),
@@ -392,9 +471,12 @@ class HeroSection extends StatelessWidget {
     );
   }
 }
+
 class DownloadSection extends StatelessWidget {
   final Map<String, LandingContentItem> data;
-  const DownloadSection({Key? key, required this.data}) : super(key: key);
+  final bool language;
+  const DownloadSection({Key? key, required this.data, required this.language})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -407,19 +489,23 @@ class DownloadSection extends StatelessWidget {
               ? Column(
                 children: [
                   _buildDownloadCard(
-                    'Scan QR Code',
-                    'assets/images/qr_android.png',
+                    language
+                            ? data['qr_google_play']?.title ?? ''
+                            : data['qr_google_play']?.titleTetun ?? '',
+                    data['qr_google_play']?.image ?? "",
                     'assets/images/google_play.png',
-                    'assets/images/woman1.png',
+                    data['img_qr_google_play']?.image ?? "",
                     'GET IT ON',
                     'Google Play',
                   ),
                   const SizedBox(height: 20),
                   _buildDownloadCard(
-                    'Scan QR Code',
-                    'assets/images/qr_ios.png',
+                    language
+                            ? data['qr_app_store']?.title ?? ''
+                            : data['qr_app_store']?.titleTetun ?? '',
+                    data['qr_app_store']?.image ?? "",
                     'assets/images/app_store.png',
-                    'assets/images/woman2.png',
+                     data['img_qr_app_store']?.image ?? "",
                     'Download on the',
                     'App Store',
                   ),
@@ -429,25 +515,29 @@ class DownloadSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: _buildDownloadCard(
-                      'Scan QR Code',
-                      'assets/images/qr_android.png',
-                      'assets/images/google_play.png',
-                      'assets/images/woman1.png',
-                      'GET IT ON',
-                      'Google Play',
-                    ),
+                    child:  _buildDownloadCard(
+                    language
+                            ? data['qr_google_play']?.title ?? ''
+                            : data['qr_google_play']?.titleTetun ?? '',
+                    data['qr_google_play']?.image ?? "",
+                    'assets/images/google_play.png',
+                    data['img_qr_google_play']?.image ?? "",
+                    'GET IT ON',
+                    'Google Play',
+                  ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
                     child: _buildDownloadCard(
-                      'Scan QR Code',
-                      'assets/images/qr_ios.png',
-                      'assets/images/app_store.png',
-                      'assets/images/woman2.png',
-                      'Download on the',
-                      'App Store',
-                    ),
+                    language
+                            ? data['qr_app_store']?.title ?? ''
+                            : data['qr_app_store']?.titleTetun ?? '',
+                    data['qr_app_store']?.image ?? "",
+                    'assets/images/app_store.png',
+                     data['img_qr_app_store']?.image ?? "",
+                    'Download on the',
+                    'App Store',
+                  ),
                   ),
                 ],
               ),
@@ -484,7 +574,10 @@ class DownloadSection extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Image.asset(qrImage, height: 120),
+                Image.network(qrImage, height: 120,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                ),
                 const SizedBox(height: 20),
                 InkWell(
                   // onTap: onPressed,
@@ -497,14 +590,17 @@ class DownloadSection extends StatelessWidget {
                     decoration: BoxDecoration(
                       color:
                           os == 'Google Play'
-                              ? Colors.deepOrange
+                              ? Colors.green
                               : Colors.white,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset(storeImage, height: 30),
+                        Image.asset(storeImage, height: 30,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                        ),
                         const SizedBox(width: 12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -538,7 +634,14 @@ class DownloadSection extends StatelessWidget {
             flex: 2,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Image.asset(personImage, fit: BoxFit.contain),
+              child: 
+              Image.network(
+  personImage,
+  fit: BoxFit.contain,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+)
+              // Image.network(personImage, fit: BoxFit.contain),
             ),
           ),
         ],
@@ -549,14 +652,24 @@ class DownloadSection extends StatelessWidget {
 
 class AppFeaturesSection extends StatelessWidget {
   final Map<String, LandingContentItem> data;
-  const AppFeaturesSection({Key? key, required this.data}) : super(key: key);
+  final bool language;
+  final LandingContentItem content;
+  const AppFeaturesSection({
+    Key? key,
+    required this.data,
+    required this.language,
+    required this.content,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 800;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 10: 160, vertical: 60),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 10 : 160,
+        vertical: 60,
+      ),
       child: Column(
         children: [
           isMobile
@@ -564,7 +677,10 @@ class AppFeaturesSection extends StatelessWidget {
                 children: [
                   _buildFeatureText(),
                   const SizedBox(height: 30),
-                  Image.asset('assets/images/feature.png', height: 400),
+                  Image.network(content?.image ?? ' ', height: 400,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                  ),
                 ],
               )
               : Row(
@@ -572,10 +688,12 @@ class AppFeaturesSection extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: Image.asset(
-                      'assets/images/feature.png',
-                      height: 400,
+                    child:                   Image.network(content?.image ?? ' ', height: 400,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                    
                     ),
+
                   ),
                   Expanded(flex: 7, child: _buildFeatureText()),
                 ],
@@ -596,7 +714,7 @@ class AppFeaturesSection extends StatelessWidget {
             height: 200,
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.deepOrange.withOpacity(0.3),
+                color: Colors.green.withOpacity(0.3),
                 width: 2,
               ),
               shape: BoxShape.circle,
@@ -625,7 +743,7 @@ class AppFeaturesSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
-        color: Colors.deepOrange,
+        color: Colors.green,
         shape: BoxShape.circle,
       ),
       child: Icon(icon, color: Colors.white, size: 30),
@@ -635,9 +753,11 @@ class AppFeaturesSection extends StatelessWidget {
   Widget _buildFeatureText() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children:  [
         Text(
-          'Kakoak Apps App',
+          language ? content?.title ?? '' : 
+          
+          content?.titleTetun ?? '',
 
           style: TextStyle(
             fontSize: 24,
@@ -648,14 +768,16 @@ class AppFeaturesSection extends StatelessWidget {
         const SizedBox(height: 40),
 
         Text(
-          'Kakoak Apps nudar aplikasaun ida download gratis no kria ho negoisu klik ida ina hanoin. Kria catalogo ida nudar plataforma ba ita nia produtu no servisu sira. Konekta ho ita nia kliente sira ho fasil utiliza operatur automatiku, responde pergunta fasil no lais ba klientes.',
+          language ? content?.content ?? '' : 
+          
+          content?.contentTetun ?? '',
           style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
         ),
-        SizedBox(height: 20),
-        Text(
-          'Aplikasaun Kakoak mós bele ajuda negosiadór média no grande fornese suporta kliente no entrega notifikasaun importante hotu ba klientes.',
-          style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
-        ),
+        // SizedBox(height: 20),
+        // Text(
+        //   'Aplikasaun Kakoak mós bele ajuda negosiadór média no grande fornese suporta kliente no entrega notifikasaun importante hotu ba klientes.',
+        //   style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
+        // ),
       ],
     );
   }
@@ -663,7 +785,11 @@ class AppFeaturesSection extends StatelessWidget {
 
 class SecuritySection extends StatelessWidget {
   final Map<String, LandingContentItem> data;
-  const SecuritySection({Key? key, required this.data}) : super(key: key);
+  final bool language;
+  final LandingContentItem content;
+
+  const SecuritySection({Key? key, required this.data, required this.language,required this.content})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -688,7 +814,7 @@ class SecuritySection extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 140), 
+                      padding: const EdgeInsets.only(left: 140),
                       child: _buildSecurityText(),
                     ),
                   ),
@@ -706,7 +832,9 @@ class SecuritySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Security by Default',
+          language ? content?.title ?? '' : 
+          
+          content?.titleTetun ?? '',
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
@@ -715,21 +843,29 @@ class SecuritySection extends StatelessWidget {
         ),
         const SizedBox(height: 40),
         Text(
-          'Kakoak Apps ita nia momentu pesoal balun compartilha ina aplikasaun Kakoak, tamba ne\'e mak ami kria enkriptsaun husi rohan ba rohan iha versaun ikus liu. Enkuandu rohan ba rohan enkriptadu, ita nia mensajen no xamada seguru no uniku ema ne\'ebe imi komunika mak bele le\'e no rona, laiha tan ema seluk, nein aplikasaun Kakoak mós.',
-          style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
+          language ? content?.content ?? '' : 
+          
+          content?.contentTetun ?? '',style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
         ),
       ],
     );
   }
 
   Widget _buildSecurityImage() {
-    return Image.asset('assets/images/security_shield.png', height: 400);
+    return Image.network(content.image??'', height: 400,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+    
+    );
   }
 }
 
 class Footer extends StatelessWidget {
   final Map<String, LandingContentItem> data;
-  const Footer({Key? key, required this.data}) : super(key: key);
+  final bool language;
+  final List<LandingContentItem> footerMenuItems;
+  const Footer({Key? key, required this.data, required this.language, required this.footerMenuItems})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -762,15 +898,24 @@ class Footer extends StatelessWidget {
                         // onTap: onPressed,
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
-                            color: Colors.deepOrange,
+                            color: Colors.green,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Image.asset('assets/images/google_play.png', height: 30),
+                              Image.asset(
+                                'assets/images/google_play.png',
+                                height: 30,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+
+                              ),
                               const SizedBox(width: 12),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -804,7 +949,10 @@ class Footer extends StatelessWidget {
                         // onTap: onPressed,
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
@@ -812,7 +960,13 @@ class Footer extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Image.asset('assets/images/app_store.png', height: 30),
+                              Image.asset(
+                                'assets/images/app_store.png',
+                                height: 30,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+
+                              ),
                               const SizedBox(width: 12),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -871,10 +1025,7 @@ class Footer extends StatelessWidget {
                 const SizedBox(height: 80),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildCopyRightText(),
-                    _buildFooterLinks(),
-                  ],
+                  children: [_buildCopyRightText(), _buildFooterLinks()],
                 ),
               ],
             ],
@@ -890,23 +1041,18 @@ class Footer extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.deepOrange,
+            
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Image.asset(
-            'assets/images/white_logo.png',
-            height: 30,
+          child:                Image.network(data['logo']?.image ?? '', height: 40,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+          
           ),
+
         ),
         const SizedBox(width: 8),
-        const Text(
-          'Kakoak',
-          style: TextStyle(
-            color: Colors.deepOrange,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
+        
       ],
     );
   }
@@ -935,13 +1081,17 @@ class Footer extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.deepOrange,
+              color: Colors.green,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/images/google_play.png', height: 30),
+                Image.asset('assets/images/google_play.png', height: 30,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                
+                ),
                 const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -981,7 +1131,11 @@ class Footer extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/images/app_store.png', height: 30),
+                Image.asset('assets/images/app_store.png', height: 30,
+  filterQuality: FilterQuality.high, // chất lượng lọc cao
+  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                
+                ),
                 const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1016,24 +1170,31 @@ class Footer extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _footerLink('Terms of Service'),
-        const SizedBox(width: 15),
-        _footerLink('Privacy Policy'),
-        const SizedBox(width: 15),
+        for (final entry in footerMenuItems) ...[
+      _footerLink(
+        language
+            ? entry.title ?? ''
+            : entry.titleTetun ?? '',
+      ),
+      const SizedBox(width: 15),],
+
+        
         _footerLink('Cookies'),
       ],
     );
   }
 
   Widget _buildCopyRightText() {
-    return const Text(
-      'Copy right © 2024 Viettel Timor, Unipessoal, LDA. ALL RIGHTS RESERVED.',
+    // final language;
+    return  Text(
+      language ? data['footer_copyright']?.title ?? '' : data['footer_copyright']?.titleTetun ?? '',
       style: TextStyle(color: Colors.white, fontSize: 12),
     );
   }
 
   Widget _footerLink(String text) {
     return Text(
+      
       text,
       style: const TextStyle(color: Colors.white, fontSize: 12),
     );
