@@ -155,7 +155,7 @@ class _MusicPlaylistScreenState extends State<MusicPlaylistScreen> {
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.more_vert),
+                          icon: const Icon(Icons.more_vert,color: Colors.black,),
                           onPressed: () {
                             // Show options menu
                           },

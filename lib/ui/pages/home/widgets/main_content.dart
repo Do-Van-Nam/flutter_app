@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/song_item.dart';
 import 'package:flutter_app/routes/app_pages.dart';
+import 'package:flutter_app/services/new_song_service.dart';
+import 'package:flutter_app/services/recommend_song_service.dart';
 import 'package:flutter_app/ui/widgets/search_bar.dart';
 import 'section_header.dart';
 import 'song_list_item.dart';
@@ -13,6 +16,7 @@ import 'search_box.dart';
 
 
 class MainContent extends StatelessWidget {
+  
   const MainContent({super.key});
 
   @override
@@ -28,7 +32,7 @@ class MainContent extends StatelessWidget {
             buildSearchBar(),
 
             // Banner Slider
-            const BannerSlider(),
+            BannerSlider(),
             const SizedBox(height: 24),
 
             // Category Chips
@@ -71,7 +75,7 @@ class MainContent extends StatelessWidget {
             // Charts Section
             SectionHeader(title: 'Bảng xếp hạng', onSeeAllPressed: () {}),
             const SizedBox(height: 16),
-            buildChartsSection(),
+            buildChartsSection(context),
             const SizedBox(height: 24),
 
             // Themes Section
@@ -96,40 +100,203 @@ class MainContent extends StatelessWidget {
 }
 
 Widget buildRecommendationsList() {
-  return Column(
+    late Future<List<SongItem>> _futureContent;
+  _futureContent = RecommendSongService().fetchRecommendSongContent();
+  return FutureBuilder<List<SongItem>>(
+    future: _futureContent,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        print(snapshot.error.toString());
+        return const Center(child: Text('Error loading recommend music'));
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return const Center(child: Text('No new music available'));
+      } else {
+        final songs = snapshot.data!;
+        return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+
+    child: Row(
+      children: [
+        for (int i = 0; i < songs.length/3; i++)
+          Column(
+            children: [
+              for (int j = 0; j < 3; j++)
+                SongListItem(
+                  title: songs[i * 3 + j].songName,
+                  artist: songs[i * 3 + j].artists[0].aliasName,
+                  views: songs[i * 3 + j].totalListens, 
+                  image: songs[i * 3 + j].avatar,
+
+                ),
+              
+            ],
+          ),
+      ],
+    ),
+  );
+
+      }
+    },
+  );
+  }
+
+Widget buildChartsSection(context) {
+  final bool isMobile = MediaQuery.of(context).size.width < 1000;
+  
+  return isMobile ? Column( 
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      for (int i = 0; i < 3; i++)
-        Row(
+      Container(
+        
+                  // width: MediaQuery.of(context).size.width * 0.25,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF001F3F), Color(0xFFFF4136)],
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: SongListItem(
-                title: 'Như Chưa Bao Giờ',
-                artist: 'Hồ Quang Hiếu',
-                views: '10 Tr lượt xem',
-                imageIndex: i * 2 + 1,
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GestureDetector(
+                onTap:
+                    () => {
+                      Get.toNamed(
+                        '/explore/ranking/${Uri.encodeComponent('Nhạc Lào')}',
+                      ),
+                    },
+                child: Row(
+                  children: [
+                    const Text(
+                      'Nhạc Lào',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.chevron_right,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                    SizedBox(width: 8),
+                    const Spacer(),
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.1),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                          width: 10,
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: SongListItem(
-                title: 'Như Chưa Bao Giờ',
+            for (int i = 1; i <= 5; i++)
+              ChartItem(
+                position: i,
+                title: 'Beautiful in white',
                 artist: 'Hồ Quang Hiếu',
-                views: '10 Tr lượt xem',
-                imageIndex: i * 2 + 2,
+                imageIndex: i,
               ),
-            ),
           ],
         ),
-    ],
-  );
-}
-
-Widget buildChartsSection() {
-  return Row(
+      ),
+      const SizedBox(height: 16),
+      Container(
+        
+                  // width: MediaQuery.of(context).size.width * 0.25,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF001F3F), Color(0xFFFF4136)],
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GestureDetector(
+                onTap:
+                    () => {
+                      Get.toNamed(
+                        '/explore/ranking/${Uri.encodeComponent('Nhạc Lào')}',
+                      ),
+                    },
+                child: Row(
+                  children: [
+                    const Text(
+                      'Nhạc Lào',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.chevron_right,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                    SizedBox(width: 8),
+                    const Spacer(),
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.1),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                          width: 10,
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            for (int i = 1; i <= 5; i++)
+              ChartItem(
+                position: i,
+                title: 'Beautiful in white',
+                artist: 'Hồ Quang Hiếu',
+                imageIndex: i,
+              ),
+          ],
+        ),
+      ),
+      ],
+  ): Row( 
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Expanded(
         child: Container(
+          
+                    // width: MediaQuery.of(context).size.width * 0.25,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
@@ -167,7 +334,6 @@ Widget buildChartsSection() {
                         size: 16,
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.chevron_right, size: 20, color: Colors.black),
                       const Spacer(),
                       Container(
                         decoration: BoxDecoration(
@@ -202,6 +368,7 @@ Widget buildChartsSection() {
       const SizedBox(width: 16),
       Expanded(
         child: Container(
+                    // width: MediaQuery.of(context).size.width * 0.25,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
@@ -273,35 +440,34 @@ Widget buildChartsSection() {
       ),
     ],
   );
+  
+
 }
 
 Widget buildThemesSection() {
-  return Row(
-    children: const [
-      Expanded(
-        child: CategoryItem(
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: const [
+        CategoryItem(
           title: 'Nhạc US UK',
           color: Color(0xFFAA00FF),
           imageUrl: 'assets/images/Rectangle 6166-6.png',
         ),
-      ),
-      SizedBox(width: 16),
-      Expanded(
-        child: CategoryItem(
+        SizedBox(width: 16),
+        CategoryItem(
           title: 'Thư giãn',
           color: Color(0xFF00C853),
           imageUrl: 'assets/images/Rectangle 6166-6.png',
         ),
-      ),
-      SizedBox(width: 16),
-      Expanded(
-        child: CategoryItem(
+        SizedBox(width: 16),
+        CategoryItem(
           title: 'EDM',
           color: Color(0xFF2962FF),
           imageUrl: 'assets/images/Rectangle 6166-6.png',
         ),
-      ),
-    ],
+      ],
+    ),
   );
 }
 
@@ -314,7 +480,7 @@ Widget buildFeaturedArtistsSection() {
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: AlbumItem(
-              imageIndex: i,
+              image: "1",
               artistName:
                   i == 1
                       ? 'Khánh Linh'
@@ -333,30 +499,49 @@ Widget buildFeaturedArtistsSection() {
 }
 
 Widget buildNewMusicSection() {
-  return SingleChildScrollView(
+  late Future<List<SongItem>> _futureContent;
+  _futureContent = NewSongService().fetchNewSongContent();
+  return FutureBuilder<List<SongItem>>(
+    future: _futureContent,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading new music'));
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return const Center(child: Text('No new music available'));
+      } else {
+        final songs = snapshot.data!;
+        return SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Row(
       children: [
-        for (int i = 1; i <= 5; i++)
+        for (int i = 0; i < songs.length; i++)
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: AlbumItem(
-              imageIndex: i + 10,
-              title: 'Như Chưa Bao Giờ',
-              artistName: 'Channon',
+              image: snapshot.data![i].avatar,
+              title: snapshot.data![i].songName,
+              artistName: snapshot.data![i].artists[0].aliasName,
             ),
           ),
       ],
     ),
   );
+      }
+    },
+  );
+  
 }
 
 Widget buildFavoriteSongsSection() {
-  return Row(
-    children: [
-      for (int i = 1; i <= 3; i++)
-        Expanded(
-          child: Padding(
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+
+    child: Row(
+      children: [
+        for (int i = 1; i <= 3; i++)
+          Padding(
             padding: EdgeInsets.only(right: i < 3 ? 6 : 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,7 +601,7 @@ Widget buildFavoriteSongsSection() {
               ],
             ),
           ),
-        ),
-    ],
+      ],
+    ),
   );
 }

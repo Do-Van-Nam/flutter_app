@@ -17,6 +17,7 @@ class ExploreCategoryDetailScreen extends StatelessWidget {
       content: Container(
         color: Color(0xFFF5F5F5),
         height: double.infinity,
+        width: double.infinity,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -24,9 +25,7 @@ class ExploreCategoryDetailScreen extends StatelessWidget {
             children: [
               // category Section
               Text(
-                category == null
-                    ? ""
-                    : "$category",
+                category == null ? "" : "$category",
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w700,
@@ -40,26 +39,25 @@ class ExploreCategoryDetailScreen extends StatelessWidget {
                 // ),
               ),
               const SizedBox(height: 16),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 16,
-  runSpacing: 16,
-        children: [
-          for (int i = 1; i <= 24; i++)
-
-            SizedBox(
-              
-              child: AlbumItem(
-                imageIndex: i >15 ? i - 15 : i,
-                title: 'Như Chưa Bao Giờ',
-                artistName: 'Channon',
+              SizedBox(
+                width: double.infinity,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceAround,
+                  spacing: 16,
+                  runSpacing: 16,
+                  children: [
+                    for (int i = 1; i <= 24; i++)
+                      SizedBox(
+                        child: AlbumItem(
+                          image: 'i > 15 ? i - 15 : i',
+                          title: 'Như Chưa Bao Giờ',
+                          artistName: 'Channon',
+                        ),
+                      ),
+                  ],
+                ),
               ),
-            ),
-        ],
-      ),
               const SizedBox(height: 24),
-
-              
             ],
           ),
         ),
@@ -67,4 +65,3 @@ class ExploreCategoryDetailScreen extends StatelessWidget {
     );
   }
 }
-

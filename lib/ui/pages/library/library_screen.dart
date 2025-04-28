@@ -134,65 +134,72 @@ class _CategoryRowState extends State<LibraryScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              
+
               switch (selectedIndex) {
-    0 => SizedBox(
-           height: MediaQuery.of(context).size.height,
-           child: MusicPlaylistWidget(),
-         ),
-    1 => Wrap(
-      children: [
-        AddNewPlaylist(),
-        SizedBox(width: 16),
-        for (int i = 1; i <= 5; i++)
-          GestureDetector(
-            onTap: () {
-              Get.toNamed('/library/playlist/${Uri.encodeComponent('Như Chưa Bao Giờ')}');
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: PlaylistItem(
-                imageIndex: i + 10,
-                title: 'Như Chưa Bao Giờ',
-                artistName: 'Channon',
-              ),
-            ),
-          ),
-      ],
-    ),
-    2 => Column(
-      children: [
-        for (int i = 1; i <= 5; i++)
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: ArtistItem(
-              imageUrl: 'https://example.com/image$i.jpg', // Updated to use a valid image URL
-              artistName: 'Như Chưa Bao Giờ',
-              songCount: 10,
-              onViewDetails: () {},
-              onAddToPlaylist: () {},
-              onShare: () {},
-            ),
-          ),
-        
-            ],
-    ),
-    3 => Wrap(
-      children: [
-        
-        for (int i = 1; i <= 5; i++)
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: LibraryAlbumItem(
-              imageIndex: i + 10,
-              title: 'Như Chưa Bao Giờ',
-              artistName: 'Channon',
-            ),
-          ),
-      ],
-    ),
-    _ => AddNewPlaylist(),
-              }
+                0 => SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: MusicPlaylistWidget(),
+                ),
+                1 => SizedBox(
+                  width: double.infinity,
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    spacing: 16,
+                    runSpacing: 16,
+                    children: [
+                      AddNewPlaylist(),
+                      SizedBox(width: 16),
+                      for (int i = 1; i <= 5; i++)
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(
+                              '/library/playlist/${Uri.encodeComponent('Như Chưa Bao Giờ')}',
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: PlaylistItem(
+                              imageIndex: i + 10,
+                              title: 'Như Chưa Bao Giờ',
+                              artistName: 'Channon',
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                2 => Column(
+                  children: [
+                    for (int i = 1; i <= 5; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: ArtistItem(
+                          imageUrl:
+                              'https://example.com/image$i.jpg', // Updated to use a valid image URL
+                          artistName: 'Như Chưa Bao Giờ',
+                          songCount: 10,
+                          onViewDetails: () {},
+                          onAddToPlaylist: () {},
+                          onShare: () {},
+                        ),
+                      ),
+                  ],
+                ),
+                3 => Wrap(
+                  children: [
+                    for (int i = 1; i <= 5; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: LibraryAlbumItem(
+                          imageIndex: i + 10,
+                          title: 'Như Chưa Bao Giờ',
+                          artistName: 'Channon',
+                        ),
+                      ),
+                  ],
+                ),
+                _ => AddNewPlaylist(),
+              },
             ],
           ),
         ),

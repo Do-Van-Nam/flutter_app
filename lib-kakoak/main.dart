@@ -96,12 +96,15 @@ class _KakoakHomePageState extends State<KakoakHomePage> {
           }
 
           final items = snapshot.data!;
-        
-          final headerMenuItems = items.where((item) => item.key == 'header_menu').toList();
-          final footerMenuItems = items.where((item) => item.key == 'footer_menu').toList();
-          final contentIntro = items.where((item) => item.key == 'content_intro').toList();
-         
-          logger.i( headerMenuItems.toString());
+
+          final headerMenuItems =
+              items.where((item) => item.key == 'header_menu').toList();
+          final footerMenuItems =
+              items.where((item) => item.key == 'footer_menu').toList();
+          final contentIntro =
+              items.where((item) => item.key == 'content_intro').toList();
+
+          logger.i(headerMenuItems.toString());
           final Map<String, LandingContentItem> mapData = {
             for (var item in items) item.key: item,
           };
@@ -117,9 +120,21 @@ class _KakoakHomePageState extends State<KakoakHomePage> {
                       // NavBar(),
                       HeroSection(data: mapData, language: language),
                       DownloadSection(data: mapData, language: language),
-                      AppFeaturesSection(data: mapData, language: language,content:contentIntro[0]),
-                      SecuritySection(data: mapData, language: language,content:contentIntro[1]),
-                      Footer(data: mapData, language: language,footerMenuItems: footerMenuItems),
+                      AppFeaturesSection(
+                        data: mapData,
+                        language: language,
+                        content: contentIntro[0],
+                      ),
+                      SecuritySection(
+                        data: mapData,
+                        language: language,
+                        content: contentIntro[1],
+                      ),
+                      Footer(
+                        data: mapData,
+                        language: language,
+                        footerMenuItems: footerMenuItems,
+                      ),
                     ],
                   ),
                 ),
@@ -146,7 +161,7 @@ class _KakoakHomePageState extends State<KakoakHomePage> {
 
 class NavBar extends StatelessWidget {
   final Map<String, LandingContentItem> data;
-final List<LandingContentItem> headerMenuItems;
+  final List<LandingContentItem> headerMenuItems;
   final Function setLanguage;
   bool language;
   NavBar({
@@ -161,8 +176,6 @@ final List<LandingContentItem> headerMenuItems;
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 800;
-
-
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -184,13 +197,15 @@ final List<LandingContentItem> headerMenuItems;
           // Logo + tên
           Row(
             children: [
-               Image.network(data['logo']?.image ?? '', height: 40,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-               ),
+              Image.network(
+                data['logo']?.image ?? '',
+                height: 40,
+                filterQuality: FilterQuality.high, // chất lượng lọc cao
+                isAntiAlias:
+                    true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+              ),
 
               const SizedBox(width: 8),
-
             ],
           ),
 
@@ -214,16 +229,15 @@ final List<LandingContentItem> headerMenuItems;
                     itemBuilder:
                         (BuildContext context) => [
                           ...headerMenuItems.map(
-    (entry) => PopupMenuItem(
-      value: entry.key,
-      child: Text(
-        language
-            ? entry.title ?? ''
-            : entry.titleTetun ?? '',
-      ),
-    ),
-  ),
-                          
+                            (entry) => PopupMenuItem(
+                              value: entry.key,
+                              child: Text(
+                                language
+                                    ? entry.title ?? ''
+                                    : entry.titleTetun ?? '',
+                              ),
+                            ),
+                          ),
                         ],
                     onSelected: (value) {
                       // TODO: handle menu selection
@@ -234,15 +248,11 @@ final List<LandingContentItem> headerMenuItems;
               : Row(
                 children: [
                   ...headerMenuItems.map(
-    (entry) => _navItem(
-      
-        language
-            ? entry.title ?? ''
-            : entry.titleTetun ?? '',
-      
-    ),
-  ),
-                  
+                    (entry) => _navItem(
+                      language ? entry.title ?? '' : entry.titleTetun ?? '',
+                    ),
+                  ),
+
                   _navItem('What Our Client Say\'s'),
                 ],
               ),
@@ -257,8 +267,8 @@ final List<LandingContentItem> headerMenuItems;
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child:  Text(
-                   language ? 'EN':"TT",
+                child: Text(
+                  language ? 'EN' : "TT",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -286,7 +296,6 @@ final List<LandingContentItem> headerMenuItems;
   }
 }
 
-
 class HeroSection extends StatelessWidget {
   final Map<String, LandingContentItem> data;
   final bool language;
@@ -300,16 +309,17 @@ class HeroSection extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(top: 120, left: 40, right: 20, bottom: 40),
-      
-      decoration:  BoxDecoration(
+
+      decoration: BoxDecoration(
         image: DecorationImage(
-      image: NetworkImage(data['header_background']?.image ?? '',
-  //  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  // isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-      
-      ),
-      fit: BoxFit.cover, // để ảnh phủ toàn bộ container
-    ),
+          image: NetworkImage(
+            data['header_background']?.image ?? '',
+
+            //  filterQuality: FilterQuality.high, // chất lượng lọc cao
+            // isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+          ),
+          fit: BoxFit.cover, // để ảnh phủ toàn bộ container
+        ),
       ),
       child: Column(
         children: [
@@ -352,11 +362,11 @@ class HeroSection extends StatelessWidget {
                                                   .trim() ??
                                               '')
                                       : data['header_content']?.titleTetun
-                                                  ?.split(':')
-                                                  .sublist(1)
-                                                  .join(':')
-                                                  .trim() ??
-                                              '',
+                                              ?.split(':')
+                                              .sublist(1)
+                                              .join(':')
+                                              .trim() ??
+                                          '',
 
                               style: const TextStyle(color: Colors.white),
                             ),
@@ -383,10 +393,10 @@ class HeroSection extends StatelessWidget {
                           color: Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child:  Text(
+                        child: Text(
                           language
-                            ? data['header_note']?.title ?? ''
-                            : data['header_note']?.titleTetun ?? '',
+                              ? data['header_note']?.title ?? ''
+                              : data['header_note']?.titleTetun ?? '',
                           style: TextStyle(
                             color: Color(0xFFFFF012),
                             fontSize: 12,
@@ -399,11 +409,11 @@ class HeroSection extends StatelessWidget {
                 Expanded(
                   flex: 5,
                   child: Image.network(
-                    data['header_content']?.image??'',
+                    data['header_content']?.image ?? '',
                     fit: BoxFit.contain,
-  filterQuality: FilterQuality.high, 
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-
+                    filterQuality: FilterQuality.high,
+                    isAntiAlias:
+                        true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                   ),
                 ),
               ],
@@ -459,10 +469,12 @@ class HeroSection extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 40),
-                Image.asset('assets/images/phones.png', fit: BoxFit.contain,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-                
+                Image.asset(
+                  'assets/images/phones.png',
+                  fit: BoxFit.contain,
+                  filterQuality: FilterQuality.high, // chất lượng lọc cao
+                  isAntiAlias:
+                      true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                 ),
               ],
             ),
@@ -490,8 +502,8 @@ class DownloadSection extends StatelessWidget {
                 children: [
                   _buildDownloadCard(
                     language
-                            ? data['qr_google_play']?.title ?? ''
-                            : data['qr_google_play']?.titleTetun ?? '',
+                        ? data['qr_google_play']?.title ?? ''
+                        : data['qr_google_play']?.titleTetun ?? '',
                     data['qr_google_play']?.image ?? "",
                     'assets/images/google_play.png',
                     data['img_qr_google_play']?.image ?? "",
@@ -501,11 +513,11 @@ class DownloadSection extends StatelessWidget {
                   const SizedBox(height: 20),
                   _buildDownloadCard(
                     language
-                            ? data['qr_app_store']?.title ?? ''
-                            : data['qr_app_store']?.titleTetun ?? '',
+                        ? data['qr_app_store']?.title ?? ''
+                        : data['qr_app_store']?.titleTetun ?? '',
                     data['qr_app_store']?.image ?? "",
                     'assets/images/app_store.png',
-                     data['img_qr_app_store']?.image ?? "",
+                    data['img_qr_app_store']?.image ?? "",
                     'Download on the',
                     'App Store',
                   ),
@@ -515,29 +527,29 @@ class DownloadSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child:  _buildDownloadCard(
-                    language
-                            ? data['qr_google_play']?.title ?? ''
-                            : data['qr_google_play']?.titleTetun ?? '',
-                    data['qr_google_play']?.image ?? "",
-                    'assets/images/google_play.png',
-                    data['img_qr_google_play']?.image ?? "",
-                    'GET IT ON',
-                    'Google Play',
-                  ),
+                    child: _buildDownloadCard(
+                      language
+                          ? data['qr_google_play']?.title ?? ''
+                          : data['qr_google_play']?.titleTetun ?? '',
+                      data['qr_google_play']?.image ?? "",
+                      'assets/images/google_play.png',
+                      data['img_qr_google_play']?.image ?? "",
+                      'GET IT ON',
+                      'Google Play',
+                    ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
                     child: _buildDownloadCard(
-                    language
-                            ? data['qr_app_store']?.title ?? ''
-                            : data['qr_app_store']?.titleTetun ?? '',
-                    data['qr_app_store']?.image ?? "",
-                    'assets/images/app_store.png',
-                     data['img_qr_app_store']?.image ?? "",
-                    'Download on the',
-                    'App Store',
-                  ),
+                      language
+                          ? data['qr_app_store']?.title ?? ''
+                          : data['qr_app_store']?.titleTetun ?? '',
+                      data['qr_app_store']?.image ?? "",
+                      'assets/images/app_store.png',
+                      data['img_qr_app_store']?.image ?? "",
+                      'Download on the',
+                      'App Store',
+                    ),
                   ),
                 ],
               ),
@@ -574,9 +586,12 @@ class DownloadSection extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Image.network(qrImage, height: 120,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                Image.network(
+                  qrImage,
+                  height: 120,
+                  filterQuality: FilterQuality.high, // chất lượng lọc cao
+                  isAntiAlias:
+                      true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                 ),
                 const SizedBox(height: 20),
                 InkWell(
@@ -588,18 +603,19 @@ class DownloadSection extends StatelessWidget {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color:
-                          os == 'Google Play'
-                              ? Colors.green
-                              : Colors.white,
+                      color: os == 'Google Play' ? Colors.green : Colors.white,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset(storeImage, height: 30,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                        Image.asset(
+                          storeImage,
+                          height: 30,
+                          filterQuality:
+                              FilterQuality.high, // chất lượng lọc cao
+                          isAntiAlias:
+                              true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                         ),
                         const SizedBox(width: 12),
                         Column(
@@ -634,13 +650,13 @@ class DownloadSection extends StatelessWidget {
             flex: 2,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: 
-              Image.network(
-  personImage,
-  fit: BoxFit.contain,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-)
+              child: Image.network(
+                personImage,
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.high, // chất lượng lọc cao
+                isAntiAlias:
+                    true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+              ),
               // Image.network(personImage, fit: BoxFit.contain),
             ),
           ),
@@ -677,9 +693,12 @@ class AppFeaturesSection extends StatelessWidget {
                 children: [
                   _buildFeatureText(),
                   const SizedBox(height: 30),
-                  Image.network(content?.image ?? ' ', height: 400,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
+                  Image.network(
+                    content?.image ?? ' ',
+                    height: 400,
+                    filterQuality: FilterQuality.high, // chất lượng lọc cao
+                    isAntiAlias:
+                        true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                   ),
                 ],
               )
@@ -688,12 +707,13 @@ class AppFeaturesSection extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child:                   Image.network(content?.image ?? ' ', height: 400,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-                    
+                    child: Image.network(
+                      content?.image ?? ' ',
+                      height: 400,
+                      filterQuality: FilterQuality.high, // chất lượng lọc cao
+                      isAntiAlias:
+                          true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                     ),
-
                   ),
                   Expanded(flex: 7, child: _buildFeatureText()),
                 ],
@@ -753,11 +773,9 @@ class AppFeaturesSection extends StatelessWidget {
   Widget _buildFeatureText() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children:  [
+      children: [
         Text(
-          language ? content?.title ?? '' : 
-          
-          content?.titleTetun ?? '',
+          language ? content?.title ?? '' : content?.titleTetun ?? '',
 
           style: TextStyle(
             fontSize: 24,
@@ -768,9 +786,7 @@ class AppFeaturesSection extends StatelessWidget {
         const SizedBox(height: 40),
 
         Text(
-          language ? content?.content ?? '' : 
-          
-          content?.contentTetun ?? '',
+          language ? content?.content ?? '' : content?.contentTetun ?? '',
           style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
         ),
         // SizedBox(height: 20),
@@ -788,8 +804,12 @@ class SecuritySection extends StatelessWidget {
   final bool language;
   final LandingContentItem content;
 
-  const SecuritySection({Key? key, required this.data, required this.language,required this.content})
-    : super(key: key);
+  const SecuritySection({
+    Key? key,
+    required this.data,
+    required this.language,
+    required this.content,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -832,9 +852,7 @@ class SecuritySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          language ? content?.title ?? '' : 
-          
-          content?.titleTetun ?? '',
+          language ? content?.title ?? '' : content?.titleTetun ?? '',
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
@@ -843,19 +861,20 @@ class SecuritySection extends StatelessWidget {
         ),
         const SizedBox(height: 40),
         Text(
-          language ? content?.content ?? '' : 
-          
-          content?.contentTetun ?? '',style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
+          language ? content?.content ?? '' : content?.contentTetun ?? '',
+          style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
         ),
       ],
     );
   }
 
   Widget _buildSecurityImage() {
-    return Image.network(content.image??'', height: 400,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-    
+    return Image.network(
+      content.image ?? '',
+      height: 400,
+      filterQuality: FilterQuality.high, // chất lượng lọc cao
+      isAntiAlias:
+          true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
     );
   }
 }
@@ -864,8 +883,12 @@ class Footer extends StatelessWidget {
   final Map<String, LandingContentItem> data;
   final bool language;
   final List<LandingContentItem> footerMenuItems;
-  const Footer({Key? key, required this.data, required this.language, required this.footerMenuItems})
-    : super(key: key);
+  const Footer({
+    Key? key,
+    required this.data,
+    required this.language,
+    required this.footerMenuItems,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -912,9 +935,10 @@ class Footer extends StatelessWidget {
                               Image.asset(
                                 'assets/images/google_play.png',
                                 height: 30,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-
+                                filterQuality:
+                                    FilterQuality.high, // chất lượng lọc cao
+                                isAntiAlias:
+                                    true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                               ),
                               const SizedBox(width: 12),
                               Column(
@@ -963,9 +987,10 @@ class Footer extends StatelessWidget {
                               Image.asset(
                                 'assets/images/app_store.png',
                                 height: 30,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-
+                                filterQuality:
+                                    FilterQuality.high, // chất lượng lọc cao
+                                isAntiAlias:
+                                    true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                               ),
                               const SizedBox(width: 12),
                               Column(
@@ -1040,19 +1065,16 @@ class Footer extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            
-            borderRadius: BorderRadius.circular(8),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+          child: Image.network(
+            data['logo']?.image ?? '',
+            height: 40,
+            filterQuality: FilterQuality.high, // chất lượng lọc cao
+            isAntiAlias:
+                true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
           ),
-          child:                Image.network(data['logo']?.image ?? '', height: 40,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-          
-          ),
-
         ),
         const SizedBox(width: 8),
-        
       ],
     );
   }
@@ -1087,10 +1109,12 @@ class Footer extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/images/google_play.png', height: 30,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-                
+                Image.asset(
+                  'assets/images/google_play.png',
+                  height: 30,
+                  filterQuality: FilterQuality.high, // chất lượng lọc cao
+                  isAntiAlias:
+                      true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -1131,10 +1155,12 @@ class Footer extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/images/app_store.png', height: 30,
-  filterQuality: FilterQuality.high, // chất lượng lọc cao
-  isAntiAlias: true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
-                
+                Image.asset(
+                  'assets/images/app_store.png',
+                  height: 30,
+                  filterQuality: FilterQuality.high, // chất lượng lọc cao
+                  isAntiAlias:
+                      true, // giúp làm mịn cạnh ảnh (nếu ảnh vector hoặc có bo góc)
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -1171,14 +1197,10 @@ class Footer extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         for (final entry in footerMenuItems) ...[
-      _footerLink(
-        language
-            ? entry.title ?? ''
-            : entry.titleTetun ?? '',
-      ),
-      const SizedBox(width: 15),],
+          _footerLink(language ? entry.title ?? '' : entry.titleTetun ?? ''),
+          const SizedBox(width: 15),
+        ],
 
-        
         _footerLink('Cookies'),
       ],
     );
@@ -1186,15 +1208,16 @@ class Footer extends StatelessWidget {
 
   Widget _buildCopyRightText() {
     // final language;
-    return  Text(
-      language ? data['footer_copyright']?.title ?? '' : data['footer_copyright']?.titleTetun ?? '',
+    return Text(
+      language
+          ? data['footer_copyright']?.title ?? ''
+          : data['footer_copyright']?.titleTetun ?? '',
       style: TextStyle(color: Colors.white, fontSize: 12),
     );
   }
 
   Widget _footerLink(String text) {
     return Text(
-      
       text,
       style: const TextStyle(color: Colors.white, fontSize: 12),
     );

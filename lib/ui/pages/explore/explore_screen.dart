@@ -11,6 +11,8 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 800;
+
     return MainLayout(
       content: Container(
         color: Color(0xFFF5F5F5),
@@ -24,7 +26,7 @@ class ExploreScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      height: 80,
+                      height: 100,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
@@ -34,11 +36,25 @@ class ExploreScreen extends StatelessWidget {
                         onTap: () {
                             Get.toNamed(Routes.EXPLORE_NEW_RELEASE);
                           },
-                        child: Row(
+                        child: !isMobile ? Row(
                           
                           children: [
                             Icon(Icons.new_releases, color: Colors.black),
                             SizedBox(width: 8),
+                            Text(
+                              'Bài phát hành mới',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ): Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.new_releases, color: Colors.black),
+                            SizedBox(height: 8),
                             Text(
                               'Bài phát hành mới',
                               style: TextStyle(
@@ -56,7 +72,7 @@ class ExploreScreen extends StatelessWidget {
                   SizedBox(width: 16),
                   Expanded(
                     child: Container(
-                      height: 80,
+                      height: 100,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
@@ -66,10 +82,24 @@ class ExploreScreen extends StatelessWidget {
                         onTap: () {
                             Get.toNamed(Routes.EXPLORE_CATEGORY);
                           },
-                        child: Row(
+                        child: !isMobile?  Row(
                           children: [
                             Icon(Icons.category, color: Colors.black),
                             SizedBox(width: 8),
+                            Text(
+                              'Thể loại',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ) : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.category, color: Colors.black),
+                            SizedBox(height: 8),
                             Text(
                               'Thể loại',
                               style: TextStyle(
@@ -87,7 +117,7 @@ class ExploreScreen extends StatelessWidget {
                   SizedBox(width: 16),
                   Expanded(
                     child: Container(
-                      height: 80,
+                      height: 100,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
@@ -97,7 +127,21 @@ class ExploreScreen extends StatelessWidget {
                         onTap: () {
                             Get.toNamed(Routes.EXPLORE_RANKING);
                           },
-                        child: Row(
+                        child: !isMobile?  Row(
+                          children: [
+                            Icon(Icons.bar_chart, color: Colors.black),
+                            SizedBox(width: 8),
+                            Text(
+                              'Bảng xếp hạng',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ) :  Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Icon(Icons.bar_chart, color: Colors.black),
                             SizedBox(width: 8),
@@ -131,7 +175,7 @@ class ExploreScreen extends StatelessWidget {
                 onSeeAllPressed: () {},
               ),
               const SizedBox(height: 16),
-              buildCategorySection(),
+              buildCategorySection(context),
               const SizedBox(height: 24),
 
               // New Songs Video Section
@@ -147,7 +191,8 @@ class ExploreScreen extends StatelessWidget {
   }
 }
 
-Widget buildCategorySection() {
+Widget buildCategorySection(BuildContext context) {
+  bool isMobile = MediaQuery.of(context).size.width < 800;
   Color getRandomBoldColor() {
     final random = Random();
     return Color.fromARGB(
@@ -191,27 +236,53 @@ Widget buildCategorySection() {
     List<Widget> rows = [];
     for (int i = 0; i < 3; i++) {
       rows.add(
-        Row(
-        children: List.generate(4, (index) { // Increased to 4 items per row
-          int categoryIndex = i * 4 + index;
-            if (categoryIndex < categories.length) {
-              return Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                  right: index < 3 ? 8 : 0, // Adjusted for 4 items per row
+        !isMobile
+            ? Row(
+                children: List.generate(4, (index) {
+                  // 4 items per row for non-mobile
+                  int categoryIndex = i * 4 + index;
+                  if (categoryIndex < categories.length) {
+                    return Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          right: index < 3 ? 8 : 0, // Adjusted for 4 items per row
+                        ),
+                        child: CustomCategoryItem(
+                          text: categories[categoryIndex]['title'],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Expanded(
+                      child: Container(),
+                    ); // Empty container if no category
+                  }
+                }),
+              )
+            : SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(15, (index) {
+                    // 3 items per row for mobile
+                    int categoryIndex = i * 3 + index;
+                    if (categoryIndex < categories.length) {
+                      return Container(
+                        margin: EdgeInsets.only(
+                          right: index < 2 ? 8 : 0, // Adjusted for 3 items per row
+                        ),
+                        child: SizedBox(
+                          width: 160, // Fixed width for mobile
+                          child: CustomCategoryItem(
+                            text: categories[categoryIndex]['title'],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Container(); // Empty container if no category
+                    }
+                  }),
                 ),
-                  child: CustomCategoryItem(
-                    text: categories[categoryIndex]['title'],
-                  ),
-                ),
-              );
-            } else {
-              return Expanded(
-                child: Container(),
-              ); // Empty container if no category
-            }
-          }),
-        ),
+              ),
       );
       if (i < 2) {
         rows.add(SizedBox(height: 16));
@@ -219,7 +290,6 @@ Widget buildCategorySection() {
     }
     return rows;
   }
-
 
 
   return Column(children: buildCategoryRows());

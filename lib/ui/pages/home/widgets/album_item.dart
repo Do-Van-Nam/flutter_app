@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AlbumItem extends StatelessWidget {
-  final int imageIndex;
+  final String image;
   final String? title;
   final String artistName;
 
   const AlbumItem({
     super.key,
-    required this.imageIndex,
+    required this.image,
     this.title,
     required this.artistName,
   });
@@ -21,8 +21,8 @@ class AlbumItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              'assets/images/Rectangle 6166-$imageIndex.png',
+            child: Image.network(
+              image,
               width: 200,
               height: 200,
               fit: BoxFit.cover,

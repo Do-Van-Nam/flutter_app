@@ -67,7 +67,6 @@ class ExploreCategoryScreen extends StatelessWidget {
     );
   }
 }
-
 Widget buildCategorySection() {
   Color getRandomBoldColor() {
     final random = Random();
@@ -108,41 +107,29 @@ Widget buildCategorySection() {
     {'title': 'Country', 'color': Color(0xFFFFEB3B)},
   ];
 
-  List<Widget> buildCategoryRows() {
-    List<Widget> rows = [];
-    for (int i = 0; i < 3; i++) {
-      rows.add(
-        Row(
-          children: List.generate(4, (index) {
-            // Increased to 4 items per row
-            int categoryIndex = i * 4 + index;
-            if (categoryIndex < categories.length) {
-              return Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    right: index < 3 ? 8 : 0, // Adjusted for 4 items per row
-                  ),
-                  child: CustomCategoryItem(
-                    text: categories[categoryIndex]['title'],
-                  ),
-                ),
-              );
-            } else {
-              return Expanded(
-                child: Container(),
-              ); // Empty container if no category
-            }
-          }),
+  List<Widget> buildCategoryItems() {
+    return List.generate(categories.length, (index) {
+      return Container(
+        width: 220,
+        margin: EdgeInsets.only(
+          right: (index + 1) % 4 == 0 ? 0 : 8, // Adjust margin for wrapping
+          bottom: 16, // Add bottom margin for spacing between lines
+        ),
+        child: CustomCategoryItem(
+          text: categories[index]['title'],
         ),
       );
-      if (i < 2) {
-        rows.add(SizedBox(height: 16));
-      }
-    }
-    return rows;
+    });
   }
 
-  return Column(children: buildCategoryRows());
+  return SizedBox(
+    width: double.infinity, // Make the wrap take 100% width of its parent
+    child: Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      spacing: 8, // Horizontal spacing between items
+      children: buildCategoryItems(),
+    ),
+  );
 }
 
 class CustomCategoryItem1 extends StatelessWidget {

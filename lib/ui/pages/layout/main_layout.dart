@@ -3,6 +3,8 @@ import 'widgets/player_controls.dart';
 import 'widgets/search_bar.dart';
 import 'widgets/sidebar_navigation.dart';
 import 'widgets/right_sidebar.dart';
+import 'widgets/mobile_drawer.dart';
+import 'widgets/mobile_appbar.dart';
 
 class MainLayout extends StatelessWidget {
   final Widget content;
@@ -14,10 +16,16 @@ class MainLayout extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final bool isWideScreen = screenWidth > 1200;
     final bool isMediumScreen = screenWidth > 800 && screenWidth <= 1200;
+    final bool isMobile = screenWidth < 800;
 
     return Scaffold(
-      body: Column(
+      drawer: isMobile ? mobileDrawer(context) : null,  
+      appBar: isMobile ? mobileAppBar(context) : null,
+      body:
+      
+       Column(
         children: [
+          !isMobile ?
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,12 +60,15 @@ class MainLayout extends StatelessWidget {
                   ),
               ],
             ),
-          ),
+          ) : Expanded(child: content)  ,
 
           // Bottom Player Controls
           const PlayerControls(),
         ],
-      ),
+      )
+      
+      
+      ,
     );
   }
 }

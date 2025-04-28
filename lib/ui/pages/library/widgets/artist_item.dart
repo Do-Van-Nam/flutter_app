@@ -127,7 +127,7 @@ class _ArtistItemState extends State<ArtistItem> {
                   ],
                 ),
               ),
-              const Icon(Icons.more_vert),
+              const Icon(Icons.more_vert,color: Colors.black,),
             ],
           ),
         ),

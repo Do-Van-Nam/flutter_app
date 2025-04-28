@@ -268,6 +268,7 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                               ),
                               IconButton(
                                 icon: const Icon(Icons.more_vert),
+                                color: Colors.black,
                                 onPressed: () => _handleOptionsTap(index),
                               ),
                             ],

@@ -1,123 +1,118 @@
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/banner_item.dart';
+import 'package:flutter_app/services/banner_service.dart';
 
-class BannerSlider extends StatelessWidget {
+class BannerSlider extends StatefulWidget {
   const BannerSlider({super.key});
 
   @override
+  _BannerSliderState createState() => _BannerSliderState();
+}
+
+class _BannerSliderState extends State<BannerSlider> {
+  late Future<List<BannerItem>> _futureContent;
+  int currentIndex = 0;
+  bool language = true; // true for English, false for Tetun
+  @override
+  void initState() {
+    super.initState();
+    _futureContent = BannerService().fetchBannerContent();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 180,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF001F3F), Color(0xFF0074D9)],
-        ),
-      ),
-      child: Stack(
-        children: [
-
-        
-
-
-
-          Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: Image.asset(
-              'assets/images/Rectangle 6166-6.png',
-              width: 200,
-              fit: BoxFit.cover,
+    return FutureBuilder<List<BannerItem>>(
+      future: _futureContent,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Error loading banner'));
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          return Container(
+            height: 180,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF001F3F), Color(0xFF0074D9)],
+              ),
+              image: DecorationImage(
+                image: NetworkImage(snapshot.data![currentIndex].file),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(48, 24, 24, 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+
+            child: Stack(
               children: [
-                const Text(
-                  'Hot new',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                 Text(
-                  'Sale promotion',
-                  style: Theme.of(context).textTheme.titleLarge?.apply(
-                    color: Colors.white,
-                  )?.copyWith(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  // style: TextStyle(
-                  //   color: Colors.white,
-                  //   fontWeight: FontWeight.bold,
-                  //   fontSize: 28,
-                  // ),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                Positioned(
+                  right: 16,
+                  top: 90,
+                  // bottom: 0,
+                  child: GestureDetector(
+                    onTap:
+                        () => setState(() {
+                          if (currentIndex < snapshot.data!.length - 1) {
+                            currentIndex++;
+                          } else {
+                            currentIndex = 0;
+                          }
+                        }),
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                        size: 12,
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   ),
-                  child: const Text('See more'),
+                ),
+
+                Positioned(
+                  left: 16,
+                  top: 90,
+                  // bottom: 0,
+                  child: GestureDetector(
+                    onTap:
+                        () => setState(() {
+                          if (currentIndex > 0) {
+                            currentIndex--;
+                          } else {
+                            currentIndex = snapshot.data!.length - 1;
+                          }
+                        }),
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                        size: 12,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-          
-        Positioned(
-            right: 16,
-            top: 90,
-            // bottom: 0,
-            child: Container(
-                  width: 24,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.3),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                    size: 12,
-                  ),
-                ),
-          ),
-          
-
-          Positioned(
-            left: 16,
-            top: 90,
-            // bottom: 0,
-            child: Container(
-                  width: 24,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.3),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 12,
-                  ),
-                ),
-            ),
-  
-        ],
-      ),
+          );
+        } else {
+          return const Center(child: Text('No banners available'));
+        }
+      },
     );
   }
 }

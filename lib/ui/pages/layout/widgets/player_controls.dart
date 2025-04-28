@@ -67,6 +67,7 @@ class _PlayerControlsState extends State<PlayerControls> {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = MediaQuery.of(context).size.width < 800;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -104,6 +105,7 @@ class _PlayerControlsState extends State<PlayerControls> {
             ],
           ),
           child: Row(
+            mainAxisAlignment: isMobile ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
             children: [
               // Song info (placeholder)
               Padding(
@@ -134,22 +136,22 @@ class _PlayerControlsState extends State<PlayerControls> {
               ),
         
               // Like & More
-              IconButton(icon: const Icon(Icons.favorite, color: Color(0xFFE53935)), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.more_horiz, color: Color(0xFF757575)), onPressed: (){}),
+             !isMobile ? IconButton(icon: const Icon(Icons.favorite, color: Color(0xFFE53935)), onPressed: () {}) : const SizedBox.shrink(),
+              !isMobile ? IconButton(icon: const Icon(Icons.more_horiz, color: Color(0xFF757575)), onPressed: (){}) : const SizedBox.shrink(),
         
               const Spacer(),
         
               // Shuffle
-              IconButton(
+             !isMobile ? IconButton(
                 icon: Icon(_isShuffled ? Icons.shuffle_on : Icons.shuffle, color: const Color(0xFF757575)),
                 onPressed: () => _player.setShuffleModeEnabled(!_isShuffled),
-              ),
+              ) : const SizedBox.shrink(),
         
               // Previous
-              IconButton(
+              !isMobile? IconButton(
                 icon: const Icon(Icons.skip_previous, color: Color(0xFF212121), size: 28),
                 onPressed: _player.hasPrevious ? () => _player.seekToPrevious() : null,
-              ),
+              ) : const SizedBox.shrink(),
         
               // Play / Pause
               GestureDetector(
@@ -169,13 +171,13 @@ class _PlayerControlsState extends State<PlayerControls> {
               ),
         
               // Next
-              IconButton(
+             !isMobile? IconButton(
                 icon: const Icon(Icons.skip_next, color: Color(0xFF212121), size: 28),
                 onPressed: _player.hasNext ? () => _player.seekToNext() : null,
-              ),
+              ) : const SizedBox.shrink(),
         
               // Repeat
-              IconButton(
+              !isMobile ? IconButton(
                 icon: Icon(
                   _player.loopMode == LoopMode.one ? Icons.repeat_one : Icons.repeat,
                   color: const Color(0xFF757575),
@@ -184,22 +186,22 @@ class _PlayerControlsState extends State<PlayerControls> {
                   final nextMode = LoopMode.values[(_player.loopMode.index + 1) % LoopMode.values.length];
                   _player.setLoopMode(nextMode);
                 },
-              ),
+              ) : const SizedBox.shrink(),
         
               const Spacer(),
         
               // Time display
-              Padding(
+             !isMobile? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
                   '${_formatTime(_position)} / ${_formatTime(_duration)}',
                   style: const TextStyle(color: Color(0xFF757575), fontSize: 12),
                 ),
-              ),
+              ) : const SizedBox.shrink(),
         
               // Volume slider
               
-        SizedBox(
+      !isMobile? SizedBox(
   width: 100,
   child: SliderTheme(
     data: SliderTheme.of(context).copyWith(
@@ -216,21 +218,21 @@ class _PlayerControlsState extends State<PlayerControls> {
       onChanged: (value) => _player.setVolume(value),
     ),
   ),
-),
+) : const SizedBox.shrink(),
               // Volume toggle
-              IconButton(
+              !isMobile ? IconButton(
                 icon: Icon(
                   _player.volume > 0 ? Icons.volume_up : Icons.volume_off,
                   color: const Color(0xFF757575),
                 ),
                 onPressed: () => _player.setVolume(_player.volume > 0 ? 0 : 1),
-              ),
+              ) : const SizedBox.shrink(),
         
               // Expand to full player
               IconButton(
                 icon: const Icon(Icons.keyboard_arrow_up, color: Color(0xFF757575)),
                 onPressed: () => Get.toNamed(Routes.PLAYING),
-              ),
+              )              ,
             ],
           ),
         ),

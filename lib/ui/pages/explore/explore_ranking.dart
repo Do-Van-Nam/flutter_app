@@ -42,7 +42,7 @@ class ExploreRankingScreen extends StatelessWidget {
                 // ),
               ),
             const SizedBox(height: 16),
-            buildChartsSection(),
+            buildChartsSection(context),
             
             const SizedBox(height: 24), 
               // MusicPlaylistWidget(),

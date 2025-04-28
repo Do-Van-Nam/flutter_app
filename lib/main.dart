@@ -13,6 +13,7 @@ import 'package:flutter_app/services/storage_service.dart';
 import 'package:flutter_app/translations/app_translations.dart';
 import 'package:flutter_app/ui/theme/app_theme.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as dev;
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,7 @@ void main() async {
   // // Initialize services
   // await Get.putAsync(() => StorageService().init());
   // await Get.putAsync(() => NotificationService().init());
-  
+  dev.log('Initializing app...');
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppState()),
   ], child: MyApp()));
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      defaultTransition: Transition.noTransition, // <- quan trọng
       // themeMode: storageService.getThemeMode(),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
