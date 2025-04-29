@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class SongListItem extends StatelessWidget {
@@ -17,56 +18,64 @@ class SongListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 300,
       margin: const EdgeInsets.only(bottom: 12),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Image.network(
-              image,
-              width: 56,
-              height: 56,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  width: 56,
+                  height: 56,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 2),
-          
-              Row(
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    artist,
+                    title,
                     style: const TextStyle(
-                      color: Color(0xFF757575),
-                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(width: 4),
-          
-                  const Icon(
-                    Icons.visibility,
-                    color: Color(0xFF757575),
-                    size: 12,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    views.toString(),
-                    style: const TextStyle(
-                      color: Color(0xFF757575),
-                      fontSize: 12,
-                    ),
+                  const SizedBox(height: 2),
+              
+                  Row(
+                    children: [
+                      Text(
+                        artist,
+                        style: const TextStyle(
+                          color: Color(0xFF757575),
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+              
+                      const Icon(
+                        Icons.visibility,
+                        color: Color(0xFF757575),
+                        size: 12,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        views.toString(),
+                        style: const TextStyle(
+                          color: Color(0xFF757575),
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -113,7 +122,7 @@ class SongListItem extends StatelessWidget {
                       PopupMenuItem(
                         value: 'song',
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(4),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/collection.dart';
+import 'package:flutter_app/services/collection_list_service.dart';
 import 'package:flutter_app/ui/pages/layout/main_layout.dart';
 import 'package:flutter_app/ui/pages/home/widgets/main_content.dart';
 import 'package:flutter_app/ui/widgets/section_header.dart';
@@ -193,6 +195,19 @@ class ExploreScreen extends StatelessWidget {
 
 Widget buildCategorySection(BuildContext context) {
   bool isMobile = MediaQuery.of(context).size.width < 800;
+  Future<List<Collection>> _futureContent;
+  _futureContent = CollectionListService().fetchCollectionListContent();
+  return FutureBuilder<List<Collection>>(
+    future: _futureContent,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading charts'));
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return const Center(child: Text('No charts available'));
+      } else {
+        final collections = snapshot.data!;
   Color getRandomBoldColor() {
     final random = Random();
     return Color.fromARGB(
@@ -233,31 +248,25 @@ Widget buildCategorySection(BuildContext context) {
   ];
 
   List<Widget> buildCategoryRows() {
+    
     List<Widget> rows = [];
     for (int i = 0; i < 3; i++) {
       rows.add(
         !isMobile
             ? Row(
-                children: List.generate(4, (index) {
-                  // 4 items per row for non-mobile
-                  int categoryIndex = i * 4 + index;
-                  if (categoryIndex < categories.length) {
-                    return Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          right: index < 3 ? 8 : 0, // Adjusted for 4 items per row
-                        ),
-                        child: CustomCategoryItem(
-                          text: categories[categoryIndex]['title'],
-                        ),
+                children: List.generate(3, (index) {
+                  return Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        right: index < 3 ? 8 : 0, // Adjusted for 4 items per row
                       ),
-                    );
-                  } else {
-                    return Expanded(
-                      child: Container(),
-                    ); // Empty container if no category
-                  }
+                      child: CustomCategoryItem(
+                        text: collections[0].items[index].itemName,
+                      ),
+                    ),
+                  );
                 }),
+                
               )
             : SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -293,6 +302,10 @@ Widget buildCategorySection(BuildContext context) {
 
 
   return Column(children: buildCategoryRows());
+      }
+    },
+  );
+    
 }
 
 class CustomCategoryItem extends StatelessWidget {

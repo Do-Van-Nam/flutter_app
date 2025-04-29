@@ -1,18 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter_app/models/api_response.dart';
+import 'package:flutter_app/models/collection.dart';
+import 'package:flutter_app/models/rank_list.dart';
 import 'package:flutter_app/models/recommend_song_item.dart';
 import 'package:flutter_app/models/song_item.dart';
 import 'package:flutter_app/services/api_service.dart';
 
-class RecommendSongService {
+class CollectionListService {
   final ApiService _apiService = ApiService();
 
-  Future<List<SongItem>> fetchRecommendSongContent({Map<String, dynamic>? params}) async {
+  Future<List<Collection>> fetchCollectionListContent({Map<String, dynamic>? params}) async {
     
-    params = {'timestamp': 1714387200, 'size':20,'page':1 };
+    params = {'timestamp': 1714387200,'page':1, 'size':10  };
     final response = await _apiService.get(
-      'song/recommend',
+      'genre/collection-list',
       queryParameters: params,
     );
 
@@ -25,7 +27,7 @@ class RecommendSongService {
   }
       final apiResponse = ApiResponse.fromJson(
         responseData,
-        (json) => SongItem.fromJson(json),
+        (json) => Collection.fromJson(json),
       );
       return apiResponse.data;
     } else {

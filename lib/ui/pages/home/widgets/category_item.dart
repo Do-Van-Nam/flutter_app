@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -16,7 +17,7 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      width: 140,
+      width: 240,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(8),
@@ -32,10 +33,12 @@ class CategoryItem extends StatelessWidget {
                 topRight: Radius.circular(8),
                 bottomRight: Radius.circular(8),
               ),
-              child: Image.asset(
-                'assets/images/Rectangle 6166-6.png',
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
                 width: 60,
                 fit: BoxFit.cover,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
           ),

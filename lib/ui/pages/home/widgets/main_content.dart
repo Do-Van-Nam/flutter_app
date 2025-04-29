@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/collection.dart';
+import 'package:flutter_app/models/rank_list.dart';
+import 'package:flutter_app/models/recommend_song_item.dart';
 import 'package:flutter_app/models/song_item.dart';
 import 'package:flutter_app/routes/app_pages.dart';
+import 'package:flutter_app/services/collection_list_service.dart';
 import 'package:flutter_app/services/new_song_service.dart';
+import 'package:flutter_app/services/rank_list_service.dart';
 import 'package:flutter_app/services/recommend_song_service.dart';
 import 'package:flutter_app/ui/widgets/search_bar.dart';
 import 'section_header.dart';
@@ -114,12 +119,13 @@ Widget buildRecommendationsList() {
         return const Center(child: Text('No new music available'));
       } else {
         final songs = snapshot.data!;
+        print(songs.length);
         return SingleChildScrollView(
     scrollDirection: Axis.horizontal,
 
     child: Row(
       children: [
-        for (int i = 0; i < songs.length/3; i++)
+        for (int i = 0; i < songs.length/3-1; i++)
           Column(
             children: [
               for (int j = 0; j < 3; j++)
@@ -144,8 +150,21 @@ Widget buildRecommendationsList() {
 
 Widget buildChartsSection(context) {
   final bool isMobile = MediaQuery.of(context).size.width < 1000;
-  
-  return isMobile ? Column( 
+
+  Future<List<RankList>> _futureContent;
+  _futureContent = RankListService().fetchRankListContent();
+  return FutureBuilder<List<RankList>>(
+    future: _futureContent,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading charts'));
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return const Center(child: Text('No charts available'));
+      } else {
+        final charts = snapshot.data!;
+        return isMobile ? Column( 
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Container(
@@ -168,14 +187,14 @@ Widget buildChartsSection(context) {
                 onTap:
                     () => {
                       Get.toNamed(
-                        '/explore/ranking/${Uri.encodeComponent('Nhạc Lào')}',
+                        '/explore/ranking/${Uri.encodeComponent(charts[0].cateName)}',
                       ),
                     },
                 child: Row(
                   children: [
-                    const Text(
-                      'Nhạc Lào',
-                      style: TextStyle(
+                    Text(
+                      charts[0].cateName,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -208,12 +227,12 @@ Widget buildChartsSection(context) {
                 ),
               ),
             ),
-            for (int i = 1; i <= 5; i++)
+            for (int i = 0; i < charts[0].items.length; i++)
               ChartItem(
-                position: i,
-                title: 'Beautiful in white',
-                artist: 'Hồ Quang Hiếu',
-                imageIndex: i,
+                position: i+1,
+                title: charts[0].items[i].songName,
+                artist: charts[0].items[i].artists[0].aliasName,
+                imageIndex: charts[0].items[i].avatar,
               ),
           ],
         ),
@@ -239,13 +258,13 @@ Widget buildChartsSection(context) {
                 onTap:
                     () => {
                       Get.toNamed(
-                        '/explore/ranking/${Uri.encodeComponent('Nhạc Lào')}',
+                        '/explore/ranking/${Uri.encodeComponent(charts[1].cateName)}',
                       ),
                     },
                 child: Row(
                   children: [
-                    const Text(
-                      'Nhạc Lào',
+                    Text(
+                      charts[1].cateName,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -279,12 +298,12 @@ Widget buildChartsSection(context) {
                 ),
               ),
             ),
-            for (int i = 1; i <= 5; i++)
+            for (int i = 0; i < charts[1].items.length; i++)
               ChartItem(
-                position: i,
-                title: 'Beautiful in white',
-                artist: 'Hồ Quang Hiếu',
-                imageIndex: i,
+                position: i+1,
+                title: charts[1].items[i].songName,
+                artist: charts[1].items[i].artists[0].aliasName,
+                imageIndex: charts[1].items[i].avatar,
               ),
           ],
         ),
@@ -314,7 +333,7 @@ Widget buildChartsSection(context) {
                   onTap:
                       () => {
                         Get.toNamed(
-                          '/explore/ranking/${Uri.encodeComponent('Nhạc Lào')}',
+                          '/explore/ranking/${Uri.encodeComponent(charts[0].cateName)}',
                         ),
                       },
                   child: Row(
@@ -354,12 +373,12 @@ Widget buildChartsSection(context) {
                   ),
                 ),
               ),
-              for (int i = 1; i <= 5; i++)
+              for (int i = 0; i < charts[0].items.length; i++)
                 ChartItem(
-                  position: i,
-                  title: 'Beautiful in white',
-                  artist: 'Hồ Quang Hiếu',
-                  imageIndex: i,
+                  position: i+1,
+                  title: charts[0].items[i].songName,
+                  artist: charts[0].items[i].artists[0].aliasName,
+                  imageIndex: charts[0].items[i].avatar,
                 ),
             ],
           ),
@@ -386,13 +405,13 @@ Widget buildChartsSection(context) {
                   onTap:
                       () => {
                         Get.toNamed(
-                          '/explore/ranking/${Uri.encodeComponent('Nhạc Lào')}',
+                          '/explore/ranking/${Uri.encodeComponent(charts[1].cateName)}',
                         ),
                       },
                   child: Row(
                     children: [
-                      const Text(
-                        'Nhạc Lào',
+                      Text(
+                        charts[1].cateName,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -406,7 +425,7 @@ Widget buildChartsSection(context) {
                         size: 16,
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.chevron_right, size: 20, color: Colors.black),
+                      // Icon(Icons.chevron_right, size: 20, color: Colors.black),
                       const Spacer(),
                       Container(
                         decoration: BoxDecoration(
@@ -427,12 +446,12 @@ Widget buildChartsSection(context) {
                   ),
                 ),
               ),
-              for (int i = 1; i <= 5; i++)
+              for (int i = 0; i < charts[1].items.length; i++)
                 ChartItem(
-                  position: i,
-                  title: 'Beautiful in white',
-                  artist: 'Hồ Quang Hiếu',
-                  imageIndex: i + 5,
+                  position: i+1,
+                  title: charts[1].items[i].songName,
+                  artist: charts[1].items[i].artists[0].aliasName,
+                  imageIndex: 'i + 5',
                 ),
             ],
           ),
@@ -440,62 +459,92 @@ Widget buildChartsSection(context) {
       ),
     ],
   );
+      }
+    },
+  );
+  
+  
   
 
 }
 
 Widget buildThemesSection() {
-  return SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: const [
-        CategoryItem(
-          title: 'Nhạc US UK',
-          color: Color(0xFFAA00FF),
-          imageUrl: 'assets/images/Rectangle 6166-6.png',
-        ),
-        SizedBox(width: 16),
-        CategoryItem(
-          title: 'Thư giãn',
-          color: Color(0xFF00C853),
-          imageUrl: 'assets/images/Rectangle 6166-6.png',
-        ),
-        SizedBox(width: 16),
-        CategoryItem(
-          title: 'EDM',
-          color: Color(0xFF2962FF),
-          imageUrl: 'assets/images/Rectangle 6166-6.png',
-        ),
-      ],
-    ),
-  );
-}
-
-Widget buildFeaturedArtistsSection() {
+  Future<List<Collection>> _futureContent;
+  _futureContent = CollectionListService().fetchCollectionListContent();
+  return FutureBuilder<List<Collection>>(
+    future: _futureContent,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading charts'));
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return const Center(child: Text('No charts available'));
+      } else {
+        final collections = snapshot.data!;
+        
   return SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Row(
       children: [
-        for (int i = 1; i <= 5; i++)
+        for (var collection in collections)
+          Row(
+            children: [
+              CategoryItem(
+                title: collection.collectionName,
+                color: Color(0xFF2962FF),
+                imageUrl: collection.items[0].avatar,
+              ),
+        SizedBox(width: 16),
+
+            ],
+          ),
+        
+      ],
+    ),
+  );
+      }
+      }
+  );
+
+
+}
+
+Widget buildFeaturedArtistsSection() {
+
+  Future<List<Collection>> _futureContent;
+  _futureContent = CollectionListService().fetchCollectionListContent();
+  return FutureBuilder<List<Collection>>(
+    future: _futureContent,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return const Center(child: Text('Error loading charts'));
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return const Center(child: Text('No charts available'));
+      } else {
+        final collections = snapshot.data!;
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: [
+        for (int i = 0; i < collections.length; i++)
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: AlbumItem(
-              image: "1",
+              image: collections[i].items[1].avatar,
               artistName:
-                  i == 1
-                      ? 'Khánh Linh'
-                      : i == 2
-                      ? 'Kim Anh Tuấn'
-                      : i == 3
-                      ? 'Mỹ Lan'
-                      : i == 4
-                      ? 'Hồ Quang Hiếu'
-                      : 'Châu Khải',
+                  collections[i].items[1].itemName,
             ),
           ),
       ],
     ),
   );
+      }
+    },
+  );
+
 }
 
 Widget buildNewMusicSection() {

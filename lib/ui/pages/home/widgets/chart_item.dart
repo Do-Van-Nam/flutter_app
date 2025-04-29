@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ChartItem extends StatelessWidget {
   final int position;
   final String title;
   final String artist;
-  final int imageIndex;
+  final String imageIndex;
 
   const ChartItem({
     super.key,
@@ -36,11 +37,13 @@ class ChartItem extends StatelessWidget {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
-                child: Image.asset(
-                  'assets/images/Rectangle 6166-$imageIndex.png',
+                child: CachedNetworkImage(
+                  imageUrl: imageIndex,
                   width: 40,
                   height: 40,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
               const SizedBox(width: 12),

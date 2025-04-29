@@ -1,6 +1,4 @@
-import 'artist.dart';
-
-class SongItem {
+class RecommendSongItem {
   final int id;
   String? countryCode;
   final String songName;
@@ -8,19 +6,17 @@ class SongItem {
   final String mediaPath;
   final int bitRate;
   final int duration;
-  final int? isDownload;
   final int totalListens;
   final int totalDownload;
   final int totalLiked;
   final int totalShared;
   final int totalComment;
-  final bool? hasLyric;
   final int isLike;
   final int numberOfArtists;
   final List<Artist> artists;
   final String link;
 
-  SongItem({
+  RecommendSongItem({
     required this.id,
     this.countryCode,
     required this.songName,
@@ -28,34 +24,30 @@ class SongItem {
     required this.mediaPath,
     required this.bitRate,
     required this.duration,
-    this.isDownload,
     required this.totalListens,
     required this.totalDownload,
     required this.totalLiked,
     required this.totalShared,
     required this.totalComment,
-    this.hasLyric,
     required this.isLike,
     required this.numberOfArtists,
     required this.artists,
     required this.link,
   });
 
-  factory SongItem.fromJson(Map<String, dynamic> json) {
-    return SongItem(
+  factory RecommendSongItem.fromJson(Map<String, dynamic> json) {
+    return RecommendSongItem(
       id: json['id'] ?? 0, // Default to 0 if null
       songName: json['songName'] ?? 'Unknown', // Default to 'Unknown' if null
       avatar: json['avatar'] ?? '', // Default to empty string if null
       mediaPath: json['mediaPath'] ?? '',
       bitRate: json['bitRate'] ?? 0, // Default to 0 if null
       duration: json['duration'] ?? 0, // Default to 0 if null
-      isDownload: json['isDownload'], // Optional field, can be null
       totalListens: json['totalListens'] ?? 0, // Default to 0 if null
       totalDownload: json['totalDownload'] ?? 0, // Default to 0 if null
       totalLiked: json['totalLiked'] ?? 0, // Default to 0 if null
       totalShared: json['totalShared'] ?? 0, // Default to 0 if null
       totalComment: json['totalComment'] ?? 0, // Default to 0 if null
-      hasLyric: json['hasLyric'], // Optional field, can be null
       isLike: json['isLike'] ?? 0, // Default to 0 if null
       numberOfArtists: json['numberOfArtists'] ?? 0, // Default to 0 if null
       artists: (json['artists'] as List<dynamic>?)
@@ -75,13 +67,11 @@ class SongItem {
       'mediaPath': mediaPath,
       'bitRate': bitRate,
       'duration': duration,
-      'isDownload': isDownload,
       'totalListens': totalListens,
       'totalDownload': totalDownload,
       'totalLiked': totalLiked,
       'totalShared': totalShared,
       'totalComment': totalComment,
-      'hasLyric': hasLyric,
       'isLike': isLike,
       'numberOfArtists': numberOfArtists,
       'artists': artists.map((artist) => artist.toJson()).toList(),
@@ -91,3 +81,22 @@ class SongItem {
   }
 }
 
+class Artist {
+  final int id;
+  final String aliasName;
+  final String realName;
+
+  Artist({required this.id, required this.aliasName, required this.realName});
+
+  factory Artist.fromJson(Map<String, dynamic> json) {
+    return Artist(
+      id: json['id'] ?? 0, // Default to 0 if null
+      aliasName: json['aliasName'] ?? 'Unknown', // Default to 'Unknown' if null
+      realName: json['realName'] ?? 'Unknown', // Default to 'Unknown' if null
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'aliasName': aliasName, 'realName': realName};
+  }
+}
