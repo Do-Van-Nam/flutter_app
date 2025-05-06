@@ -1,45 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/AppState.dart';
+import 'package:flutter_app/models/song_item.dart';
+import 'package:provider/provider.dart';
 
-// Model class for song items
-class SongItem {
-  final int id;
-  final String title;
-  final String artist;
-  final String playCount;
-  final String duration;
-  final bool isFavorite;
-  final String? imageUrl;
-
-  const SongItem({
-    required this.id,
-    required this.title,
-    required this.artist,
-    required this.playCount,
-    required this.duration,
-    required this.isFavorite,
-    this.imageUrl,
-  });
-
-  SongItem copyWith({
-    int? id,
-    String? title,
-    String? artist,
-    String? playCount,
-    String? duration,
-    bool? isFavorite,
-    String? imageUrl,
-  }) {
-    return SongItem(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      artist: artist ?? this.artist,
-      playCount: playCount ?? this.playCount,
-      duration: duration ?? this.duration,
-      isFavorite: isFavorite ?? this.isFavorite,
-      imageUrl: imageUrl ?? this.imageUrl,
-    );
-  }
-}
 
 class MusicPlaylistWidget extends StatefulWidget {
   final List<SongItem>? songs;
@@ -77,7 +40,9 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
   @override
   void initState() {
     super.initState();
-    _songs = widget.songs ?? _getDefaultSongs();
+    final appState = Provider.of<AppState>(context);
+    _songs = appState.songs;
+    // _songs = widget.songs ?? _getDefaultSongs();
     _currentlyPlayingIndex = widget.currentlyPlayingIndex;
   }
 
@@ -85,45 +50,33 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
   void didUpdateWidget(MusicPlaylistWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.songs != oldWidget.songs) {
-      _songs = widget.songs ?? _getDefaultSongs();
+      // _songs = widget.songs ?? _getDefaultSongs();
     }
     if (widget.currentlyPlayingIndex != oldWidget.currentlyPlayingIndex) {
       _currentlyPlayingIndex = widget.currentlyPlayingIndex;
     }
   }
 
-  List<SongItem> _getDefaultSongs() {
-    return List.generate(
-      18,
-      (index) => SongItem(
-        id: index + 1,
-        title: 'Như Chưa Bao Giờ',
-        artist: 'Hồ Quang Hiếu',
-        playCount: '1.923.929',
-        duration: '05:24',
-        isFavorite: false,
-      ),
-    );
-  }
+  
 
   void _handleSongTap(int index) {
-    if (widget.onSongTap != null) {
-      widget.onSongTap!(index);
-    } else {
-      setState(() {
-        _currentlyPlayingIndex = index;
-      });
-    }
+    // if (widget.onSongTap != null) {
+    //   widget.onSongTap!(index);
+    // } else {
+    //   setState(() {
+    //     _currentlyPlayingIndex = index;
+    //   });
+    // }
   }
 
   void _handleFavoriteTap(int index, bool isFavorite) {
-    if (widget.onFavoriteTap != null) {
-      widget.onFavoriteTap!(index, isFavorite);
-    } else {
-      setState(() {
-        _songs[index] = _songs[index].copyWith(isFavorite: isFavorite);
-      });
-    }
+    // if (widget.onFavoriteTap != null) {
+    //   widget.onFavoriteTap!(index, isFavorite);
+    // } else {
+    //   setState(() {
+    //     // _songs[index] = _songs[index].copyWith(isFavorite: isFavorite);
+    //   });
+    // }
   }
 
   void _handleOptionsTap(int index) {
@@ -223,7 +176,7 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: Image.network(
-                            song.imageUrl ?? 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-t3xrEk9aPc7EBWsyugb2cBvuCqg7hh.png',
+                            song.avatar,
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
@@ -241,18 +194,18 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(song.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                              Text(song.artist, style: TextStyle(color: Colors.grey[600], fontSize: 13)),
+                              Text(song.songName ?? "", style: const TextStyle(fontWeight: FontWeight.bold)),
+                              Text(song.artists.isNotEmpty ? song.artists[0].aliasName ?? "" : "", style: TextStyle(color: Colors.grey[600], fontSize: 13)),
                             ],
                           ),
                         ),
                         Expanded(
                           flex: 2,
-                          child: Text(song.playCount, style: TextStyle(color: Colors.grey[700])),
+                          child: Text(song.totalListens.toString(), style: TextStyle(color: Colors.grey[700])),
                         ),
                         Expanded(
                           flex: 2,
-                          child: Text(song.duration, style: TextStyle(color: Colors.grey[700])),
+                          child: Text(song.duration.toString(), style: TextStyle(color: Colors.grey[700])),
                         ),
                         SizedBox(
                           width: 100,
@@ -261,11 +214,11 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                             children: [
                               IconButton(
                                 icon: Icon(
-                                  song.isFavorite ? Icons.favorite : Icons.favorite_border,
+                                  song.isLike==1 ? Icons.favorite : Icons.favorite_border,
                                   color: Colors.red,
                                 ),
-                                onPressed: () => _handleFavoriteTap(index, !song.isFavorite),
-                              ),
+                                onPressed: () => _handleFavoriteTap(index, song.isLike != 1),
+                              ),  
                               IconButton(
                                 icon: const Icon(Icons.more_vert),
                                 color: Colors.black,

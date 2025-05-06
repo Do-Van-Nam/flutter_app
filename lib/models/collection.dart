@@ -12,13 +12,14 @@ class Collection {
   });
 
   factory Collection.fromJson(Map<String, dynamic> json) {
-    return Collection(
-      collectionId: json['collectionId'],
-      collectionName: json['collectionName'],
-      items: (json['items'] as List)
-          .map((item) => CollectionItem.fromJson(item))
-          .toList(),
-    );
-  }
+  return Collection(
+    collectionId: json['collectionId'] ?? 0,
+    collectionName: json['collectionName'] ?? '',
+    items: (json['items'] as List?)
+            ?.map((item) => CollectionItem.fromJson(item))
+            .toList() 
+        ?? [],
+  );
+}
 }
 

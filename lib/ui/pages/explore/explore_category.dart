@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/AppState.dart';
+import 'package:flutter_app/models/collection_item.dart';
 import 'package:flutter_app/routes/app_pages.dart';
 import 'package:flutter_app/ui/pages/layout/main_layout.dart';
 import 'package:flutter_app/ui/pages/home/widgets/main_content.dart';
@@ -8,12 +10,16 @@ import 'dart:math';
 import 'package:flutter_app/ui/pages/explore/explore_screen.dart';
 
 import 'package:get/state_manager.dart';
+import 'package:provider/provider.dart';
 
 class ExploreCategoryScreen extends StatelessWidget {
-  const ExploreCategoryScreen({super.key});
+  ExploreCategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+    final collection = appState.collections;
+    
     return MainLayout(
       content: Container(
         color: Color(0xFFF5F5F5),
@@ -24,42 +30,34 @@ class ExploreCategoryScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // category Section
-              Text(
-                "Tâm trạng và thể loại",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 24,
-                  height: 36 / 24, // line-height divided by font-size
-                  letterSpacing: 0,
-                ),
-                // style: const TextStyle(
-                //   fontWeight: FontWeight.bold,
-                //   fontSize: 18,
-                // ),
-              ),
-              const SizedBox(height: 16),
-              buildCategorySection(),
-              const SizedBox(height: 24),
+              ...collection.asMap().entries.map((entry) {
+                int index = entry.key;
 
-              // category Section
-              Text(
-                "Dòng nhạc",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 24,
-                  height: 36 / 24, // line-height divided by font-size
-                  letterSpacing: 0,
-                ),
-                // style: const TextStyle(
-                //   fontWeight: FontWeight.bold,
-                //   fontSize: 18,
-                // ),
-              ),
-              const SizedBox(height: 16),
-              buildCategorySection(),
-              const SizedBox(height: 24),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      collection[index].collectionName,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                        height: 36 / 24, // line-height divided by font-size
+                        letterSpacing: 0,
+                      ),
+                      // style: const TextStyle(
+                      //   fontWeight: FontWeight.bold,
+                      //   fontSize: 18,
+                      // ),
+                    ),
+                    const SizedBox(height: 16),
+                    buildCategorySection(collection[index].items),
+                    const SizedBox(height: 24),
+                  ],
+                );
+              }).toList(),
+
+             
             ],
           ),
         ),
@@ -67,57 +65,18 @@ class ExploreCategoryScreen extends StatelessWidget {
     );
   }
 }
-Widget buildCategorySection() {
-  Color getRandomBoldColor() {
-    final random = Random();
-    return Color.fromARGB(
-      255,
-      random.nextInt(256),
-      random.nextInt(256),
-      random.nextInt(256),
-    ).withOpacity(0.8);
-  }
 
-  List<String> musicCategories = [
-    'Nhạc US UK',
-    'Thư giãn',
-    'EDM',
-    'Pop',
-    'Rock',
-    'Jazz',
-    'Classical',
-    'Hip Hop',
-    'Country',
-  ];
-
-  String getRandomCategoryName() {
-    final random = Random();
-    return musicCategories[random.nextInt(musicCategories.length)];
-  }
-
-  List<Map<String, dynamic>> categories = [
-    {'title': 'Nhạc US UK', 'color': Color(0xFFAA00FF)},
-    {'title': 'Thư giãn', 'color': Color(0xFF00C853)},
-    {'title': 'EDM', 'color': Color(0xFF2962FF)},
-    {'title': 'Pop', 'color': Color(0xFFFF5722)},
-    {'title': 'Rock', 'color': Color(0xFF3F51B5)},
-    {'title': 'Jazz', 'color': Color(0xFFFFC107)},
-    {'title': 'Classical', 'color': Color(0xFF607D8B)},
-    {'title': 'Hip Hop', 'color': Color(0xFFE91E63)},
-    {'title': 'Country', 'color': Color(0xFFFFEB3B)},
-  ];
-
+Widget buildCategorySection(List<CollectionItem> items) {
+  
   List<Widget> buildCategoryItems() {
-    return List.generate(categories.length, (index) {
+    return List.generate(items.length, (index) {
       return Container(
         width: 220,
         margin: EdgeInsets.only(
           right: (index + 1) % 4 == 0 ? 0 : 8, // Adjust margin for wrapping
           bottom: 16, // Add bottom margin for spacing between lines
         ),
-        child: CustomCategoryItem(
-          text: categories[index]['title'],
-        ),
+        child: CustomCategoryItem(text: items[index].itemName, index: items[index].id), // Updated to use items[index].title
       );
     });
   }

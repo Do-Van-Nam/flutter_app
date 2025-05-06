@@ -14,7 +14,7 @@ abstract class Routes {
   static const LIBRARY_ALBUM = '/library/album';
   static const ARTIST_DETAIL = '/artist/:slug';
   static const EXPLORE_CATEGORY = '/explore/category';
-  static const EXPLORE_CATEGORY_DETAIL = '/explore/category/:slug';
+  static const EXPLORE_CATEGORY_DETAIL = '/explore/category/:collectionName/:collectionId';
   static const EXPLORE_RANKING = '/explore/ranking';
   static const EXPLORE_RANKING_DETAIL = '/explore/ranking/:slug';
   static const EXPLORE_NEW_RELEASE = '/explore/new-release';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/AppState.dart';
 import 'package:flutter_app/models/collection.dart';
 import 'package:flutter_app/models/rank_list.dart';
 import 'package:flutter_app/models/recommend_song_item.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_app/services/new_song_service.dart';
 import 'package:flutter_app/services/rank_list_service.dart';
 import 'package:flutter_app/services/recommend_song_service.dart';
 import 'package:flutter_app/ui/widgets/search_bar.dart';
+import 'package:provider/provider.dart';
 import 'section_header.dart';
 import 'song_list_item.dart';
 import 'chart_item.dart';
@@ -234,6 +236,8 @@ Widget buildChartsSection(context) {
                 artist: charts[0].items[i].artists[0].aliasName,
                 imageIndex: charts[0].items[i].avatar,
               ),
+      SizedBox(height: 8),
+          
           ],
         ),
       ),
@@ -305,6 +309,8 @@ Widget buildChartsSection(context) {
                 artist: charts[1].items[i].artists[0].aliasName,
                 imageIndex: charts[1].items[i].avatar,
               ),
+      SizedBox(height: 8),
+
           ],
         ),
       ),
@@ -380,6 +386,8 @@ Widget buildChartsSection(context) {
                   artist: charts[0].items[i].artists[0].aliasName,
                   imageIndex: charts[0].items[i].avatar,
                 ),
+      SizedBox(height: 8),
+
             ],
           ),
         ),
@@ -453,6 +461,8 @@ Widget buildChartsSection(context) {
                   artist: charts[1].items[i].artists[0].aliasName,
                   imageIndex: 'i + 5',
                 ),
+      SizedBox(height: 8),
+
             ],
           ),
         ),
@@ -561,6 +571,11 @@ Widget buildNewMusicSection() {
         return const Center(child: Text('No new music available'));
       } else {
         final songs = snapshot.data!;
+        
+        Provider.of<AppState>(
+          context,
+          listen: false,
+        ).setSongs(snapshot.data!);
         return SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Row(
