@@ -124,7 +124,6 @@ class HomeController extends GetxController {
       }).toList();
     }
   }
-  
   void onSongTap(Song song) {
     Get.toNamed(Routes.MUSIC_DETAIL, arguments: song);
   }

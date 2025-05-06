@@ -33,15 +33,19 @@ class MusicPlaylistWidget extends StatefulWidget {
 }
 
 class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
-  late List<SongItem> _songs;
+  List<SongItem> _songs =[];
   int? _currentlyPlayingIndex;
   int? _hoveredIndex;
 
   @override
   void initState() {
     super.initState();
-    final appState = Provider.of<AppState>(context);
-    _songs = appState.songs;
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    final appState = Provider.of<AppState>(context, listen: false);
+    setState(() {
+      _songs = appState.songs;
+    });
+  });
     // _songs = widget.songs ?? _getDefaultSongs();
     _currentlyPlayingIndex = widget.currentlyPlayingIndex;
   }
@@ -106,6 +110,9 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (_songs.isEmpty) {
+  return const Center(child: CircularProgressIndicator());
+}
     return Column(
       children: [
         if (widget.showHeader)
@@ -171,7 +178,7 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                               ? const Icon(Icons.play_arrow, color: Colors.red)
                               : isHovered
                                   ? const Icon(Icons.play_arrow, color: Colors.grey)
-                                  : Text('${song.id}', style: const TextStyle(fontSize: 16)),
+                                  : Text('${index+1}', style: const TextStyle(fontSize: 16)),
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),

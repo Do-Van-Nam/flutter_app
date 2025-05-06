@@ -1,3 +1,5 @@
+import 'package:flutter_app/models/author.dart';
+
 import 'artist.dart';
 
 class SongItem {
@@ -14,8 +16,11 @@ class SongItem {
   final int totalLiked;
   final int totalShared;
   final int totalComment;
+  final String? countryNameVn;
+  final String? countryNameEn;
   final bool? hasLyric;
   final int isLike;
+  final Author? author;
   final int numberOfArtists;
   final List<Artist> artists;
   final String link;
@@ -34,8 +39,11 @@ class SongItem {
     required this.totalLiked,
     required this.totalShared,
     required this.totalComment,
+    this.countryNameVn,
     this.hasLyric,
+    this.countryNameEn,
     required this.isLike,
+    this.author,
     required this.numberOfArtists,
     required this.artists,
     required this.link,
@@ -55,8 +63,11 @@ class SongItem {
       totalLiked: json['totalLiked'] ?? 0, // Default to 0 if null
       totalShared: json['totalShared'] ?? 0, // Default to 0 if null
       totalComment: json['totalComment'] ?? 0, // Default to 0 if null
+      countryNameEn: json['countryNameEn'] ?? '', // Default to empty string if null
+      countryNameVn: json['countryNameVn'] ?? '',
       hasLyric: json['hasLyric'], // Optional field, can be null
       isLike: json['isLike'] ?? 0, // Default to 0 if null
+      author: json['author'] != null ? Author.fromJson(json['author']) : null, // Default to null if not present
       numberOfArtists: json['numberOfArtists'] ?? 0, // Default to 0 if null
       artists: (json['artists'] as List<dynamic>?)
               ?.map((artistJson) => Artist.fromJson(artistJson))
@@ -81,8 +92,11 @@ class SongItem {
       'totalLiked': totalLiked,
       'totalShared': totalShared,
       'totalComment': totalComment,
+      'countryNameVn': countryNameVn,
+      'countryNameEn': countryNameEn,
       'hasLyric': hasLyric,
       'isLike': isLike,
+      'author': author?.toJson(),
       'numberOfArtists': numberOfArtists,
       'artists': artists.map((artist) => artist.toJson()).toList(),
       'link': link,
