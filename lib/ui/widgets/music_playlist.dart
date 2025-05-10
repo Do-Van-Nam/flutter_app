@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/AppState.dart';
 import 'package:flutter_app/models/song_item.dart';
+import 'package:flutter_app/services/song_service.dart';
 import 'package:provider/provider.dart';
 
 
@@ -64,23 +65,40 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
   
 
   void _handleSongTap(int index) {
-    // if (widget.onSongTap != null) {
-    //   widget.onSongTap!(index);
-    // } else {
-    //   setState(() {
-    //     _currentlyPlayingIndex = index;
-    //   });
-    // }
+    _setSong(
+      _songs[index],
+    );
+    if (widget.onSongTap != null) {
+      widget.onSongTap!(index);
+    } else {
+      setState(() {
+        _currentlyPlayingIndex = index;
+      });
+    }
   }
 
-  void _handleFavoriteTap(int index, bool isFavorite) {
-    // if (widget.onFavoriteTap != null) {
-    //   widget.onFavoriteTap!(index, isFavorite);
-    // } else {
-    //   setState(() {
-    //     // _songs[index] = _songs[index].copyWith(isFavorite: isFavorite);
-    //   });
-    // }
+  void _handleFavoriteTap(int index, SongItem song,bool isFavorite) async {
+  // void _handleFavoriteTap(int index, bool isFavorite) {
+    if (widget.onFavoriteTap != null) {
+      widget.onFavoriteTap!(index, isFavorite);
+    } else {
+      setState(() {
+        // _songs[index] = _songs[index].copyWith(isFavorite: isFavorite);
+        _songs[index].isLike = isFavorite ? 1 : 0;
+      });
+    }
+    final likeUnlikeSongService = SongService();
+    await likeUnlikeSongService.likeUnlikeSong(params: {
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'songId': song.id,
+      'like': 1,
+      'userName': '1',
+      'action': song.isLike!=1 ? 'LIKE' : 'UNLIKE', // hoặc 'UNLIKE'
+      
+      'songName': 'New Song',
+      'songAvatar': 'https://link.to/image.jpg',
+    });
+
   }
 
   void _handleOptionsTap(int index) {
@@ -107,7 +125,10 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
       );
     }
   }
-
+void _setSong(SongItem song) {
+    final appState = Provider.of<AppState>(context, listen: false);
+    appState.setSong(song);
+  }
   @override
   Widget build(BuildContext context) {
     if (_songs.isEmpty) {
@@ -183,7 +204,7 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: Image.network(
-                            song.avatar,
+                            song?.avatar ?? 'https://via.placeholder.com/50',
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
@@ -224,7 +245,7 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                                   song.isLike==1 ? Icons.favorite : Icons.favorite_border,
                                   color: Colors.red,
                                 ),
-                                onPressed: () => _handleFavoriteTap(index, song.isLike != 1),
+                                onPressed: () => _handleFavoriteTap(index, song, song.isLike!=1),
                               ),  
                               IconButton(
                                 icon: const Icon(Icons.more_vert),

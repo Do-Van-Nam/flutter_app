@@ -34,6 +34,20 @@ class CollectionListService {
       throw Exception('Failed to load content');
     }
   }
+
+Future<void> createPlaylist({Map<String, dynamic>? params}) async {
+    final response = await _apiService.post(
+      'user/playlist/create',
+      queryParameters: params,
+    );
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception('Failed to load content');
+    }
+  }
+
 }
 
 

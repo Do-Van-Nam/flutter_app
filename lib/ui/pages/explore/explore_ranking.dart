@@ -52,6 +52,22 @@ class ExploreRankingScreen extends StatelessWidget {
             // ), 
             // MusicPlaylistScreen(),
             // MusicPlaylistWidget(),
+            Text(
+                "Top 10 bài hát hàng đầu",
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  height: 36 / 24, // line-height divided by font-size
+                  letterSpacing: 0,
+                ),
+                // style: const TextStyle(
+                //   fontWeight: FontWeight.bold,
+                //   fontSize: 18,
+                // ),
+              ),
+            const SizedBox(height: 16),
+
             SizedBox(
   height:  MediaQuery.of(context).size.height * 0.6,
   child: MusicPlaylistWidget(),

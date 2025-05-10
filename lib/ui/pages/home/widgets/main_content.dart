@@ -6,7 +6,7 @@ import 'package:flutter_app/models/recommend_song_item.dart';
 import 'package:flutter_app/models/song_item.dart';
 import 'package:flutter_app/routes/app_pages.dart';
 import 'package:flutter_app/services/collection_list_service.dart';
-import 'package:flutter_app/services/new_song_service.dart';
+import 'package:flutter_app/services/song_service.dart';
 import 'package:flutter_app/services/rank_list_service.dart';
 import 'package:flutter_app/services/recommend_song_service.dart';
 import 'package:flutter_app/ui/widgets/search_bar.dart';
@@ -559,7 +559,7 @@ Widget buildFeaturedArtistsSection() {
 
 Widget buildNewMusicSection() {
   late Future<List<SongItem>> _futureContent;
-  _futureContent = NewSongService().fetchNewSongContent();
+  _futureContent = SongService().fetchNewSongContent();
   return FutureBuilder<List<SongItem>>(
     future: _futureContent,
     builder: (context, snapshot) {

@@ -84,7 +84,7 @@ Widget buildCategorySection(List<CollectionItem> items) {
   return SizedBox(
     width: double.infinity, // Make the wrap take 100% width of its parent
     child: Wrap(
-      alignment: WrapAlignment.spaceBetween,
+      alignment: WrapAlignment.start,
       spacing: 8, // Horizontal spacing between items
       children: buildCategoryItems(),
     ),

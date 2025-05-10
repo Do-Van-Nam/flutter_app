@@ -32,7 +32,7 @@ class _BannerSliderState extends State<BannerSlider> {
           return const Center(child: Text('Error loading banner'));
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return Container(
-            height: 180,
+            height: 250,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
@@ -51,7 +51,7 @@ class _BannerSliderState extends State<BannerSlider> {
               children: [
                 Positioned(
                   right: 16,
-                  top: 90,
+                  top: 125,
                   // bottom: 0,
                   child: GestureDetector(
                     onTap:
@@ -80,7 +80,7 @@ class _BannerSliderState extends State<BannerSlider> {
 
                 Positioned(
                   left: 16,
-                  top: 90,
+                  top: 125,
                   // bottom: 0,
                   child: GestureDetector(
                     onTap:

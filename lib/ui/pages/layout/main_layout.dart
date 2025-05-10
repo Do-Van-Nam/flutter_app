@@ -63,7 +63,7 @@ class MainLayout extends StatelessWidget {
           ) : Expanded(child: content)  ,
 
           // Bottom Player Controls
-          const PlayerControls(),
+           PlayerControls(),
         ],
       )
       

@@ -7,6 +7,13 @@ class AppState with ChangeNotifier {
   bool _isExpanded = true;
   List<Collection> _collections =[];
   List<SongItem> _songs = [];
+  SongItem? song ;
+
+SongItem? get getSong => song;
+  void setSong(SongItem? value) {
+    song = value;
+    notifyListeners();
+  }
 
   int get selectedIndex => _selectedIndex;
   set selectedIndex(int index) {

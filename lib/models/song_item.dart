@@ -1,4 +1,5 @@
 import 'package:flutter_app/models/author.dart';
+import 'package:flutter_app/models/categories.dart';
 
 import 'artist.dart';
 
@@ -19,10 +20,12 @@ class SongItem {
   final String? countryNameVn;
   final String? countryNameEn;
   final bool? hasLyric;
-  final int isLike;
+  final String? lyric;
+  int isLike;
   final Author? author;
   final int numberOfArtists;
   final List<Artist> artists;
+  final List<Categorie>? categories;
   final String link;
 
   SongItem({
@@ -41,11 +44,13 @@ class SongItem {
     required this.totalComment,
     this.countryNameVn,
     this.hasLyric,
+    this.lyric,
     this.countryNameEn,
     required this.isLike,
     this.author,
     required this.numberOfArtists,
     required this.artists,
+    this.categories,
     required this.link,
   });
 
@@ -66,6 +71,7 @@ class SongItem {
       countryNameEn: json['countryNameEn'] ?? '', // Default to empty string if null
       countryNameVn: json['countryNameVn'] ?? '',
       hasLyric: json['hasLyric'], // Optional field, can be null
+      lyric: json['lyric'], // Optional field, can be null
       isLike: json['isLike'] ?? 0, // Default to 0 if null
       author: json['author'] != null ? Author.fromJson(json['author']) : null, // Default to null if not present
       numberOfArtists: json['numberOfArtists'] ?? 0, // Default to 0 if null
@@ -73,6 +79,11 @@ class SongItem {
               ?.map((artistJson) => Artist.fromJson(artistJson))
               .toList() ??
           [], // Handle null artists list
+
+          categories: (json['categories'] as List<dynamic>?)
+              ?.map((categorieJson) => Categorie.fromJson(categorieJson))
+              .toList() ??
+          [], // Handle null categories list
       link: json['link'] ?? '', // Default to empty string if null
       countryCode: json['countryCode'], // Optional field, can be null
     );
@@ -95,10 +106,12 @@ class SongItem {
       'countryNameVn': countryNameVn,
       'countryNameEn': countryNameEn,
       'hasLyric': hasLyric,
+      'lyric': lyric,
       'isLike': isLike,
       'author': author?.toJson(),
       'numberOfArtists': numberOfArtists,
       'artists': artists.map((artist) => artist.toJson()).toList(),
+      'categories': categories?.map((categorie) => categorie.toJson()).toList() ?? [],
       'link': link,
       'countryCode': countryCode,
     };
