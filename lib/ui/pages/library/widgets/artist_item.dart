@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/routes/app_pages.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class ArtistItem extends StatefulWidget {
   final String artistName;
   final String imageUrl;
   final int songCount;
+  final int id;
   final Function()? onViewDetails;
   final Function()? onAddToPlaylist;
   final Function()? onShare;
@@ -12,6 +16,7 @@ class ArtistItem extends StatefulWidget {
     required this.artistName,
     required this.imageUrl,
     required this.songCount,
+    required this.id,
     this.onViewDetails,
     this.onAddToPlaylist,
     this.onShare,
@@ -26,7 +31,8 @@ class _ArtistItemState extends State<ArtistItem> {
   bool _isHovered = false;
 
   void _showDropdown() {
-    final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        _key.currentContext!.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero);
 
     showMenu(
@@ -42,7 +48,10 @@ class _ArtistItemState extends State<ArtistItem> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(Icons.shuffle, color: Colors.black), // Icon cho menu item
+              const Icon(
+                Icons.shuffle,
+                color: Colors.black,
+              ), // Icon cho menu item
               const SizedBox(width: 8),
               const Text(
                 'Phát ngẫu nhiên',
@@ -56,12 +65,12 @@ class _ArtistItemState extends State<ArtistItem> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(Icons.remove_circle_outline, color: Colors.black), // Icon cho menu item
+              const Icon(
+                Icons.remove_circle_outline,
+                color: Colors.black,
+              ), // Icon cho menu item
               const SizedBox(width: 8),
-              const Text(
-                'Bỏ quan tâm',
-                style: TextStyle(color: Colors.black),
-              ),
+              const Text('Bỏ quan tâm', style: TextStyle(color: Colors.black)),
             ],
           ),
           onTap: widget.onAddToPlaylist,
@@ -70,12 +79,12 @@ class _ArtistItemState extends State<ArtistItem> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(Icons.share, color: Colors.black), // Icon cho menu item
+              const Icon(
+                Icons.share,
+                color: Colors.black,
+              ), // Icon cho menu item
               const SizedBox(width: 8),
-              const Text(
-                'Chia sẻ',
-                style: TextStyle(color: Colors.black),
-              ),
+              const Text('Chia sẻ', style: TextStyle(color: Colors.black)),
             ],
           ),
           onTap: widget.onShare,
@@ -90,14 +99,18 @@ class _ArtistItemState extends State<ArtistItem> {
 
   @override
   Widget build(BuildContext context) {
+    // final safeSlug = Uri.encodeComponent(widget.artistName);
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: InkWell(
         key: _key,
-        onTap: _showDropdown,
+        onTap: () => Get.toNamed('/artist/${widget.id}'),
         child: Container(
-          color: _isHovered ? Colors.red[100] : Colors.transparent, // Hover chuyển sang màu đỏ nhạt
+          color:
+              _isHovered
+                  ? Colors.red[100]
+                  : Colors.transparent, // Hover chuyển sang màu đỏ nhạt
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Row(
             children: [
@@ -119,15 +132,18 @@ class _ArtistItemState extends State<ArtistItem> {
                     ),
                     Text(
                       '${widget.songCount} bài hát',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.more_vert,color: Colors.black,),
+              IconButton(
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: Colors.black,
+                ),
+                onPressed: _showDropdown,
+              ), // Icon cho menu
             ],
           ),
         ),

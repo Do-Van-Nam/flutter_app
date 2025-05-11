@@ -29,7 +29,7 @@ class _AddPlaylistWidgetState extends State<AddPlaylistWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: 400,
       height: 220,
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(

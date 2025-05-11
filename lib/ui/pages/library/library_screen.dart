@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/artist.dart';
 import 'package:flutter_app/routes/app_pages.dart';
 import 'package:flutter_app/ui/pages/home/widgets/category_chip.dart';
 import 'package:flutter_app/ui/pages/layout/main_layout.dart';
@@ -30,7 +31,11 @@ class _CategoryRowState extends State<LibraryScreen> {
       selectedIndex = index;
     });
   }
-
+final List<Artist> items = [
+    Artist(id: 1, aliasName: 'Scotty McCreery', realName: 'Real Artist 1',avatar: 'https://freeimg.umusic.la/cms_upload/artist/2024/01/17/b8027b898bd006ed00ce8c39915e3a74.png'),
+    Artist(id: 3, aliasName: 'Lê Hiếu', realName: 'Real Artist 2',avatar: 'https://freeimg.umusic.la/cms_upload/artist/2023/02/04/f3aca1f7f88e470ac98efe8a833e07eb.jpg'),
+    Artist(id: 4, aliasName: 'The Men', realName: 'Real Artist 3',avatar: 'https://freeimg.umusic.la/cms_upload/artist/2022/10/28/2f03c1d3ba24b6c233a5be48d6bcd5b8.jpg'),
+  ];
   final List<String> categories = ['Bài hát', 'Playlist', 'Nghệ sĩ', 'Album'];
   @override
   Widget build(BuildContext context) {
@@ -170,14 +175,15 @@ class _CategoryRowState extends State<LibraryScreen> {
                 ),
                 2 => Column(
                   children: [
-                    for (int i = 1; i <= 5; i++)
+                    for (int i = 0; i <= 2; i++)
                       Padding(
                         padding: const EdgeInsets.only(right: 16),
                         child: ArtistItem(
+                          id: items[i].id,
                           imageUrl:
-                              'https://example.com/image$i.jpg', // Updated to use a valid image URL
-                          artistName: 'Như Chưa Bao Giờ',
-                          songCount: 10,
+                              items[i].avatar ?? '', // Updated to use a valid image URL
+                          artistName: items[i].aliasName,
+                          songCount: Random().nextInt(10),
                           onViewDetails: () {},
                           onAddToPlaylist: () {},
                           onShare: () {},

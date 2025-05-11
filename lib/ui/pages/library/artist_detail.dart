@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/artist.dart';
+import 'package:flutter_app/services/artist_service.dart';
 import 'package:flutter_app/ui/pages/home/widgets/album_item.dart';
 import 'package:flutter_app/ui/pages/layout/main_layout.dart';
 import 'package:flutter_app/ui/pages/home/widgets/main_content.dart';
@@ -12,8 +14,25 @@ class ArtistDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final category = Get.parameters['slug'];
-    return MainLayout(
+    final id = Get.parameters['slug'];
+    final Future<Artist> futureContent = ArtistService().fetchArtistInfo(
+      params: {'timestamp': 1714387200, 'artistId': id},
+    );
+    return FutureBuilder<Artist>(
+      future: futureContent,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          print(futureContent);
+          print(snapshot.error);
+          return const Center(child: Text('Error loading content'));
+        } else if (snapshot.hasData) {
+          final artist = snapshot.data!;
+    return 
+
+
+    MainLayout(
       content: Container(
         color: Color(0xFFF5F5F5),
         height: double.infinity,
@@ -32,7 +51,8 @@ class ArtistDetailScreen extends StatelessWidget {
                   CircleAvatar(
                     radius: 40,
                     backgroundImage: NetworkImage(
-                        'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-arSQPQZZ8AFG1N48ApRByBX2EzQPD1.png'),
+                      artist.avatar ?? 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-bjbBMiJau0mAmg4ubLQ73GFNDgL3IS.png',
+                    ),
                   ),
                   const SizedBox(width: 16),
                   // Profile Info
@@ -41,7 +61,7 @@ class ArtistDetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          category?? 'Kim Tae-hyung',
+                          artist.realName?? 'Kim Tae-hyung',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -127,7 +147,7 @@ class ArtistDetailScreen extends StatelessWidget {
                     height: 220,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-bjbBMiJau0mAmg4ubLQ73GFNDgL3IS.png'),
+                        image: NetworkImage(artist.avatar ?? 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-bjbBMiJau0mAmg4ubLQ73GFNDgL3IS.png'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -147,9 +167,9 @@ class ArtistDetailScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          _buildInfoRow('Tên thật', 'Benzen'),
-                          _buildInfoRow('Ngày sinh', '2 tháng 5, 1988'),
-                          _buildInfoRow('Quốc gia', 'Hoa Kỳ'),
+                          _buildInfoRow('Tên thật', artist.realName ?? 'Kim Tae-hyung'),
+                          _buildInfoRow('Ngày sinh', artist.birthday ?? '30/12/1995'),
+                          _buildInfoRow('Quốc gia', artist.countryName ?? 'Hoa Kỳ'),
                           _buildInfoRow('Thể loại', 'Pop, Salad, Gỏi cuốn'),
                           const SizedBox(height: 12),
                           const Text(
@@ -175,6 +195,11 @@ class ArtistDetailScreen extends StatelessWidget {
         ),
       ),
     ),
+    );
+        } else {
+          return const Center(child: Text("No data available"));
+        }
+      },
     );
   }
 }

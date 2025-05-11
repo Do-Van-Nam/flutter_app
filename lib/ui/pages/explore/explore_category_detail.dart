@@ -35,7 +35,8 @@ class ExploreCategoryDetailScreen extends StatelessWidget {
         } else if (snapshot.hasData) {
           final _collection = snapshot.data!;
 
-          return MainLayout(
+          return 
+          MainLayout(
             content: Container(
               color: Color(0xFFF5F5F5),
               height: double.infinity,
