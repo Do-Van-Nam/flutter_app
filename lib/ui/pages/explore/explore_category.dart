@@ -71,7 +71,7 @@ Widget buildCategorySection(List<CollectionItem> items) {
   List<Widget> buildCategoryItems() {
     return List.generate(items.length, (index) {
       return Container(
-        width: 220,
+        width: 140,
         margin: EdgeInsets.only(
           right: (index + 1) % 4 == 0 ? 0 : 8, // Adjust margin for wrapping
           bottom: 16, // Add bottom margin for spacing between lines

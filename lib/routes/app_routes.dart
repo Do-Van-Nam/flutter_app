@@ -20,4 +20,6 @@ abstract class Routes {
   static const EXPLORE_NEW_RELEASE = '/explore/new-release';
   static const MUSIC_DETAIL = '/music-detail';
   static const SETTINGS = '/settings';
+  static const NEWSONG = '/newsong';
+  static const RECOMMEND_SONG = '/recommend-song';
 }

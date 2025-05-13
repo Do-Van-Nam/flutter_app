@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/artist.dart';
+import 'package:flutter_app/routes/app_pages.dart';
 import 'package:flutter_app/services/artist_service.dart';
 import 'package:flutter_app/ui/pages/home/widgets/album_item.dart';
 import 'package:flutter_app/ui/pages/layout/main_layout.dart';
@@ -119,19 +120,58 @@ class ArtistDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             
-            SectionHeader(title: 'Đề xuất cho bạn', onSeeAllPressed: () {}),
+            SectionHeader(title: 'Đề xuất cho bạn', onSeeAllPressed: () {
+               Get.toNamed(Routes.RECOMMEND_SONG);
+            }),
             const SizedBox(height: 16),
             buildRecommendationsList(),
             const SizedBox(height: 24),
             
             // New Music Section
-            SectionHeader(title: 'Album nổi bật', onSeeAllPressed: () {}),
+            
+            Row(
+             crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                          'Album nổi bật',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+                height: 36 / 24, // line-height divided by font-size
+                letterSpacing: 0,
+                          ),
+                          // style: const TextStyle(
+                          //   fontWeight: FontWeight.bold,
+                          //   fontSize: 18,
+                          // ),
+                        ),
+              ],
+            ),
             const SizedBox(height: 16),
             buildNewMusicSection(),
             const SizedBox(height: 24),
 
             // New Music Section
-            SectionHeader(title: 'Xuất hiện trong', onSeeAllPressed: () {}),
+            Row(
+             crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                          'Xuất hiện trong',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+                height: 36 / 24, // line-height divided by font-size
+                letterSpacing: 0,
+                          ),
+                          // style: const TextStyle(
+                          //   fontWeight: FontWeight.bold,
+                          //   fontSize: 18,
+                          // ),
+                        ),
+              ],
+            ),
             const SizedBox(height: 16),
             buildNewMusicSection(),
             const SizedBox(height: 24),

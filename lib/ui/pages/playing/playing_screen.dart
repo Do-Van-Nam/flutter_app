@@ -1,25 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/AppState.dart';
 import 'package:flutter_app/models/song_item.dart';
-import 'package:flutter_app/routes/app_pages.dart';
 import 'package:flutter_app/services/song_service.dart';
-import 'package:flutter_app/ui/pages/home/widgets/category_chip.dart';
 import 'package:flutter_app/ui/pages/layout/main_layout.dart';
 import 'package:flutter_app/ui/pages/home/widgets/main_content.dart';
-import 'package:flutter_app/ui/pages/library/widgets/add_new_playlist_button.dart';
-import 'package:flutter_app/ui/pages/library/widgets/artist_item.dart';
-import 'package:flutter_app/ui/pages/library/widgets/library_album_item.dart';
-import 'package:flutter_app/ui/pages/library/widgets/playlist_item.dart';
-import 'package:flutter_app/ui/widgets/comment_popup/comment_popup.dart';
 import 'package:flutter_app/ui/widgets/music_playlist.dart';
 import 'package:flutter_app/ui/widgets/section_header.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
-import 'dart:math';
-import 'package:flutter_app/ui/pages/explore/explore_screen.dart';
-import 'package:flutter_app/ui/widgets/section_header.dart';
-
-import 'package:get/state_manager.dart';
 import 'package:provider/provider.dart';
 
 class PlayingScreen extends StatefulWidget {
@@ -649,8 +635,8 @@ class _CategoryRowState extends State<PlayingScreen> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
-                                    child: Image.asset(
-                                      'assets/images/Rectangle 6166-1.png',
+                                    child: Image.network(
+                                      song.avatar,
                                       width: 320,
                                       height: 320,
                                       fit: BoxFit.cover,
@@ -658,7 +644,7 @@ class _CategoryRowState extends State<PlayingScreen> {
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    "Taylor Swift",
+                                    song.songName,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
@@ -669,7 +655,7 @@ class _CategoryRowState extends State<PlayingScreen> {
                                   const SizedBox(height: 8),
 
                                   Text(
-                                    'by Taylor Swift',
+                                    'by ${song.artists[0].aliasName ?? ""}',
                                     style: TextStyle(
                                       color: const Color(0xFF757575),
                                       fontWeight: FontWeight.normal,
@@ -690,7 +676,7 @@ class _CategoryRowState extends State<PlayingScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        '10k Yeu thich',
+                                        '${song.totalLiked} Yeu thich',
                                         style: TextStyle(
                                           color: const Color(0xFF757575),
                                           fontWeight: FontWeight.normal,
@@ -707,7 +693,7 @@ class _CategoryRowState extends State<PlayingScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       Text(
-                                        '1000',
+                                        song.totalComment.toString(),
                                         style: TextStyle(
                                           color: const Color(0xFF757575),
                                           fontWeight: FontWeight.normal,
@@ -1198,8 +1184,16 @@ class _CategoryRowState extends State<PlayingScreen> {
               ),
             ),
           );
-        } // end of builder method
+        
+        
+        
+        
+        
+        
+        
+        
+        } 
       },
     );
-  } // end of build method
+  } 
 }

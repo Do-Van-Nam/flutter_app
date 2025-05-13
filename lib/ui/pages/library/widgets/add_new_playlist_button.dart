@@ -8,18 +8,20 @@ class AddNewPlaylist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile
+        = MediaQuery.of(context).size.width < 600; // Adjust the breakpoint as needed
     return GestureDetector(
       onTap: () => showAddPlaylistPopup(context),
       child: SizedBox(
-        width: 200,
+        width: isMobile ? 140 : 200,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Container(
-                width: 200,
-                height: 200,
+                width: isMobile ? 140 : 200,
+                height: isMobile ? 140 : 200,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,

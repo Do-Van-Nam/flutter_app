@@ -100,7 +100,8 @@ final List<Artist> items = [
                         ),
                       ),
                       underline: SizedBox(),
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                      icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                      dropdownColor: Colors.white, // Set dropdown menu background to white
                       items: [
                         DropdownMenuItem<String>(
                           value: "recent",
@@ -153,7 +154,7 @@ final List<Artist> items = [
                     runSpacing: 16,
                     children: [
                       AddNewPlaylist(),
-                      SizedBox(width: 16),
+                      SizedBox(width: 8),
                       for (int i = 1; i <= 5; i++)
                         GestureDetector(
                           onTap: () {

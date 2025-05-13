@@ -75,6 +75,7 @@ class ExploreCategoryDetailScreen extends StatelessWidget {
                                 image: _collection.items[i].avatar,
                                 title: _collection.items[i].itemName,
                                 artistName: _collection.items[i].itemName,
+                                // songItem: _collection.items[i].songItem,
                               ),
                             ),
                         ],

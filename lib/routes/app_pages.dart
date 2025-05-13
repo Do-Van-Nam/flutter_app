@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_app/ui/pages/explore/explore_ranking_detail.dart';
+import 'package:flutter_app/ui/pages/home/new_song_detail.dart';
+import 'package:flutter_app/ui/pages/home/recommend_song_detail.dart';
 import 'package:flutter_app/ui/pages/library/artist_detail.dart';
 import 'package:flutter_app/ui/pages/library/library_screen.dart';
 import 'package:flutter_app/ui/pages/library/playlist_detail.dart';
@@ -46,90 +48,130 @@ class AppPages {
       // page: () => HomePage(),
       // binding: HomeBinding(),
       page: () => HomeScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.EXPLORE,
       // page: () => ExplorePage(),
       // binding: ExploreBinding(),
       page: () => ExploreScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.ARTIST_DETAIL,
       // page: () => ExplorePage(),
       // binding: ExploreBinding(),
       page: () => ArtistDetailScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.PROFILE,
       // page: () => ProfilePage(),
       // binding: ProfileBinding(),
       page: () => ProfileScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
-     
+
     GetPage(
       name: Routes.PLAYING,
-
-
       page: () => PlayingScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.RESULTS,
-
-
       page: () => ResultsScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.LIBRARY,
       // page: () => HomePage(),
       // binding: HomeBinding(),
       page: () => LibraryScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.LIBRARY_PLAYLIST_DETAIL,
       // page: () => HomePage(),
       // binding: HomeBinding(),
       page: () => LibraryPlaylistDetailScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.EXPLORE_CATEGORY,
       // page: () => HomePage(),
       // binding: HomeBinding(),
       page: () => ExploreCategoryScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.EXPLORE_NEW_RELEASE,
       // page: () => HomePage(),
       // binding: HomeBinding(),
       page: () => ExploreNewReleaseScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.EXPLORE_CATEGORY_DETAIL,
       // page: () => HomePage(),
       // binding: HomeBinding(),
       page: () => ExploreCategoryDetailScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
-      
+
     GetPage(
       name: Routes.EXPLORE_RANKING,
       // page: () => HomePage(),
       // binding: HomeBinding(),
       page: () => ExploreRankingScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.EXPLORE_RANKING_DETAIL,
       // page: () => HomePage(),
       // binding: HomeBinding(),
       page: () => ExploreRankingDetailScreen(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.MUSIC_DETAIL,
       page: () => MusicDetailPage(),
       binding: MusicDetailBinding(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
     GetPage(
       name: Routes.SETTINGS,
       page: () => SettingsPage(),
       binding: SettingsBinding(),
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
+    ),
+    GetPage(
+      name: Routes.NEWSONG,
+      page: () => NewSongDetailScreen(),
+
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
+    ),
+    GetPage(
+      name: Routes.RECOMMEND_SONG,
+      page: () => RecommendSongDetailScreen(),
+
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
     ),
   ];
 }

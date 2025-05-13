@@ -180,13 +180,17 @@ class ExploreScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // New Music Section
-              SectionHeader(title: 'Nhạc mới', onSeeAllPressed: () {}),
+              SectionHeader(title: 'Nhạc mới', onSeeAllPressed: () {
+                Get.toNamed(Routes.NEWSONG);
+              }),
               const SizedBox(height: 16),
               buildNewMusicSection(),
               const SizedBox(height: 24),
 
               // category Section
-              SectionHeader(title: 'Thể loại', onSeeAllPressed: () {}),
+              SectionHeader(title: 'Thể loại', onSeeAllPressed: () {
+                Get.toNamed(Routes.EXPLORE_CATEGORY);
+              }),
               const SizedBox(height: 16),
               buildCategorySection(context),
               const SizedBox(height: 24),

@@ -21,8 +21,9 @@ class _LibraryAlbumItemState extends State<LibraryAlbumItem> {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = MediaQuery.of(context).size.width < 600; // Adjust the breakpoint as needed
     return SizedBox(
-      width: 200,
+      width: isMobile ? 140 : 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,8 +36,8 @@ class _LibraryAlbumItemState extends State<LibraryAlbumItem> {
                   borderRadius: BorderRadius.circular(8),
                   child: Image.asset(
                     'assets/images/Rectangle 6166-${widget.imageIndex}.png',
-                    width: 200,
-                    height: 200,
+                    width: isMobile ? 160 : 200,
+                    height: isMobile ? 160 : 200,
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -4,7 +4,6 @@ import 'package:flutter_app/models/song_item.dart';
 import 'package:flutter_app/services/song_service.dart';
 import 'package:provider/provider.dart';
 
-
 class MusicPlaylistWidget extends StatefulWidget {
   final List<SongItem>? songs;
   final int? currentlyPlayingIndex;
@@ -34,19 +33,19 @@ class MusicPlaylistWidget extends StatefulWidget {
 }
 
 class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
-  List<SongItem> _songs =[];
+  List<SongItem> _songs = [];
   int? _currentlyPlayingIndex;
   int? _hoveredIndex;
 
   @override
   void initState() {
     super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    final appState = Provider.of<AppState>(context, listen: false);
-    setState(() {
-      _songs = appState.songs;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final appState = Provider.of<AppState>(context, listen: false);
+      setState(() {
+        _songs = appState.songs;
+      });
     });
-  });
     // _songs = widget.songs ?? _getDefaultSongs();
     _currentlyPlayingIndex = widget.currentlyPlayingIndex;
   }
@@ -62,12 +61,8 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
     }
   }
 
-  
-
   void _handleSongTap(int index) {
-    _setSong(
-      _songs[index],
-    );
+    _setSong(_songs[index]);
     if (widget.onSongTap != null) {
       widget.onSongTap!(index);
     } else {
@@ -77,8 +72,8 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
     }
   }
 
-  void _handleFavoriteTap(int index, SongItem song,bool isFavorite) async {
-  // void _handleFavoriteTap(int index, bool isFavorite) {
+  void _handleFavoriteTap(int index, SongItem song, bool isFavorite) async {
+    // void _handleFavoriteTap(int index, bool isFavorite) {
     if (widget.onFavoriteTap != null) {
       widget.onFavoriteTap!(index, isFavorite);
     } else {
@@ -88,17 +83,18 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
       });
     }
     final likeUnlikeSongService = SongService();
-    await likeUnlikeSongService.likeUnlikeSong(params: {
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'songId': song.id,
-      'like': 1,
-      'userName': '1',
-      'action': song.isLike!=1 ? 'LIKE' : 'UNLIKE', // hoặc 'UNLIKE'
-      
-      'songName': 'New Song',
-      'songAvatar': 'https://link.to/image.jpg',
-    });
+    await likeUnlikeSongService.likeUnlikeSong(
+      params: {
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
+        'songId': song.id,
+        'like': 1,
+        'userName': '1',
+        'action': song.isLike != 1 ? 'LIKE' : 'UNLIKE', // hoặc 'UNLIKE'
 
+        'songName': 'New Song',
+        'songAvatar': 'https://link.to/image.jpg',
+      },
+    );
   }
 
   void _handleOptionsTap(int index) {
@@ -107,33 +103,39 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
     } else {
       showModalBottomSheet(
         context: context,
-        builder: (context) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.playlist_add),
-              title: const Text('Thêm vào danh sách phát'),
-              onTap: () => Navigator.pop(context),
+        builder:
+            (context) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.playlist_add),
+                  title: const Text('Thêm vào danh sách phát'),
+                  onTap: () => Navigator.pop(context),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.share),
+                  title: const Text('Chia sẻ'),
+                  onTap: () => Navigator.pop(context),
+                ),
+              ],
             ),
-            ListTile(
-              leading: const Icon(Icons.share),
-              title: const Text('Chia sẻ'),
-              onTap: () => Navigator.pop(context),
-            ),
-          ],
-        ),
       );
     }
   }
-void _setSong(SongItem song) {
+
+  void _setSong(SongItem song) {
     final appState = Provider.of<AppState>(context, listen: false);
     appState.setSong(song);
   }
+
   @override
   Widget build(BuildContext context) {
+    bool isMobile =
+        MediaQuery.of(context).size.width <
+        600; // Adjust the breakpoint as needed
     if (_songs.isEmpty) {
-  return const Center(child: CircularProgressIndicator());
-}
+      return const Center(child: CircularProgressIndicator());
+    }
     return Column(
       children: [
         if (widget.showHeader)
@@ -145,23 +147,42 @@ void _setSong(SongItem song) {
             ),
             child: Row(
               children: [
-                const SizedBox(width: 40, child: Text('#', style: TextStyle(fontWeight: FontWeight.bold))),
+                const SizedBox(
+                  width: 40,
+                  child: Text(
+                    '#',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
                 const SizedBox(width: 60), // image space
                 const Expanded(
                   flex: 2,
-                  child: Text('Bài hát', style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text(
+                    'Bài hát',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
-                const Expanded(
+               !isMobile ? const Expanded(
                   flex: 2,
-                  child: Text('Lượt phát', style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-                const Expanded(
+                  child: Text(
+                    'Lượt phát',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ) : SizedBox(),
+               !isMobile ?  const Expanded(
                   flex: 2,
-                  child: Text('Thời lượng', style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
+                  child: Text(
+                    'Thời lượng',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ) : SizedBox(),
                 const SizedBox(
                   width: 100,
-                  child: Text('Tùy chọn', style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                  child: Text(
+                    'Tùy chọn',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ],
             ),
@@ -181,25 +202,43 @@ void _setSong(SongItem song) {
                   onTap: () => _handleSongTap(index),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: isPlaying
-                          ? (widget.highlightColor ?? Colors.red.withOpacity(0.1))
-                          : isHovered
+                      color:
+                          isPlaying
+                              ? (widget.highlightColor ??
+                                  Colors.red.withOpacity(0.1))
+                              : isHovered
                               ? Colors.red.withOpacity(0.05)
                               : (index % 2 == 0
-                                  ? (widget.alternateRowColor ?? Colors.grey.withOpacity(0.05))
+                                  ? (widget.alternateRowColor ??
+                                      Colors.grey.withOpacity(0.05))
                                   : Colors.white),
-                      border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade200),
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     child: Row(
                       children: [
                         SizedBox(
                           width: 40,
-                          child: isPlaying
-                              ? const Icon(Icons.play_arrow, color: Colors.red)
-                              : isHovered
-                                  ? const Icon(Icons.play_arrow, color: Colors.grey)
-                                  : Text('${index+1}', style: const TextStyle(fontSize: 16)),
+                          child:
+                              isPlaying
+                                  ? const Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.red,
+                                  )
+                                  : isHovered
+                                  ? const Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.grey,
+                                  )
+                                  : Text(
+                                    '${index + 1}',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
@@ -208,12 +247,16 @@ void _setSong(SongItem song) {
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => Container(
-                              width: 50,
-                              height: 50,
-                              color: Colors.purple,
-                              child: const Icon(Icons.music_note, color: Colors.white),
-                            ),
+                            errorBuilder:
+                                (_, __, ___) => Container(
+                                  width: 50,
+                                  height: 50,
+                                  color: Colors.purple,
+                                  child: const Icon(
+                                    Icons.music_note,
+                                    color: Colors.white,
+                                  ),
+                                ),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -222,19 +265,38 @@ void _setSong(SongItem song) {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(song.songName ?? "", style: const TextStyle(fontWeight: FontWeight.bold)),
-                              Text(song.artists.isNotEmpty ? song.artists[0].aliasName ?? "" : "", style: TextStyle(color: Colors.grey[600], fontSize: 13)),
+                              Text(
+                                song.songName ?? "",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                song.artists.isNotEmpty
+                                    ? song.artists[0].aliasName ?? ""
+                                    : "",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 13,
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        Expanded(
+                     !isMobile?   Expanded(
                           flex: 2,
-                          child: Text(song.totalListens.toString(), style: TextStyle(color: Colors.grey[700])),
-                        ),
-                        Expanded(
+                          child: Text(
+                            song.totalListens.toString(),
+                            style: TextStyle(color: Colors.grey[700]),
+                          ),
+                        ) : SizedBox(),
+                        !isMobile ? Expanded(
                           flex: 2,
-                          child: Text(song.duration.toString(), style: TextStyle(color: Colors.grey[700])),
-                        ),
+                          child: Text(
+                            song.duration.toString(),
+                            style: TextStyle(color: Colors.grey[700]),
+                          ),
+                        ) : SizedBox(),
                         SizedBox(
                           width: 100,
                           child: Row(
@@ -242,11 +304,18 @@ void _setSong(SongItem song) {
                             children: [
                               IconButton(
                                 icon: Icon(
-                                  song.isLike==1 ? Icons.favorite : Icons.favorite_border,
+                                  song.isLike == 1
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
                                   color: Colors.red,
                                 ),
-                                onPressed: () => _handleFavoriteTap(index, song, song.isLike!=1),
-                              ),  
+                                onPressed:
+                                    () => _handleFavoriteTap(
+                                      index,
+                                      song,
+                                      song.isLike != 1,
+                                    ),
+                              ),
                               IconButton(
                                 icon: const Icon(Icons.more_vert),
                                 color: Colors.black,

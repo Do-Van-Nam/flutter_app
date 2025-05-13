@@ -331,7 +331,6 @@ Widget buildRelatedPlaylist(context) {
         Wrap(
           children: [
             // AddNewPlaylist(),
-            SizedBox(width: 16),
             for (int i = 1; i <= 5; i++)
               GestureDetector(
                 onTap: () {

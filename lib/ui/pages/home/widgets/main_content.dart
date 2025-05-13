@@ -22,10 +22,33 @@ import 'package:get/get.dart';
 import 'search_box.dart';
 
 
-class MainContent extends StatelessWidget {
+class MainContent extends StatefulWidget {
   
   const MainContent({super.key});
 
+  @override
+  State<MainContent> createState() => _MainContentState();
+}
+
+class _MainContentState extends State<MainContent> {
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+  void _loadData() async {
+  try {
+    List<Collection> collections = await CollectionListService().fetchCollectionListContent();
+    Provider.of<AppState>(
+      context,
+      listen: false,
+    ).setCollections(collections);
+  } catch (e) {
+    // xử lý lỗi nếu cần
+    print('Lỗi khi fetch dữ liệu: $e');
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,7 +82,11 @@ class MainContent extends StatelessWidget {
             const SizedBox(height: 24),
 
             // New Music Section
-            SectionHeader(title: 'Nhạc mới', onSeeAllPressed: () {}),
+            SectionHeader(title: 'Nhạc mới', onSeeAllPressed: () {
+              Get.toNamed(
+                Routes.NEWSONG,
+              );
+            }),
             const SizedBox(height: 16),
             buildNewMusicSection(),
             const SizedBox(height: 24),
@@ -74,19 +101,26 @@ class MainContent extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Recommendations Section
-            SectionHeader(title: 'Đề xuất cho bạn', onSeeAllPressed: () {}),
+            SectionHeader(title: 'Đề xuất cho bạn', onSeeAllPressed: () {
+              Get.toNamed(Routes.RECOMMEND_SONG);
+            }),
             const SizedBox(height: 16),
             buildRecommendationsList(),
             const SizedBox(height: 24),
 
             // Charts Section
-            SectionHeader(title: 'Bảng xếp hạng', onSeeAllPressed: () {}),
+            SectionHeader(title: 'Bảng xếp hạng', onSeeAllPressed: () {
+              Get.toNamed(Routes.EXPLORE_RANKING);
+
+            }),
             const SizedBox(height: 16),
             buildChartsSection(context),
             const SizedBox(height: 24),
 
             // Themes Section
-            SectionHeader(title: 'Chủ đề', onSeeAllPressed: () {}),
+            SectionHeader(title: 'Chủ đề', onSeeAllPressed: () {
+              Get.toNamed(Routes.EXPLORE_CATEGORY);
+            }),
             const SizedBox(height: 16),
             buildThemesSection(),
             const SizedBox(height: 24),
@@ -94,7 +128,9 @@ class MainContent extends StatelessWidget {
             // Featured Artists Section
             SectionHeader(
               title: 'Album nghệ sỹ nổi bật',
-              onSeeAllPressed: () {},
+              onSeeAllPressed: () {
+                Get.toNamed(Routes.LIBRARY);
+              },
             ),
             const SizedBox(height: 16),
             buildFeaturedArtistsSection(),
@@ -136,7 +172,7 @@ Widget buildRecommendationsList() {
                   artist: songs[i * 3 + j].artists[0].aliasName,
                   views: songs[i * 3 + j].totalListens, 
                   image: songs[i * 3 + j].avatar,
-
+                  songItem: songs[i * 3 + j]! as SongItem?,
                 ),
               
             ],
@@ -587,6 +623,8 @@ Widget buildNewMusicSection() {
               image: snapshot.data![i].avatar,
               title: snapshot.data![i].songName,
               artistName: snapshot.data![i].artists[0].aliasName,
+                mediaPath: snapshot.data![i].mediaPath,
+                songItem: snapshot.data![i],
             ),
           ),
       ],

@@ -30,7 +30,7 @@ class _AddPlaylistWidgetState extends State<AddPlaylistWidget>
   Widget build(BuildContext context) {
     return Container(
       width: 400,
-      height: 220,
+      height: 240,
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
