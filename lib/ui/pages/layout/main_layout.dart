@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/AppState.dart';
+import 'package:provider/provider.dart';
 import 'widgets/player_controls.dart';
 import 'widgets/search_bar.dart';
 import 'widgets/sidebar_navigation.dart';
@@ -17,6 +19,8 @@ class MainLayout extends StatelessWidget {
     final bool isWideScreen = screenWidth > 1200;
     final bool isMediumScreen = screenWidth > 800 && screenWidth <= 1200;
     final bool isMobile = screenWidth < 800;
+    final appState = Provider.of<AppState>(context);
+    final song = appState.song;
 
     return Scaffold(
       drawer: isMobile ? mobileDrawer(context) : null,  
@@ -63,7 +67,7 @@ class MainLayout extends StatelessWidget {
           ) : Expanded(child: content)  ,
 
           // Bottom Player Controls
-           PlayerControls(),
+          song!=null ? PlayerControls() : SizedBox(),
         ],
       )
       

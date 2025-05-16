@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -38,7 +39,7 @@ class SectionHeader extends StatelessWidget {
             TextButton(
               onPressed: onSeeAllPressed,
               child:  Text(
-                'Xem tất cả',
+                'see_all'.tr,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Color(0xFFE53935),
                   fontWeight: FontWeight.w500,

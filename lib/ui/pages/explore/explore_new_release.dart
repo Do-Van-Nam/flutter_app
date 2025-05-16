@@ -27,7 +27,7 @@ class ExploreNewReleaseScreen extends StatelessWidget {
             children: [
               // category Section
               Text(
-                "Bài hát mới phát hành",
+                'explore_new_release'.tr,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w700,

@@ -63,49 +63,52 @@ final List<String> routeNames = [
           Column(
             children: [
               // Logo
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFA70C1D), Color(0xFF0153B4)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+              GestureDetector(
+                onTap: () => Get.toNamed(Routes.HOME),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFA70C1D), Color(0xFF0153B4)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          fit: BoxFit.cover,
-                          width: 20,
-                          height: 20,
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            fit: BoxFit.cover,
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
                       ),
-                    ),
-                    if (isExpanded) ...[
-                      const SizedBox(width: 4),
-                      Image.asset(
-                        'assets/images/app_name.png',
-                        width: 100,
-                        height: 40,
-                      ),
+                      if (isExpanded) ...[
+                        const SizedBox(width: 4),
+                        Image.asset(
+                          'assets/images/app_name.png',
+                          width: 100,
+                          height: 40,
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
 
               // Menu Items
-              _buildNavItem(Icons.home, 'Trang chủ', 0),
-              _buildNavItem(Icons.explore, 'Khám phá', 1),
-              _buildNavItem(Icons.library_books, 'Thư viện', 2),
-              _buildNavItem(Icons.music_note, 'Đoạn nhạc', 3),
-              _buildNavItem(Icons.upgrade, 'Nâng cấp', 4),
+              _buildNavItem(Icons.home, 'navbar_home'.tr, 0),
+              _buildNavItem(Icons.explore, 'navbar_explore'.tr, 1),
+              _buildNavItem(Icons.library_books, 'navbar_library'.tr, 2),
+              _buildNavItem(Icons.music_note, 'navbar_music_section'.tr, 3),
+              _buildNavItem(Icons.upgrade, 'navbar_upgrade'.tr, 4),
 
               const SizedBox(height: 16),
 
@@ -154,8 +157,8 @@ final List<String> routeNames = [
                       ),
                       if (isExpanded) ...[
                         const SizedBox(width: 8),
-                        const Text(
-                          'Tạo playlist',
+                        Text(
+                          'navbar_create_playlist'.tr,
                           style: TextStyle(
                             color: Color(0xFF333333),
                             fontWeight: FontWeight.w500,

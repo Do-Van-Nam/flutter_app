@@ -75,7 +75,7 @@ class RightSidebar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Yêu thích",
+                  'favorite'.tr,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -83,8 +83,8 @@ class RightSidebar extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: const Text(
-                    'Xem tất cả',
+                  child: Text(
+                    'see_all'.tr,
                     style: TextStyle(
                       color: Color(0xFFE53935),
                       fontWeight: FontWeight.w500,
@@ -209,7 +209,7 @@ class RightSidebar extends StatelessWidget {
 
             // Recent Section
             Text(
-              "Gần đây",
+              'recent'.tr,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             const SizedBox(height: 16),
@@ -224,7 +224,7 @@ class RightSidebar extends StatelessWidget {
 
             // New Music Charts
             Text(
-              "BXH nhạc mới",
+              'right_sidebar_ranking'.tr,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             const SizedBox(height: 16),

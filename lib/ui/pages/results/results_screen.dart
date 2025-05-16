@@ -25,7 +25,8 @@ class ResultsScreen extends StatefulWidget {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> {
-  final query = (Get.arguments as Map<String, String>)['query'] ?? '';
+  final query = '1';
+  // final query = (Get.arguments as Map<String, String>)['query'] ?? '';
 
   int selectedIndex = -1; // Track the selected index
 
@@ -72,230 +73,20 @@ class _ResultsScreenState extends State<ResultsScreen> {
               const SizedBox(height: 24),
 
               switch (selectedIndex) {
-                0 => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Bài hát",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        height: 36 / 24, // line-height divided by font-size
-                        letterSpacing: 0,
-                      ),
-                    ), SizedBox(height:16),
-                    for (int i = 0; i < 3; i++)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SongListItem(
-                              title: 'Như Chưa Bao Giờ',
-                              artist: 'Hồ Quang Hiếu',
-                              time: 200,
-                              imageIndex: i * 2 + 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
-                1 => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Playlist",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        height: 36 / 24, // line-height divided by font-size
-                        letterSpacing: 0,
-                      ),
-                      // style: const TextStyle(
-                      //   fontWeight: FontWeight.bold,
-                      //   fontSize: 18,
-                      // ),
-                    ),
-                    for (int i = 0; i < 3; i++)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SongListItem(
-                              title: 'Như Chưa Bao Giờ',
-                              artist: 'Hồ Quang Hiếu',
-                              time: 200,
-                              imageIndex: i * 2 + 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
-                2  => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Nghệ sĩ",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        height: 36 / 24, // line-height divided by font-size
-                        letterSpacing: 0,
-                      ),
-                      // style: const TextStyle(
-                      //   fontWeight: FontWeight.bold,
-                      //   fontSize: 18,
-                      // ),
-                    ),
-                    for (int i = 0; i < 3; i++)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SongListItem(
-                              title: 'Như Chưa Bao Giờ',
-                              artist: 'Hồ Quang Hiếu',
-                              time: 200,
-                              imageIndex: i * 2 + 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
-                3  => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Album",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        height: 36 / 24, // line-height divided by font-size
-                        letterSpacing: 0,
-                      ),
-                      // style: const TextStyle(
-                      //   fontWeight: FontWeight.bold,
-                      //   fontSize: 18,
-                      // ),
-                    ),
-                    for (int i = 0; i < 3; i++)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SongListItem(
-                              title: 'Như Chưa Bao Giờ',
-                              artist: 'Hồ Quang Hiếu',
-                              time: 200,
-                              imageIndex: i * 2 + 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
+                0 => songSection(),
+                1 => playlistSection(),
+                2  => artistSection(),
+                3  => albumSection(),
                 -1 => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Bài hát",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        height: 36 / 24, // line-height divided by font-size
-                        letterSpacing: 0,
-                      ),
-                      // style: const TextStyle(
-                      //   fontWeight: FontWeight.bold,
-                      //   fontSize: 18,
-                      // ),
-                    ),
-                    for (int i = 0; i < 3; i++)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SongListItem(
-                              title: 'Như Chưa Bao Giờ',
-                              artist: 'Hồ Quang Hiếu',
-                              time: 200,
-                              imageIndex: i * 2 + 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    Text(
-                      "Playlist",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        height: 36 / 24, // line-height divided by font-size
-                        letterSpacing: 0,
-                      ),
-                    ), SizedBox(height:16),
-                    for (int i = 0; i < 3; i++)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SongListItem(
-                              title: 'Như Chưa Bao Giờ',
-                              artist: 'Hồ Quang Hiếu',
-                              time: 200,
-                              imageIndex: i * 2 + 1,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                    Text(
-                      "Nghệ sĩ",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        height: 36 / 24, // line-height divided by font-size
-                        letterSpacing: 0,
-                      ),
-                    ), SizedBox(height:16),
-                    for (int i = 0; i < 3; i++)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SongListItem(
-                              title: 'Như Chưa Bao Giờ',
-                              artist: 'Hồ Quang Hiếu',
-                              time: 200,
-                              imageIndex: i * 2 + 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    Text(
-                      "Album",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                        height: 36 / 24, // line-height divided by font-size
-                        letterSpacing: 0,
-                      ),
-                    ), SizedBox(height:16),
-                    for (int i = 0; i < 3; i++)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SongListItem(
-                              title: 'Như Chưa Bao Giờ',
-                              artist: 'Hồ Quang Hiếu',
-                              time: 200,
-                              imageIndex: i * 2 + 1,
-                            ),
-                          ),
-                        ],
-                      ),
+                    songSection(),
+                    const SizedBox(height: 16), 
+                    playlistSection(),
+                    const SizedBox(height: 16),
+                    artistSection(),
+                    const SizedBox(height: 16),
+                    albumSection(),
                   ],
                 ),
                 _ => Column(
@@ -337,4 +128,138 @@ class _ResultsScreenState extends State<ResultsScreen> {
       ),
     );
   }
+  Widget songSection() {
+    return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'song'.tr,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                        height: 36 / 24, // line-height divided by font-size
+                        letterSpacing: 0,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    for (int i = 0; i < 3; i++)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SongListItem(
+                              title: 'Như Chưa Bao Giờ',
+                              artist: 'Hồ Quang Hiếu',
+                              time: 200,
+                              imageIndex: i * 2 + 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                );
+                
+  }
+Widget playlistSection(){
+  return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Playlist",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                        height: 36 / 24, // line-height divided by font-size
+                        letterSpacing: 0,
+                      ),
+                      // style: const TextStyle(
+                      //   fontWeight: FontWeight.bold,
+                      //   fontSize: 18,
+                      // ),
+                    ),
+                    for (int i = 0; i < 3; i++)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SongListItem(
+                              title: 'Như Chưa Bao Giờ',
+                              artist: 'Hồ Quang Hiếu',
+                              time: 200,
+                              imageIndex: i * 2 + 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                );
+}
+Widget artistSection(){
+  return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Nghệ sĩ",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                        height: 36 / 24, // line-height divided by font-size
+                        letterSpacing: 0,
+                      ),
+                      // style: const TextStyle(
+                      //   fontWeight: FontWeight.bold,
+                      //   fontSize: 18,
+                      // ),
+                    ),
+                    for (int i = 0; i < 3; i++)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SongListItem(
+                              title: 'Như Chưa Bao Giờ',
+                              artist: 'Hồ Quang Hiếu',
+                              time: 200,
+                              imageIndex: i * 2 + 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ) ;
+}
+Widget albumSection(){
+  return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Album",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                        height: 36 / 24, // line-height divided by font-size
+                        letterSpacing: 0,
+                      ),
+                      // style: const TextStyle(
+                      //   fontWeight: FontWeight.bold,
+                      //   fontSize: 18,
+                      // ),
+                    ),
+                    for (int i = 0; i < 3; i++)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SongListItem(
+                              title: 'Như Chưa Bao Giờ',
+                              artist: 'Hồ Quang Hiếu',
+                              time: 200,
+                              imageIndex: i * 2 + 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                );
+                }
 }

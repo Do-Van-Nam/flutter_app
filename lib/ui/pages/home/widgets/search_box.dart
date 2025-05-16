@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SearchBox extends StatefulWidget {
   @override
@@ -81,7 +82,7 @@ class _SearchBoxState extends State<SearchBox> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (_history.isNotEmpty) ...[
-                  const Text("🔁 Lịch sử tìm kiếm", style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('search_history'.tr, style: TextStyle(fontWeight: FontWeight.bold)),
                   ..._history.map((h) => ListTile(
                         title: Text(h),
                         onTap: () {
@@ -91,7 +92,7 @@ class _SearchBoxState extends State<SearchBox> {
                       )),
                   const Divider(),
                 ],
-                const Text("🔥 Gợi ý hàng đầu", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('search_top_keywords'.tr, style: TextStyle(fontWeight: FontWeight.bold)),
                 ..._topKeywords.map((k) => ListTile(
                       title: Text(k),
                       onTap: () {

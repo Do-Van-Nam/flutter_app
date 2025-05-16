@@ -132,7 +132,7 @@ Widget buildSearchBar(BuildContext context) {
                                       height: 16,
                                     ),
                                     const SizedBox(width: 8),
-                                    const Text('Lào',
+                                    const Text('ພາສາລາວ',
                                         style: TextStyle(color: Colors.black)),
                                   ],
                                 ),

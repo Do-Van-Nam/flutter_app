@@ -5,6 +5,7 @@ import 'package:flutter_app/ui/widgets/section_header.dart';
 import 'dart:math';
 import 'package:flutter_app/ui/widgets/music_table.dart';
 import 'package:flutter_app/ui/widgets/music_playlist.dart';
+import 'package:get/get.dart';
 
 class ExploreRankingScreen extends StatelessWidget {
   const ExploreRankingScreen({super.key});
@@ -28,7 +29,7 @@ class ExploreRankingScreen extends StatelessWidget {
 
             // Charts Section
             Text(
-                "Bảng xếp hạng",
+                "explore_ranking".tr,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w700,
@@ -53,7 +54,7 @@ class ExploreRankingScreen extends StatelessWidget {
             // MusicPlaylistScreen(),
             // MusicPlaylistWidget(),
             Text(
-                "Top 10 bài hát hàng đầu",
+                'explore_ranking_top10'.tr,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w700,

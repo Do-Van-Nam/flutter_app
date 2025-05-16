@@ -33,3 +33,29 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+Widget buildContent() {
+  return Column(
+    children: [
+      Text('hello'),
+      SizedBox(height: 20),
+      Text('world'),
+      SizedBox(height: 20),
+      Text('world'),
+      SizedBox(height: 20),
+      GestureDetector(
+        onTap: () {
+          // Handle tap event
+          print('Tapped!');
+        },
+        child: Container(
+          color: Colors.blue,
+          width: 100,
+          height: 100,
+          child: const Center(child: Text('Tap me')),
+        ),
+      ), 
+
+    ],
+  );
+}

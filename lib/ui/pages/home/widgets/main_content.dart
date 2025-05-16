@@ -82,7 +82,7 @@ class _MainContentState extends State<MainContent> {
             const SizedBox(height: 24),
 
             // New Music Section
-            SectionHeader(title: 'Nhạc mới', onSeeAllPressed: () {
+            SectionHeader(title: 'home_newsong'.tr, onSeeAllPressed: () {
               Get.toNamed(
                 Routes.NEWSONG,
               );
@@ -93,7 +93,7 @@ class _MainContentState extends State<MainContent> {
 
             // Favorite Songs Section
             SectionHeader(
-              title: 'Những bản nhạc yêu thích dần trôi vào quên lãng',
+              title: 'home_favorite'.tr,
               onSeeAllPressed: () {},
             ),
             const SizedBox(height: 16),
@@ -101,7 +101,7 @@ class _MainContentState extends State<MainContent> {
             const SizedBox(height: 24),
 
             // Recommendations Section
-            SectionHeader(title: 'Đề xuất cho bạn', onSeeAllPressed: () {
+            SectionHeader(title: 'home_recommend'.tr, onSeeAllPressed: () {
               Get.toNamed(Routes.RECOMMEND_SONG);
             }),
             const SizedBox(height: 16),
@@ -109,7 +109,7 @@ class _MainContentState extends State<MainContent> {
             const SizedBox(height: 24),
 
             // Charts Section
-            SectionHeader(title: 'Bảng xếp hạng', onSeeAllPressed: () {
+            SectionHeader(title: 'home_ranking'.tr, onSeeAllPressed: () {
               Get.toNamed(Routes.EXPLORE_RANKING);
 
             }),
@@ -118,7 +118,7 @@ class _MainContentState extends State<MainContent> {
             const SizedBox(height: 24),
 
             // Themes Section
-            SectionHeader(title: 'Chủ đề', onSeeAllPressed: () {
+            SectionHeader(title: 'home_category'.tr, onSeeAllPressed: () {
               Get.toNamed(Routes.EXPLORE_CATEGORY);
             }),
             const SizedBox(height: 16),
@@ -127,7 +127,7 @@ class _MainContentState extends State<MainContent> {
 
             // Featured Artists Section
             SectionHeader(
-              title: 'Album nghệ sỹ nổi bật',
+              title: 'home_album'.tr,
               onSeeAllPressed: () {
                 Get.toNamed(Routes.LIBRARY);
               },
@@ -206,8 +206,8 @@ Widget buildChartsSection(context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Container(
-        
-                  // width: MediaQuery.of(context).size.width * 0.25,
+
+      //  width: MediaQuery.of(context).size.width * 0.25,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
@@ -381,7 +381,7 @@ Widget buildChartsSection(context) {
                   child: Row(
                     children: [
                       const Text(
-                        'Nhạc Lào',
+                        'Laos Songs',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

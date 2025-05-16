@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/AppState.dart';
 import 'package:flutter_app/models/song_item.dart';
 import 'package:flutter_app/services/song_service.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class MusicPlaylistWidget extends StatefulWidget {
@@ -155,31 +156,31 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                   ),
                 ),
                 const SizedBox(width: 60), // image space
-                const Expanded(
+                 Expanded(
                   flex: 2,
                   child: Text(
-                    'Bài hát',
+                    'song'.tr,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-               !isMobile ? const Expanded(
+               !isMobile ? Expanded(
                   flex: 2,
                   child: Text(
-                    'Lượt phát',
+                    'play_count'.tr,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ) : SizedBox(),
-               !isMobile ?  const Expanded(
+               !isMobile ?  Expanded(
                   flex: 2,
                   child: Text(
-                    'Thời lượng',
+                    'duration'.tr,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ) : SizedBox(),
-                const SizedBox(
+                 SizedBox(
                   width: 100,
                   child: Text(
-                    'Tùy chọn',
+                    'options'.tr,
                     style: TextStyle(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
@@ -293,7 +294,7 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
                         !isMobile ? Expanded(
                           flex: 2,
                           child: Text(
-                            song.duration.toString(),
+                            _formatDuration(song.duration),
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                         ) : SizedBox(),
@@ -335,4 +336,12 @@ class _MusicPlaylistWidgetState extends State<MusicPlaylistWidget> {
       ],
     );
   }
+}
+
+String _formatDuration(int duration) {
+  final minutes = duration ~/ 60;
+  final seconds = duration % 60;
+  final minutesStr = minutes.toString().padLeft(2, '0');
+  final secondsStr = seconds.toString().padLeft(2, '0');
+  return '$minutesStr:$secondsStr';
 }

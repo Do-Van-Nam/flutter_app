@@ -29,7 +29,7 @@ class RecommendSongDetailScreen extends StatelessWidget {
 
             // Charts Section
             Text(
-              "Đề suất cho bạn",
+              'home_recommend'.tr,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w700,

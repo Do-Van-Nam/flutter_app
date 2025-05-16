@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'search_box.dart';
 
-Widget buildSearchBar() {
-  return Container(
-    height: 40,
-    margin: const EdgeInsets.only(bottom: 16),
-    child: Row(
+class buildSearchBar extends StatefulWidget {
+  const buildSearchBar({super.key});
+  @override
+  State<buildSearchBar> createState() => _buildSearchBarState();
+}
+
+class _buildSearchBarState extends State<buildSearchBar> {
+  RxString currentLanguage = 'vn'.obs;
+void changeLanguage(String languageCode) {
+    currentLanguage.value = languageCode;
+    // _storageService.setLanguage(languageCode);
+    Get.updateLocale(Locale(languageCode));
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SearchBox(),
@@ -50,15 +65,15 @@ Widget buildSearchBar() {
                             margin: const EdgeInsets.only(left: 40),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.red,
-                              border: Border.all(color: Colors.red, width: 2),
+                             color: currentLanguage.value == 'en' ? Colors.red : Colors.white,
+                              border: Border.all(color: currentLanguage.value == 'en' ? Colors.red : Colors.grey, width: 2),
                             ),
                           ),
                         ],
                       ),
                     ),
                     PopupMenuItem(
-                      value: 'vi',
+                      value: 'vn',
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -82,7 +97,8 @@ Widget buildSearchBar() {
                             margin: const EdgeInsets.only(left: 40),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.grey, width: 2),
+                              color: currentLanguage.value == 'vn' ? Colors.red : Colors.white,
+                              border: Border.all(color: currentLanguage.value == 'vn' ? Colors.red : Colors.grey, width: 2),
                             ),
                           ),
                         ],
@@ -102,7 +118,7 @@ Widget buildSearchBar() {
                               ),
                               const SizedBox(width: 8),
                               const Text(
-                                'Lào',
+                                'ພາສາລາວ',
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -113,7 +129,8 @@ Widget buildSearchBar() {
                             margin: const EdgeInsets.only(left: 40),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.grey, width: 2),
+                              color: currentLanguage.value == 'la' ? Colors.red : Colors.white,
+                              border: Border.all(color: currentLanguage.value == 'la' ? Colors.red : Colors.grey, width: 2),
                             ),
                           ),
                         ],
@@ -122,15 +139,16 @@ Widget buildSearchBar() {
                   ],
               onSelected: (value) {
                 // Handle language selection
+                changeLanguage(value);
               },
             ),
-            IconButton(
-              icon: const Icon(
-                Icons.notifications_none,
-                color: Color(0xFF9E9E9E),
-              ),
-              onPressed: () {},
-            ),
+            // IconButton(
+            //   icon: const Icon(
+            //     Icons.notifications_none,
+            //     color: Color(0xFF9E9E9E),
+            //   ),
+            //   onPressed: () {},
+            // ),
             PopupMenuButton(
               icon: const Icon(Icons.settings, color: Color(0xFF9E9E9E)),
               color: Colors.white,
@@ -144,7 +162,7 @@ Widget buildSearchBar() {
                       value: 'terms',
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children:  [
                           Row(
                             children: [
                               Icon(
@@ -154,7 +172,7 @@ Widget buildSearchBar() {
                               ),
                               SizedBox(width: 8),
                               Text(
-                                'Điều khoản dịch vụ',
+                                'term'.tr,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -171,7 +189,7 @@ Widget buildSearchBar() {
                       value: 'privacy',
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children: [
                           Row(
                             children: [
                               Icon(
@@ -181,7 +199,7 @@ Widget buildSearchBar() {
                               ),
                               SizedBox(width: 8),
                               Text(
-                                'Chính sách bảo mật',
+                                'privacy'.tr,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -197,11 +215,11 @@ Widget buildSearchBar() {
                     PopupMenuItem(
                       value: 'language',
                       child: Row(
-                        children: const [
+                        children:  [
                           Icon(Icons.language, size: 20, color: Colors.black),
                           SizedBox(width: 8),
                           Text(
-                            'Thay đổi ngôn ngữ',
+                            'language'.tr,
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -210,11 +228,11 @@ Widget buildSearchBar() {
                     PopupMenuItem(
                       value: 'logout',
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.logout, size: 20, color: Colors.red),
                           SizedBox(width: 8),
                           Text(
-                            'Đăng xuất',
+                            'logout'.tr,
                             style: TextStyle(color: Colors.red),
                           ),
                         ],
@@ -230,4 +248,5 @@ Widget buildSearchBar() {
       ],
     ),
   );
+}
 }

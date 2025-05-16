@@ -51,7 +51,7 @@ class ExploreScreen extends StatelessWidget {
                                     ),
                                     SizedBox(width: 8),
                                     Text(
-                                      'Bài phát hành mới',
+                                      'explore_new_release'.tr,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -69,7 +69,7 @@ class ExploreScreen extends StatelessWidget {
                                     ),
                                     SizedBox(height: 8),
                                     Text(
-                                      'Bài phát hành mới',
+                                       'explore_new_release'.tr,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -101,7 +101,7 @@ class ExploreScreen extends StatelessWidget {
                                     Icon(Icons.category, color: Colors.black),
                                     SizedBox(width: 8),
                                     Text(
-                                      'Thể loại',
+                                      'explore_category'.tr,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -116,7 +116,7 @@ class ExploreScreen extends StatelessWidget {
                                     Icon(Icons.category, color: Colors.black),
                                     SizedBox(height: 8),
                                     Text(
-                                      'Thể loại',
+                                      'explore_category'.tr,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -148,7 +148,7 @@ class ExploreScreen extends StatelessWidget {
                                     Icon(Icons.bar_chart, color: Colors.black),
                                     SizedBox(width: 8),
                                     Text(
-                                      'Bảng xếp hạng',
+                                      'explore_ranking'.tr,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -163,7 +163,7 @@ class ExploreScreen extends StatelessWidget {
                                     Icon(Icons.bar_chart, color: Colors.black),
                                     SizedBox(width: 8),
                                     Text(
-                                      'Bảng xếp hạng',
+                                      'explore_ranking'.tr,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -180,7 +180,7 @@ class ExploreScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // New Music Section
-              SectionHeader(title: 'Nhạc mới', onSeeAllPressed: () {
+              SectionHeader(title: 'explore_newrelease'.tr, onSeeAllPressed: () {
                 Get.toNamed(Routes.NEWSONG);
               }),
               const SizedBox(height: 16),
@@ -188,7 +188,7 @@ class ExploreScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // category Section
-              SectionHeader(title: 'Thể loại', onSeeAllPressed: () {
+              SectionHeader(title: 'explore_category'.tr, onSeeAllPressed: () {
                 Get.toNamed(Routes.EXPLORE_CATEGORY);
               }),
               const SizedBox(height: 16),
@@ -196,7 +196,7 @@ class ExploreScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // New Songs Video Section
-              SectionHeader(title: 'Video nhạc mới', onSeeAllPressed: () {}),
+              SectionHeader(title: 'explore_newvideo'.tr, onSeeAllPressed: () {}),
               const SizedBox(height: 16),
               buildFavoriteSongsSection(),
               const SizedBox(height: 24),
@@ -321,6 +321,8 @@ class CustomCategoryItem extends StatelessWidget {
         // For example, navigate to a new screen or show a dialog
       },
       child: Container(
+        width: 169,
+        height: 48,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -332,14 +334,15 @@ class CustomCategoryItem extends StatelessWidget {
             ),
           ),
         ),
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(12),
         child: Align(
           // Changed from Left to Align for alignment control
           alignment: Alignment.centerLeft, // Align text to the left
           child: Text(
             text,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),

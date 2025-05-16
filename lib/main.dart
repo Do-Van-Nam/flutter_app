@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // final storageService = Get.find<StorageService>();
     // final String initialLocale = storageService.getLanguage() ?? 'en';
+    final String initialLocale =  'vn';
     
     return GetMaterialApp(
       scrollBehavior: MyCustomScrollBehavior(),
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
       // themeMode: storageService.getThemeMode(),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      // locale: Locale(initialLocale),
+      locale: Locale(initialLocale),
       fallbackLocale: Locale('en'),
       translations: AppTranslations(),
     );

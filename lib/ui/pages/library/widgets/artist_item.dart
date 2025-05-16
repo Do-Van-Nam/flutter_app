@@ -53,8 +53,8 @@ class _ArtistItemState extends State<ArtistItem> {
                 color: Colors.black,
               ), // Icon cho menu item
               const SizedBox(width: 8),
-              const Text(
-                'Phát ngẫu nhiên',
+              Text(
+                'random_play'.tr,
                 style: TextStyle(color: Colors.black),
               ),
             ],
@@ -70,7 +70,7 @@ class _ArtistItemState extends State<ArtistItem> {
                 color: Colors.black,
               ), // Icon cho menu item
               const SizedBox(width: 8),
-              const Text('Bỏ quan tâm', style: TextStyle(color: Colors.black)),
+              Text('not_care'.tr, style: TextStyle(color: Colors.black)),
             ],
           ),
           onTap: widget.onAddToPlaylist,
@@ -84,7 +84,7 @@ class _ArtistItemState extends State<ArtistItem> {
                 color: Colors.black,
               ), // Icon cho menu item
               const SizedBox(width: 8),
-              const Text('Chia sẻ', style: TextStyle(color: Colors.black)),
+               Text('share'.tr, style: TextStyle(color: Colors.black)),
             ],
           ),
           onTap: widget.onShare,

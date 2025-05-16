@@ -36,7 +36,7 @@ final List<Artist> items = [
     Artist(id: 3, aliasName: 'Lê Hiếu', realName: 'Real Artist 2',avatar: 'https://freeimg.umusic.la/cms_upload/artist/2023/02/04/f3aca1f7f88e470ac98efe8a833e07eb.jpg'),
     Artist(id: 4, aliasName: 'The Men', realName: 'Real Artist 3',avatar: 'https://freeimg.umusic.la/cms_upload/artist/2022/10/28/2f03c1d3ba24b6c233a5be48d6bcd5b8.jpg'),
   ];
-  final List<String> categories = ['Bài hát', 'Playlist', 'Nghệ sĩ', 'Album'];
+  final List<String> categories = ['song'.tr, 'Playlist', 'artist'.tr, 'Album'];
   @override
   Widget build(BuildContext context) {
     return MainLayout(
@@ -50,7 +50,7 @@ final List<Artist> items = [
             children: [
               // category Section
               Text(
-                "Thư viện",
+                'lib'.tr,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w700,
@@ -93,7 +93,7 @@ final List<Artist> items = [
                     ),
                     child: DropdownButton<String>(
                       hint: Text(
-                        "Hoạt động gần đây",
+                        "recent_action".tr,
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
@@ -105,15 +105,15 @@ final List<Artist> items = [
                       items: [
                         DropdownMenuItem<String>(
                           value: "recent",
-                          child: Text("Hoạt động gần đây"),
+                          child: Text("recent_action".tr),
                         ),
                         DropdownMenuItem<String>(
                           value: "added",
-                          child: Text("Đã thêm gần đây"),
+                          child: Text("recent_added".tr),
                         ),
                         DropdownMenuItem<String>(
                           value: "alphabetical",
-                          child: Text("Theo bảng chữ cái"),
+                          child: Text('alphabetical'.tr),
                         ),
                       ],
                       onChanged: (value) {},

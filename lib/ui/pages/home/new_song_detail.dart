@@ -27,14 +27,13 @@ class NewSongDetailScreen extends StatelessWidget {
           return const Center(child: Text('Error loading content'));
         } else if (snapshot.hasData) {
           final songs = snapshot.data!;
-        
-        Provider.of<AppState>(
-          context,
-          listen: false,
-        ).setSongs(snapshot.data!);
 
-          return 
-          MainLayout(
+          Provider.of<AppState>(
+            context,
+            listen: false,
+          ).setSongs(snapshot.data!);
+
+          return MainLayout(
             content: Container(
               color: Color(0xFFF5F5F5),
               height: double.infinity,
@@ -51,12 +50,15 @@ class NewSongDetailScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Nhạc mới",
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            'home_newsong'.tr,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleLarge?.copyWith(
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w700,
                               fontSize: 24,
-                              height: 36 / 24, // line-height divided by font-size
+                              height:
+                                  36 / 24, // line-height divided by font-size
                               letterSpacing: 0,
                             ),
                             // style: const TextStyle(
@@ -69,18 +71,19 @@ class NewSongDetailScreen extends StatelessWidget {
                             alignment: WrapAlignment.start,
                             spacing: 16,
                             runSpacing: 16,
-                             children: [
-                                          for (int i = 0; i < songs.length; i++)
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 16),
-                                              child: AlbumItem(
-                          image: snapshot.data![i].avatar,
-                          title: snapshot.data![i].songName,
-                          artistName: snapshot.data![i].artists[0].aliasName,
-                          songItem: snapshot.data![i],
-                                              ),
-                                            ),
-                                        ],
+                            children: [
+                              for (int i = 0; i < songs.length; i++)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: AlbumItem(
+                                    image: snapshot.data![i].avatar,
+                                    title: snapshot.data![i].songName,
+                                    artistName:
+                                        snapshot.data![i].artists[0].aliasName,
+                                    songItem: snapshot.data![i],
+                                  ),
+                                ),
+                            ],
                           ),
                           const SizedBox(height: 24),
                         ],
@@ -90,7 +93,7 @@ class NewSongDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            );
+          );
         } else {
           return const Center(child: Text("No data available"));
         }

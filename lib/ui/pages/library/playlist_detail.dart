@@ -32,7 +32,7 @@ class _CategoryRowState extends State<LibraryPlaylistDetailScreen> {
     });
   }
 
-  final List<String> categories = ['Bài hát', 'Playlist', 'Nghệ sĩ', 'Album'];
+  final List<String> categories = ['song'.tr, 'Playlist', 'artist'.tr, 'Album'];
   @override
   Widget build(BuildContext context) {
     bool isMobile = MediaQuery.of(context).size.width < 800;
@@ -199,7 +199,7 @@ Widget buildPlaylistInfo(context) {
                     PopupMenuItem(
                       value: 'playlist',
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(
                             Icons.playlist_add,
                             size: 20,
@@ -207,7 +207,7 @@ Widget buildPlaylistInfo(context) {
                           ),
                           SizedBox(width: 8),
                           Text(
-                            'Phát ngẫu nhiên',
+                            'random_play'.tr,
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -216,11 +216,11 @@ Widget buildPlaylistInfo(context) {
                     PopupMenuItem(
                       value: 'ringtone',
                       child: Row(
-                        children: const [
+                        children:  [
                           Icon(Icons.music_note, size: 20, color: Colors.black),
                           SizedBox(width: 8),
                           Text(
-                            'Thêm vào danh sách chờ',
+                            'set_ringtone'.tr,
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -230,21 +230,21 @@ Widget buildPlaylistInfo(context) {
                     PopupMenuItem(
                       value: 'download',
                       child: Row(
-                        children: const [
+                        children:  [
                           Icon(Icons.download, size: 20, color: Colors.black),
                           SizedBox(width: 8),
-                          Text('Tải về', style: TextStyle(color: Colors.black)),
+                          Text('download'.tr, style: TextStyle(color: Colors.black)),
                         ],
                       ),
                     ),
                     PopupMenuItem(
                       value: 'share',
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.share, size: 20, color: Colors.black),
                           SizedBox(width: 8),
                           Text(
-                            'Chia sẻ',
+                            'share'.tr,
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
@@ -292,7 +292,7 @@ Widget buildRecommendList(context) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Bài hát gợi ý",
+          'recommend_songs'.tr,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             fontFamily: 'Inter',
             fontWeight: FontWeight.w700,
@@ -318,7 +318,7 @@ Widget buildRelatedPlaylist(context) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Danh sách phát liên quan",
+          'recommend_playlist'.tr,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             fontFamily: 'Inter',
             fontWeight: FontWeight.w700,

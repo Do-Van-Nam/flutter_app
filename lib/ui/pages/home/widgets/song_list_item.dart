@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/AppState.dart';
 import 'package:flutter_app/models/song_model.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/song_item.dart';
@@ -37,63 +38,69 @@ class SongListItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: CachedNetworkImage(
-                    imageUrl: image,
-                    width: 56,
-                    height: 56,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+            Expanded(
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: CachedNetworkImage(
+                      imageUrl: image,
+                      width: 56,
+                      height: 56,
+                      fit: BoxFit.cover,
+                      placeholder:
+                          (context, url) => const CircularProgressIndicator(),
+                      errorWidget:
+                          (context, url, error) => const Icon(Icons.error),
                     ),
-                    const SizedBox(height: 2),
-                
-                    Row(
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          artist,
+                          title,
                           style: const TextStyle(
-                            color: Color(0xFF757575),
-                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(width: 4),
-                
-                        const Icon(
-                          Icons.visibility,
-                          color: Color(0xFF757575),
-                          size: 12,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          views.toString(),
-                          style: const TextStyle(
-                            color: Color(0xFF757575),
-                            fontSize: 12,
-                          ),
+                        const SizedBox(height: 2),
+
+                        Row(
+                          children: [
+                            Text(
+                              artist,
+                              style: const TextStyle(
+                                color: Color(0xFF757575),
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+
+                            const Icon(
+                              Icons.visibility,
+                              color: Color(0xFF757575),
+                              size: 12,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              views.toString(),
+                              style: const TextStyle(
+                                color: Color(0xFF757575),
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
             Row(
               children: [
@@ -123,7 +130,7 @@ class SongListItem extends StatelessWidget {
                     color: Color(0xFF757575),
                     size: 20,
                   ),
-      
+
                   constraints: const BoxConstraints(),
                   padding: const EdgeInsets.all(8),
                   color: Colors.white,
@@ -162,7 +169,7 @@ class SongListItem extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 2),
-                              
+
                                   Row(
                                     children: [
                                       Text(
@@ -193,20 +200,20 @@ class SongListItem extends StatelessWidget {
                             ],
                           ),
                         ),
-      
+
                         PopupMenuItem(
                           value: 'playlist',
                           child: Row(
-                            children: const [
-                              Icon(
+                            children: [
+                              const Icon(
                                 Icons.playlist_add,
                                 size: 20,
                                 color: Colors.black,
                               ),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Text(
-                                'Thêm vào playlist',
-                                style: TextStyle(color: Colors.black),
+                                'add_to_playlist'.tr,
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ],
                           ),
@@ -214,16 +221,16 @@ class SongListItem extends StatelessWidget {
                         PopupMenuItem(
                           value: 'ringtone',
                           child: Row(
-                            children: const [
-                              Icon(
+                            children: [
+                              const Icon(
                                 Icons.music_note,
                                 size: 20,
                                 color: Colors.black,
                               ),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Text(
-                                'Cài đặt nhạc chờ',
-                                style: TextStyle(color: Colors.black),
+                                'set_ringtone'.tr,
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ],
                           ),
@@ -231,12 +238,16 @@ class SongListItem extends StatelessWidget {
                         PopupMenuItem(
                           value: 'radio',
                           child: Row(
-                            children: const [
-                              Icon(Icons.radio, size: 20, color: Colors.black),
-                              SizedBox(width: 8),
+                            children: [
+                              const Icon(
+                                Icons.radio,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(width: 8),
                               Text(
-                                'Mở radio của bài hát',
-                                style: TextStyle(color: Colors.black),
+                                'open_radio'.tr,
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ],
                           ),
@@ -244,12 +255,16 @@ class SongListItem extends StatelessWidget {
                         PopupMenuItem(
                           value: 'album',
                           child: Row(
-                            children: const [
-                              Icon(Icons.album, size: 20, color: Colors.black),
-                              SizedBox(width: 8),
+                            children: [
+                              const Icon(
+                                Icons.album,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(width: 8),
                               Text(
-                                'Xem album',
-                                style: TextStyle(color: Colors.black),
+                                'view_album'.tr,
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ],
                           ),
@@ -257,12 +272,16 @@ class SongListItem extends StatelessWidget {
                         PopupMenuItem(
                           value: 'artist',
                           child: Row(
-                            children: const [
-                              Icon(Icons.person, size: 20, color: Colors.black),
-                              SizedBox(width: 8),
+                            children: [
+                              const Icon(
+                                Icons.person,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(width: 8),
                               Text(
-                                'Xem nghệ sĩ',
-                                style: TextStyle(color: Colors.black),
+                                'view_artist'.tr,
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ],
                           ),
@@ -270,12 +289,16 @@ class SongListItem extends StatelessWidget {
                         PopupMenuItem(
                           value: 'download',
                           child: Row(
-                            children: const [
-                              Icon(Icons.download, size: 20, color: Colors.black),
-                              SizedBox(width: 8),
+                            children: [
+                              const Icon(
+                                Icons.download,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(width: 8),
                               Text(
-                                'Tải về',
-                                style: TextStyle(color: Colors.black),
+                                'download'.tr,
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ],
                           ),
@@ -283,12 +306,16 @@ class SongListItem extends StatelessWidget {
                         PopupMenuItem(
                           value: 'share',
                           child: Row(
-                            children: const [
-                              Icon(Icons.share, size: 20, color: Colors.black),
-                              SizedBox(width: 8),
+                            children: [
+                              const Icon(
+                                Icons.share,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(width: 8),
                               Text(
-                                'Chia sẻ',
-                                style: TextStyle(color: Colors.black),
+                                'share'.tr,
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ],
                           ),

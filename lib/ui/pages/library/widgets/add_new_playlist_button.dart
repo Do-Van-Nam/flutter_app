@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/widgets/add_playlist_popup/add_playlist_popup.dart';
+import 'package:get/get.dart';
 
 class AddNewPlaylist extends StatelessWidget {
   const AddNewPlaylist({super.key});
@@ -44,7 +45,7 @@ class AddNewPlaylist extends StatelessWidget {
             const SizedBox(height: 8),
             
               Text(
-                "Tạo play list phát mới",
+                'add_new_playlist'.tr,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
