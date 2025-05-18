@@ -123,4 +123,6 @@ final Map<String, String> vnVN = {
   'privacy': 'Chính sách bảo mật',
   'language': 'Thay đổi ngôn ngữ',
   'logout': 'Đăng xuất',
+
+  'top_keywords': 'Top từ khóa tìm kiếm',
 };

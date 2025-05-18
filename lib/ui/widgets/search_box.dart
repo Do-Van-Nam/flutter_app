@@ -10,8 +10,8 @@ class _SearchBoxState extends State<SearchBox> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
-  final List<String> _history = ['Shape of You', 'Blinding Lights', 'Bohemian Rhapsody'];
-  final List<String> _topKeywords = ['Imagine', 'Hotel California', 'Stairway to Heaven'];
+  List<String> _history = [];
+  List<String> _topKeywords = ['Maroon 5', 'Taylor Swift', 'Red Velvet', 'Sugar', 'Maps', 'Shake It Off', 'ກັບບໍ່ໄດ້'];
 
   final GlobalKey _boxKey = GlobalKey();
   OverlayEntry? _overlayEntry;
@@ -66,7 +66,7 @@ class _SearchBoxState extends State<SearchBox> {
                       )),
                   const Divider(),
                 ],
-                const Text("🔥 Gợi ý hàng đầu", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('top_keywords'.tr, style: TextStyle(fontWeight: FontWeight.bold)),
                 ..._topKeywords.map((k) => ListTile(
                       title: Text(k,
                       style: const TextStyle(color: Color(0xFF333333))),
@@ -125,8 +125,8 @@ class _SearchBoxState extends State<SearchBox> {
                 contentPadding: EdgeInsets.symmetric(vertical: 10),
               ),
               onSubmitted: (query) {
-    if (query.trim().isNotEmpty) {
-      Get.toNamed('/results', arguments: {'query': query});
+    if (_controller.text.trim().isNotEmpty) {
+      Get.toNamed('/results', arguments: {'query': _controller.text.trim()});
     }
   },
             ),

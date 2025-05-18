@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class SearchBox extends StatefulWidget {
@@ -11,8 +12,8 @@ class _SearchBoxState extends State<SearchBox> {
   final FocusNode _focusNode = FocusNode();
 
   bool _showSuggestions = false;
-  List<String> _history = ['Áo sơ mi', 'Laptop Dell', 'Tai nghe Bluetooth'];
-  List<String> _topKeywords = ['Giày thể thao', 'Điện thoại', 'Túi xách'];
+  List<String> _history = [];
+  List<String> _topKeywords = ['Maroon 5', 'Taylor Swift', 'Red Velvet', 'Sugar', 'Maps', 'Shake It Off', 'ກັບບໍ່ໄດ້'];
 
   @override
   void initState() {
@@ -22,6 +23,13 @@ class _SearchBoxState extends State<SearchBox> {
         _showSuggestions = _focusNode.hasFocus;
       });
     });
+  }
+
+  void _handleSearch() {
+    final query = _controller.text.trim();
+    if (query.isNotEmpty) {
+      Get.toNamed(Routes.RESULTS, arguments: {'query': query});
+    }
   }
 
   @override
@@ -53,6 +61,7 @@ class _SearchBoxState extends State<SearchBox> {
                     isDense: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 10),
                   ),
+                  onSubmitted: (_) => _handleSearch(),
                 ),
               ),
             ],
@@ -107,3 +116,5 @@ class _SearchBoxState extends State<SearchBox> {
     );
   }
 }
+
+

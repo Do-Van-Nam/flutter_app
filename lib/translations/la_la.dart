@@ -125,4 +125,7 @@ final Map<String, String> laLA = {
   'privacy': 'ນະໂຍບາຍຄວາມປອດໄພ',
   'language': 'ປ່ຽນພາສາ',
   'logout': 'ອອກຈາກລະບົບ',
+
+'top_keywords': 'ຄຳຄົ້ນຫາທີ່ໄດ້ຮັບຄວາມນິຍົມ',
+
 };

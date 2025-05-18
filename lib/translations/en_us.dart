@@ -130,4 +130,6 @@ final Map<String, String> enUS = {
   'language': 'Change Language',
   'logout': 'Logout',
 
+'top_keywords': 'Top keywords',
+  
 };
