@@ -127,5 +127,6 @@ final Map<String, String> laLA = {
   'logout': 'ອອກຈາກລະບົບ',
 
 'top_keywords': 'ຄຳຄົ້ນຫາທີ່ໄດ້ຮັບຄວາມນິຍົມ',
-
+'ringstone': "ສຽງໂທລະສັບ",
+  'personal': "ຈັດການສຽງໂທລະສັບ"
 };

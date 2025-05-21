@@ -54,8 +54,8 @@ final Map<String, String> vnVN = {
   'navbar_home': 'Trang chủ',
   'navbar_explore': 'Khám phá',
   'navbar_library': 'Thư viện',
-  'navbar_music_section': 'Đoạn nhạc',
-  'navbar_upgrade': 'Nâng cấp',
+  'navbar_music_section': 'Nhạc chờ',
+  'navbar_upgrade': 'Cá nhân',
   'navbar_create_playlist': 'Tạo playlist',
 
   'explore_new_release': 'Bài hát mới phát hành',
@@ -125,4 +125,7 @@ final Map<String, String> vnVN = {
   'logout': 'Đăng xuất',
 
   'top_keywords': 'Top từ khóa tìm kiếm',
+
+  'ringstone': "Nhạc chờ",
+  'personal': "Quản lý nhạc chờ"
 };

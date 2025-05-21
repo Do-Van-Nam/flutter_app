@@ -22,7 +22,9 @@ class AlbumItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 600; // Adjust the breakpoint as needed
+    bool isMobile =
+        MediaQuery.of(context).size.width <
+        600; // Adjust the breakpoint as needed
     return GestureDetector(
       onTap: () {
         if (songItem != null) {
@@ -37,15 +39,15 @@ class AlbumItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-      
+
               child: CachedNetworkImage(
                 imageUrl: image,
                 width: isMobile ? 160 : 200,
                 height: isMobile ? 160 : 200,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                placeholder:
+                    (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),

@@ -5,9 +5,11 @@ import 'package:flutter_app/ui/pages/home/recommend_song_detail.dart';
 import 'package:flutter_app/ui/pages/library/artist_detail.dart';
 import 'package:flutter_app/ui/pages/library/library_screen.dart';
 import 'package:flutter_app/ui/pages/library/playlist_detail.dart';
+import 'package:flutter_app/ui/pages/personal/personal_screen.dart';
 import 'package:flutter_app/ui/pages/playing/playing_screen.dart';
 import 'package:flutter_app/ui/pages/profile/profile_screen.dart';
 import 'package:flutter_app/ui/pages/results/results_screen.dart';
+import 'package:flutter_app/ui/pages/ringstone/ringstone_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter_app/ui/pages/home/home_binding.dart';
 import 'package:flutter_app/ui/pages/explore/explore_screen.dart';
@@ -169,6 +171,20 @@ class AppPages {
     GetPage(
       name: Routes.RECOMMEND_SONG,
       page: () => RecommendSongDetailScreen(),
+
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
+    ),
+    GetPage(
+      name: Routes.RINGSTONE,
+      page: () => RingstoneScreen(),
+
+      transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
+      transitionDuration: Duration(milliseconds: 300),
+    ),
+    GetPage(
+      name: Routes.PERSONAL,
+      page: () => PersonalScreen(),
 
       transition: Transition.rightToLeft, // hoặc fade, rightToLeft, zoom, ...
       transitionDuration: Duration(milliseconds: 300),

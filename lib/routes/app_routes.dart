@@ -21,5 +21,7 @@ abstract class Routes {
   static const MUSIC_DETAIL = '/music-detail';
   static const SETTINGS = '/settings';
   static const NEWSONG = '/newsong';
+  static const RINGSTONE = '/ringstone';
+  static const PERSONAL = '/personal';
   static const RECOMMEND_SONG = '/recommend-song';
 }

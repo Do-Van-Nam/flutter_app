@@ -60,7 +60,7 @@ final Map<String, String> enUS = {
   'navbar_explore': 'Explore',
   'navbar_library': 'Library',
   'navbar_music_section': 'Music Section',
-  'navbar_upgrade': 'Upgrade',
+  'navbar_upgrade': 'Personal',
   'navbar_create_playlist': 'Create Playlist',
 
 
@@ -131,5 +131,6 @@ final Map<String, String> enUS = {
   'logout': 'Logout',
 
 'top_keywords': 'Top keywords',
-  
+  'ringstone': "Ringstone",
+  'personal': "Manage Ringstone"
 };

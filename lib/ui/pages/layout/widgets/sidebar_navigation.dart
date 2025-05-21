@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/AppState.dart';
 import 'package:flutter_app/routes/app_pages.dart';
+import 'package:flutter_app/ui/widgets/add_playlist_popup/add_playlist_popup.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -25,8 +26,8 @@ final List<String> routeNames = [
   Routes.HOME,
   Routes.EXPLORE,
   Routes.LIBRARY,
-    Routes.HOME,
-  Routes.HOME,
+    Routes.RINGSTONE,
+  Routes.PERSONAL,
 
 ];
 
@@ -108,64 +109,67 @@ final List<String> routeNames = [
               _buildNavItem(Icons.explore, 'navbar_explore'.tr, 1),
               _buildNavItem(Icons.library_books, 'navbar_library'.tr, 2),
               _buildNavItem(Icons.music_note, 'navbar_music_section'.tr, 3),
-              _buildNavItem(Icons.upgrade, 'navbar_upgrade'.tr, 4),
+              _buildNavItem(Icons.person, 'navbar_upgrade'.tr, 4),
 
               const SizedBox(height: 16),
 
               // Create Playlist Button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFDD6F7A),
-                        Color(0xFF6FA0D6)
-                      ], // Even lighter shades
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: isExpanded
-                        ? MainAxisAlignment.start
-                        : MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFFB71C1C), // A lighter shade of red
-                              Color(0xFF1976D2) // A lighter shade of blue
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          // color: const Color(0xFFE91E63).withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.playlist_add,
-                          color: Color(0xFFE91E63),
-                          size: 16,
-                        ),
+              GestureDetector(
+                onTap: () => showAddPlaylistPopup(context),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFDD6F7A),
+                          Color(0xFF6FA0D6)
+                        ], // Even lighter shades
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       ),
-                      if (isExpanded) ...[
-                        const SizedBox(width: 8),
-                        Text(
-                          'navbar_create_playlist'.tr,
-                          style: TextStyle(
-                            color: Color(0xFF333333),
-                            fontWeight: FontWeight.w500,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: isExpanded
+                          ? MainAxisAlignment.start
+                          : MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFFB71C1C), // A lighter shade of red
+                                Color(0xFF1976D2) // A lighter shade of blue
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            // color: const Color(0xFFE91E63).withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.playlist_add,
+                            color: Color(0xFFE91E63),
+                            size: 16,
                           ),
                         ),
+                        if (isExpanded) ...[
+                          const SizedBox(width: 8),
+                          Text(
+                            'navbar_create_playlist'.tr,
+                            style: TextStyle(
+                              color: Color(0xFF333333),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),
